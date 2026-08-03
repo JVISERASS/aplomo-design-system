@@ -1,0 +1,8 @@
+:root{
+  --ap-ease:cubic-bezier(0.2,0,0,1); /* @kind other */
+  --ap-dur-micro:150ms; /* @kind other */
+  --ap-dur-state:250ms; /* @kind other */
+  --ap-dur-layer:400ms; /* @kind other */
+  --ap-stagger:60ms; /* @kind other */
+  --ap-stagger-max:8; /* @kind other */
+}

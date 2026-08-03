@@ -1,0 +1,32 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Graficos" subtitle="Sparkline, BarSeries y ShareBar — grafito; el color solo codifica estado" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:16px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {Sparkline,BarSeries,ShareBar,DataValue,Panel}=NS;
+const rpm=[38,42,40,47,52,49,58,61,57,64,60,68,72,69,74,78,71,76,82,79,86,84,91,88];
+function Demo(){
+  const [loading,setLoading]=React.useState(true);
+  React.useEffect(()=>{const i=setInterval(()=>setLoading(l=>!l),3000);return ()=>clearInterval(i);},[]);
+  return (<div className="col">
+    <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) 210px",gap:24,alignItems:"end"}}>
+      <div><div className="lab">BarSeries · serie temporal con umbral</div>
+        <BarSeries data={rpm} labels={["hace 24 h","ahora"]} threshold={70} loading={loading} height={64}/></div>
+      <div><div className="lab">Sparkline · en celda</div>
+        <div style={{display:"grid",gap:10}}>
+          <div className="grp" style={{justifyContent:"space-between"}}><Sparkline data={[52,49,58,61,57,64,60,68]}/><DataValue value="128 ms"/></div>
+          <div className="grp" style={{justifyContent:"space-between"}}><Sparkline data={[180,190,205,199,210,215,208,212]} tone="warn"/><DataValue value="184 ms" tone="warn"/></div>
+          <div className="grp" style={{justifyContent:"space-between"}}><Sparkline data={[40,32,20,12,6,2,0,0]} tone="error"/><DataValue value="—" tone="error"/></div>
+        </div></div>
+    </div>
+    <div><div className="lab">ShareBar · reparto de un total</div>
+      <ShareBar loading={loading} segments={[{label:"4.18.2",value:62},{label:"4.18.1",value:30},{label:"4.16.4",value:8,tone:"error"}]}/></div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

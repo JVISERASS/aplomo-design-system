@@ -1,0 +1,22 @@
+:root{
+  /* Rejilla de 4px */
+  --ap-space-1:4px;
+  --ap-space-2:8px;
+  --ap-space-3:12px;
+  --ap-space-4:16px;
+  --ap-space-5:20px;
+  --ap-space-6:24px;
+  --ap-space-8:32px;
+  --ap-space-10:40px;
+  --ap-space-12:48px;
+  --ap-space-16:64px;
+
+  /* Densidad de aplicacion */
+  --ap-control-h:32px;
+  --ap-control-h-sm:24px;
+  --ap-control-h-lg:40px;
+  --ap-row-h:40px;
+  --ap-header-h:48px;
+  --ap-sidebar-w:232px;
+  --ap-detail-w:420px;
+}

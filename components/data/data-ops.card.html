@@ -1,0 +1,35 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Operacion de listado" subtitle="Orden y cursor de teclado en DataTable, BulkActionBar, ColumnManager" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:16px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {DataTable,ColumnManager,BulkActionBar,Badge,IconButton,AsciiMeter}=NS;
+const base=[{id:"1",ref:"SVC-4820-DE",name:"Facturacion",p95:"128 ms",load:88,st:"ACTIVO",tone:"ok"},{id:"2",ref:"SVC-4821-DE",name:"Conciliacion",p95:"184 ms",load:96,st:"DEGRADADO",tone:"warn"},{id:"3",ref:"SVC-3390-US",name:"Pasarela de pagos",p95:"96 ms",load:41,st:"ACTIVO",tone:"ok"}];
+function Demo(){
+  const [sort,setSort]=React.useState({key:"p95",dir:"asc"});
+  const [sel,setSel]=React.useState(null);
+  const [checked,setChecked]=React.useState(["1"]);
+  const [open,setOpen]=React.useState(false);
+  const [hidden,setHidden]=React.useState([]);
+  const allCols=[{key:"ref",label:"Referencia",width:"140px",data:true,locked:true},{key:"name",label:"Servicio",width:"minmax(140px,1fr)",sortable:true},{key:"st",label:"Estado",width:"108px",render:r=><Badge tone={r.tone}>{r.st}</Badge>},{key:"load",label:"Carga",width:"140px",render:r=><AsciiMeter value={r.load} tone={r.load>90?"warn":"default"}/>},{key:"p95",label:"p95",width:"76px",align:"right",data:true,sortable:true}];
+  const cols=allCols.filter(c=>!hidden.includes(c.key));
+  const rows=[...base].sort((a,b)=>{const k=sort.key;const va=k==="name"?a[k]:parseFloat(a[k]),vb=k==="name"?b[k]:parseFloat(b[k]);const r=va<vb?-1:va>vb?1:0;return sort.dir==="asc"?r:-r;});
+  return (<div className="col">
+    <div className="grp" style={{justifyContent:"space-between"}}>
+      <span style={{font:"var(--ap-text-small)",color:"var(--ap-text-secondary)"}}>Pulsa la tabla y usa ↑↓ para mover el cursor, ↵ para abrir</span>
+      <div style={{position:"relative"}}><IconButton icon="columns-3" label="Columnas" selected={open} onClick={()=>setOpen(!open)}/>
+        <ColumnManager open={open} onClose={()=>setOpen(false)} columns={allCols} hidden={hidden} onToggle={k=>setHidden(h=>h.includes(k)?h.filter(x=>x!==k):[...h,k])}/></div>
+    </div>
+    <div style={{border:"1px solid var(--ap-border)",borderRadius:8,overflow:"hidden"}}>
+      <DataTable columns={cols} rows={rows} selectable selectedId={sel} onSelectRow={r=>setSel(r.id)} sort={sort} onSort={k=>setSort(s=>({key:k,dir:s.key===k&&s.dir==="asc"?"desc":"asc"}))} checked={checked} onCheck={id=>setChecked(c=>id==="all"?(c.length===rows.length?[]:rows.map(r=>r.id)):c.includes(id)?c.filter(x=>x!==id):[...c,id])} onEscape={()=>setSel(null)}/>
+    </div>
+    <BulkActionBar count={checked.length} onClear={()=>setChecked([])} actions={[{label:"Drenar"},{label:"Exportar"},{label:"Retirar",tone:"danger"}]} style={{position:"static"}}/>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

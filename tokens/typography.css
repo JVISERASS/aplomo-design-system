@@ -1,0 +1,39 @@
+:root{
+  /* Escala: 11 12 13 14 16 19 23 29 37 48 */
+  --ap-size-11:11px;
+  --ap-size-12:12px;
+  --ap-size-13:13px;
+  --ap-size-14:14px;
+  --ap-size-15:15px;
+  --ap-size-16:16px;
+  --ap-size-19:19px;
+  --ap-size-23:23px;
+  --ap-size-29:29px;
+  --ap-size-37:37px;
+  --ap-size-48:48px;
+
+  --ap-weight-body:400; /* @kind other */
+  --ap-weight-medium:500; /* @kind other */
+  --ap-weight-bold:700; /* @kind other */
+
+  --ap-leading-display:1.1; /* @kind other */
+  --ap-leading-ui:1.55; /* @kind other */
+  --ap-leading-prose:1.65; /* @kind other */
+
+  --ap-tracking-display:-0.025em; /* @kind other */
+  --ap-tracking-ui:0; /* @kind other */
+  --ap-tracking-label:0.04em; /* @kind other */
+
+  --ap-measure-prose:68ch; /* @kind other */
+
+  /* Roles */
+  --ap-text-display:var(--ap-weight-bold) var(--ap-size-37)/var(--ap-leading-display) var(--ap-font-display);
+  --ap-text-title:var(--ap-weight-bold) var(--ap-size-23)/1.25 var(--ap-font-display);
+  --ap-text-subtitle:var(--ap-weight-bold) var(--ap-size-16)/1.35 var(--ap-font-core);
+  --ap-text-ui:var(--ap-weight-body) var(--ap-size-14)/var(--ap-leading-ui) var(--ap-font-core);
+  --ap-text-ui-medium:var(--ap-weight-medium) var(--ap-size-14)/var(--ap-leading-ui) var(--ap-font-core);
+  --ap-text-small:var(--ap-weight-body) var(--ap-size-13)/1.5 var(--ap-font-core);
+  --ap-text-label:var(--ap-weight-medium) var(--ap-size-12)/1.4 var(--ap-font-core);
+  --ap-text-micro:var(--ap-weight-medium) var(--ap-size-11)/1.3 var(--ap-font-core);
+  --ap-text-prose:var(--ap-weight-body) var(--ap-size-15)/var(--ap-leading-prose) var(--ap-font-core);
+}

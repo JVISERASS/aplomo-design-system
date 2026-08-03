@@ -1,0 +1,32 @@
+<!-- @dsCard group="Components" viewport="700x330" name="Listas, matriz, log y cuota" subtitle="List, Matrix, LogStream, Quota" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:18px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {List,Matrix,LogStream,Quota}=NS;
+function Demo(){
+  const [sel,setSel]=React.useState("i1");
+  const values={};["eu-central-1","us-east-1","sa-east-1"].forEach((r,ri)=>["00","04","08","12","16","20"].forEach((c,ci)=>{values[r+"|"+c]=[96,128,184,212,164,120][(ri+ci)%6];}));
+  return (<div className="col">
+    <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)",gap:24,alignItems:"start"}}>
+      <div><div className="lab">List</div>
+        <List selectedId={sel} onSelect={it=>setSel(it.id)} items={[
+          {id:"i1",title:"Liquidacion sin respuesta",ref:"INC-2261",subtitle:"ap-south-1 · Rahul Menon",meta:"31 h 20 min",tone:"error"},
+          {id:"i2",title:"Reintentos por encima de p95",ref:"INC-2260",subtitle:"sa-east-1 · Ana Duarte",meta:"39 h 52 min",tone:"warn"},
+          {id:"i3",title:"Exportacion contable lenta",ref:"INC-2258",subtitle:"eu-central-1 · Ignacio Ferrer",meta:"4 d 12 h",tone:"neutral"}]}/></div>
+      <div><div className="lab">Matrix · p95 por franja</div><Matrix unit="ms" rows={["eu-central-1","us-east-1","sa-east-1"]} columns={["00","04","08","12","16","20"]} values={values}/></div>
+    </div>
+    <div style={{display:"grid",gridTemplateColumns:"minmax(0,1.4fr) minmax(0,1fr)",gap:24,alignItems:"start"}}>
+      <div><div className="lab">LogStream</div>
+        <LogStream height={110} lines={[{at:"14:02:04",level:"INFO",text:"canaria 25% · 6 nodos"},{at:"14:02:09",level:"WARN",text:"p95 184 ms por encima de 150 ms"},{at:"14:02:11",level:"OK",text:"canaria 100% · 18 nodos"},{at:"14:02:16",level:"ERROR",text:"nodo 7 sin respuesta · reintento 1/3"}]}/></div>
+      <div><div className="lab">Quota</div><div style={{display:"grid",gap:14}}><Quota label="Peticiones del plan" used={182} total={200} unit="M"/><Quota label="Almacenamiento" used={96} total={100} unit="GB"/></div></div>
+    </div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

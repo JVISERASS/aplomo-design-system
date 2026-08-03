@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Panel de administración" description="Listado + detalle: shell grafito, datos en MONO 1, acento cobalto dos veces" -->
+<helmet><link rel="preconnect" href="https://fonts.gstatic.com"><script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script><script src="./ds-base.js"></script><style>@keyframes ap-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}body{margin:0}</style></helmet>
+<div style="display:flex;height:100vh;overflow:hidden;background:#FFFFFF;font-family:'Recursive',ui-monospace,system-ui;font-variation-settings:'MONO' 0,'CASL' 0;color:#141311">
+<nav style="width:232px;flex:0 0 auto;background:#FAF9F8;border-right:1px solid #E8E5E1;display:flex;flex-direction:column">
+<div style="height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #E8E5E1"><span style="font-weight:700;font-size:16px;letter-spacing:-0.02em">Aplomo</span><span style="font-size:11px;font-weight:500;font-variation-settings:'MONO' 1;color:#8B857C">4.18.2</span></div>
+<div style="padding:12px 8px;display:flex;flex-direction:column;gap:2px">
+<div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;padding:0 8px 8px">Operación</div>
+<a href="#" style="display:flex;align-items:center;height:32px;padding:0 8px;border-radius:5px;background:#E8E5E1;color:#141311;font-size:14px;font-weight:500;text-decoration:none;border:0">Servicios</a>
+<a href="#" style="display:flex;align-items:center;height:32px;padding:0 8px;border-radius:5px;color:#67625A;font-size:14px;text-decoration:none;border:0">Despliegues</a>
+<a href="#" style="display:flex;align-items:center;height:32px;padding:0 8px;border-radius:5px;color:#67625A;font-size:14px;text-decoration:none;border:0">Incidencias</a>
+</div>
+</nav>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden">
+<header style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:24px 24px 16px">
+<div><div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;margin-bottom:6px">Infraestructura</div>
+<h1 style="margin:0;font-size:29px;font-weight:700;letter-spacing:-0.025em;line-height:1.1">Servicios en producción</h1>
+<div style="margin-top:8px;font-size:13px;color:#67625A;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">10 servicios · 4 regiones</div></div>
+<x-import component-from-global-scope="AplomoDesignSystem_c0efc3.Button" variant="primary" hint-size="140px,32px">Nuevo servicio</x-import>
+</header>
+<div style="display:flex;align-items:center;gap:8px;height:48px;padding:0 24px;border-top:1px solid #E8E5E1;border-bottom:1px solid #E8E5E1">
+<x-import component-from-global-scope="AplomoDesignSystem_c0efc3.SearchField" placeholder="Nodo, región, referencia" hint-size="260px,32px"></x-import>
+<x-import component-from-global-scope="AplomoDesignSystem_c0efc3.Chip" data="{{ true }}" hint-size="110px,24px">eu-central-1</x-import>
+</div>
+<div style="flex:1;overflow:auto;padding:16px 24px 40px">
+<section style="background:#FFFFFF;border:1px solid #E8E5E1;border-radius:8px;overflow:hidden">
+<div style="display:grid;grid-template-columns:152px 1fr 128px 120px 88px;align-items:center;height:32px;padding:0 16px;background:#FAF9F8;border-bottom:1px solid #D4D0CA;font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C"><span>Referencia</span><span>Servicio</span><span>Región</span><span>Estado</span><span style="text-align:right">p95</span></div>
+<sc-for list="{{ rows }}" as="row" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:152px 1fr 128px 120px 88px;align-items:center;height:40px;padding:0 16px;border-bottom:1px solid #E8E5E1;font-size:14px;animation:ap-rise 250ms cubic-bezier(0.2,0,0,1) both">
+<span style="font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">{{ row.ref }}</span>
+<span>{{ row.name }}</span>
+<span style="font-variation-settings:'MONO' 1;color:#67625A">{{ row.region }}</span>
+<span><x-import component-from-global-scope="AplomoDesignSystem_c0efc3.Badge" tone="{{ row.tone }}" hint-size="72px,20px">{{ row.st }}</x-import></span>
+<span style="text-align:right;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">{{ row.p95 }}</span>
+</div>
+</sc-for>
+</section>
+</div>
+</div>
+<sc-if value="{{ showDetail }}" hint-placeholder-val="{{ true }}">
+<aside style="width:420px;flex:0 0 auto;background:#FFFFFF;border-left:1px solid #D4D0CA;box-shadow:0 12px 32px rgb(20 19 17 / 0.12);display:flex;flex-direction:column">
+<div style="padding:16px;border-bottom:1px solid #E8E5E1">
+<div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;margin-bottom:4px">Facturación</div>
+<div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">SVC-4820-DE</div>
+</div>
+<div style="flex:1;overflow:auto;padding:16px">
+<div style="display:flex;gap:24px;padding-bottom:16px;border-bottom:1px solid #E8E5E1">
+<div><div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;margin-bottom:4px">p95</div><div style="font-size:19px;font-weight:500;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">128 ms</div></div>
+<div><div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;margin-bottom:4px">Error</div><div style="font-size:19px;font-weight:500;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">0,02%</div></div>
+<div><div style="font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;color:#8B857C;margin-bottom:4px">Nodos</div><div style="font-size:19px;font-weight:500;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">18</div></div>
+</div>
+<div style="display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #E8E5E1"><span style="font-size:13px;color:#8B857C">Versión</span><span style="font-size:13px;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">4.18.2</span></div>
+<div style="display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #E8E5E1"><span style="font-size:13px;color:#8B857C">Último despliegue</span><span style="font-size:13px;font-variation-settings:'MONO' 1;font-variant-numeric:tabular-nums">2026-07-29 14:02</span></div>
+<div style="display:grid;grid-template-columns:128px 1fr;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #E8E5E1"><span style="font-size:13px;color:#8B857C">Responsable</span><span style="font-size:13px">Marta Iglesias</span></div>
+</div>
+<div style="padding:12px 16px;border-top:1px solid #E8E5E1;display:flex;gap:8px;justify-content:flex-end">
+<x-import component-from-global-scope="AplomoDesignSystem_c0efc3.Button" size="sm" hint-size="80px,24px">Retirar</x-import>
+<x-import component-from-global-scope="AplomoDesignSystem_c0efc3.Button" size="sm" hint-size="130px,24px">Desplegar 4.18.2</x-import>
+</div>
+</aside>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;showDetail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Vista&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const rows = [
+      { ref: "SVC-4820-DE", name: "Facturación", region: "eu-central-1", st: "ACTIVO", tone: "ok", p95: "128 ms" },
+      { ref: "SVC-4821-DE", name: "Conciliación nocturna", region: "eu-central-1", st: "DEGRADADO", tone: "warn", p95: "184 ms" },
+      { ref: "SVC-3390-US", name: "Pasarela de pagos", region: "us-east-1", st: "ACTIVO", tone: "ok", p95: "96 ms" },
+      { ref: "SVC-7712-AP", name: "Liquidación", region: "ap-south-1", st: "CAÍDO", tone: "error", p95: "—" },
+      { ref: "SVC-5504-DE", name: "Catálogo de tarifas", region: "eu-central-1", st: "ACTIVO", tone: "ok", p95: "64 ms" }
+    ];
+    return { rows, showDetail: this.props.showDetail ?? true };
+  }
+}
+</script>
+</body>
+</html>

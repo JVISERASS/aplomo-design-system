@@ -1,0 +1,32 @@
+<!-- @dsCard group="Brand" viewport="700x280" name="ASCII art de marca" subtitle="Wordmark en bloques y la plomada: los dos únicos motivos gráficos que el sistema admite" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>
+body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}
+.wrap{padding:20px 24px;display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:28px;align-items:start}
+pre{margin:0;font-family:var(--ap-font-ascii);white-space:pre;letter-spacing:0;color:var(--ap-text)}
+.wm{font-size:11px;line-height:1.05}
+.plomo{font-size:12px;line-height:1.15;color:var(--ap-text-secondary)}
+.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:10px}
+.legend{font:var(--ap-text-small);color:var(--ap-text-secondary);text-wrap:pretty}
+.rule{height:1px;background:var(--ap-border);margin:16px 0}
+.foot{font-family:var(--ap-font-ascii);font-size:11px;color:var(--ap-text-muted);margin-top:14px}
+</style></head><body><div class="wrap">
+<div><div class="lab">Wordmark en bloques · usos en terminal, cabeceras de log, README</div>
+<pre class="wm">█████ █████ █     █████ █   █ █████
+█   █ █   █ █     █   █ ██ ██ █   █
+█████ █████ █     █   █ █ █ █ █   █
+█   █ █     █     █   █ █   █ █   █
+█   █ █     █████ █████ █   █ █████</pre>
+<div class="rule"></div>
+<div class="lab">La plomada · el motivo de la marca</div>
+<pre class="plomo">   ═══════╤═══════
+          │
+          │
+          │
+         ╱ ╲
+        │   │
+         ╲ ╱
+          ▼
+   vertical verdadera</pre></div>
+<div><div class="lab">Reglas</div><div class="legend">Sólo estos dos motivos, sólo en superficies de marca (portadas, terminal, documentación) y siempre en grafito sobre blanco. Nunca dentro de una vista de producto: allí el ASCII se reserva a topologías y medidores, que son dato.</div>
+<div class="foot">aplomo ── plomada ──▶ vertical<br>sin adorno, sin excepción</div></div>
+</div></body></html>

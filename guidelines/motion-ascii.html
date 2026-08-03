@@ -1,0 +1,21 @@
+<!-- @dsCard group="Brand" viewport="700x240" name="Diagramas ASCII" subtitle="El sistema no dibuja, escribe: topologías y medidores en caracteres, sobre rejilla monoespaciada" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>
+body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}
+.wrap{padding:18px 24px;display:grid;grid-template-columns:minmax(0,1fr) 176px;gap:24px;align-items:start}
+pre{margin:0;font-family:var(--ap-font-ascii);font-size:12px;line-height:1.5;white-space:pre;letter-spacing:0;color:var(--ap-text)}
+.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:10px}
+.legend{font:var(--ap-text-small);color:var(--ap-text-secondary);text-wrap:pretty}
+.chars{font-family:var(--ap-font-ascii);font-size:13px;color:var(--ap-text);margin-top:10px}
+.rule{height:1px;background:var(--ap-border);margin:12px 0}
+</style></head><body><div class="wrap">
+<div><div class="lab">Topología de tráfico</div><pre>cliente ──▶ borde ──┬──▶ eu-central-1  4.18.2  ████████░░   88%
+                    ├──▶ us-east-1     4.18.1  ██████████  100%
+                    ├──▶ sa-east-1     4.18.1  ████░░░░░░   41%
+                    └──▶ ap-south-1    4.16.4  ░░░░░░░░░░  drenada</pre>
+<div class="rule"></div>
+<div class="lab">Cronología de un despliegue</div><pre>13:58  inicio       ▏canaria 5%
+14:00  canaria 25%  ▏████
+14:02  completo     ▏██████████  4 min 12 s</pre></div>
+<div><div class="lab">Cuándo</div><div class="legend">Sustituye a cualquier ilustración: sigue siendo dato. Grafito, sin color salvo para marcar un estado. Caja y bloques sobre rejilla de caracteres exacta.</div><div class="chars"><pre>─ │ ├ ┬ └
+▶ ▏ █ ░</pre></div></div>
+</div></body></html>

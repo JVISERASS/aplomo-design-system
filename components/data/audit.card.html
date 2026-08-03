@@ -1,0 +1,27 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Auditoria" subtitle="AuditTimeline con ConfigDiff, Pagination y ErrorState" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:18px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {AuditTimeline,ConfigDiff,Pagination,ErrorState,Panel}=NS;
+function Demo(){
+  return (<div className="col">
+    <div><div className="lab">AuditTimeline + ConfigDiff</div>
+      <AuditTimeline entries={[
+        {at:"2026-07-29 14:02",actor:"Marta Iglesias",title:"Umbral de reversion modificado",tag:"CONFIG",children:<ConfigDiff changes={[{key:"error_max",from:"2,00%",to:"1,00%"},{key:"drain_window",from:"3 min",to:"5 min"}]}/>},
+        {at:"2026-07-29 13:58",actor:"sistema",title:"Despliegue 4.18.2 completado",tag:"OK",tone:"ok",note:"Canaria 5% → 25% → 100% en 4 min 12 s"},
+        {at:"2026-07-24 09:41",actor:"Lucia Bernal",title:"Rotacion de credenciales",tag:"CLAVE",note:"ak_live_4f81···9c2e"}
+      ]}/></div>
+    <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr) minmax(0,1fr)",gap:20,alignItems:"start"}}>
+      <div><div className="lab">Pagination</div><Panel><Pagination from={1} to={40} total={248} pageSize={40}/></Panel></div>
+      <div><div className="lab">ErrorState</div><Panel><ErrorState code="HTTP 503" detail="El agregador de metricas no responde. Los datos son de hace 4 min." onRetry={()=>{}} style={{padding:"16px"}}/></Panel></div>
+    </div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

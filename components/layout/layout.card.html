@@ -1,0 +1,23 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Estructura" subtitle="Panel, Toolbar, PageHeader, DetailPanel" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:20px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:14px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {Panel,Toolbar,PageHeader,DetailPanel,Button,SearchField,Chip,KeyValue,DataValue}=NS;
+function Demo(){return (<div className="col">
+<div style={{border:"1px solid var(--ap-border)",borderRadius:8,overflow:"hidden"}}>
+<PageHeader eyebrow="Infraestructura" title="Servicios en produccion" meta={<DataValue value="248 servicios · 12 regiones"/>} actions={<Button variant="primary">Nuevo servicio</Button>} style={{padding:"16px 16px 12px"}}/>
+<Toolbar left={<><SearchField/><Chip onRemove={()=>{}}>eu-central-1</Chip></>} right={<Button size="sm">Exportar</Button>}/>
+</div>
+<div style={{display:"grid",gridTemplateColumns:"1fr 260px",gap:16,alignItems:"start"}}>
+<Panel title="Notas de despliegue" padded><div style={{font:"var(--ap-text-small)",color:"var(--ap-text-secondary)",maxWidth:"58ch",textWrap:"pretty"}}>El panel no lleva sombra: el borde de 1px hace todo el trabajo de separacion.</div></Panel>
+<div style={{height:150,overflow:"hidden",display:"flex"}}><DetailPanel open header={<div><div className="lab" style={{marginBottom:4}}>Servicio</div><DataValue value="SVC-4820-DE" size="var(--ap-size-19)" weight={700}/></div>} footer={<Button variant="primary" size="sm">Aplicar</Button>} width="260px"><KeyValue label="Region" value="eu-central-1"/></DetailPanel></div>
+</div></div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

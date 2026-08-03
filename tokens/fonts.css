@@ -1,0 +1,21 @@
+/* Recursive variable (Google Fonts). Ejes usados: CASL fijo 0, MONO 0..1, slnt -15..0, wght 400..700.
+   Sustitucion declarada: no se entregaron binarios de fuente; se sirve desde Google Fonts. */
+@import url("https://fonts.googleapis.com/css2?family=Recursive:CASL,MONO,slnt,wght@0,0..1,-15..0,400..700&display=swap");
+/* Display: Stack Sans Notch (Google Fonts) — sólo para titulares >= 23px. */
+@import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@500;700&display=swap");
+
+:root{
+  --ap-font-core:"Recursive","Recursive Variable",ui-monospace,system-ui,sans-serif;
+  --ap-font-display:"Stack Sans Notch","Recursive",system-ui,sans-serif;
+  /* Los caracteres de caja y bloque no existen en Recursive: los diagramas usan una monoespaciada del sistema. */
+  --ap-font-ascii:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  /* ejes */
+  --ap-axis-casl:0; /* @kind other */
+  --ap-axis-slnt:0; /* @kind other */
+  --ap-axis-mono-prose:0; /* @kind other */
+  --ap-axis-mono-data:1; /* @kind other */
+  /* combinaciones listas para usar */
+  --ap-vf-prose:"MONO" 0,"CASL" 0,"slnt" 0; /* @kind font */
+  --ap-vf-data:"MONO" 1,"CASL" 0,"slnt" 0; /* @kind font */
+}

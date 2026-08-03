@@ -1,0 +1,5 @@
+:root{
+  /* Dos niveles, solo para capas flotantes. Nada en el flujo normal lleva sombra. */
+  --ap-shadow-1:0 1px 2px rgb(20 19 17 / 0.05);
+  --ap-shadow-2:0 12px 32px rgb(20 19 17 / 0.12);
+}

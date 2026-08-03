@@ -1,0 +1,51 @@
+:root{
+  /* Neutros grafito — hue 30, sat 2-4% (levemente calidos) */
+  --ap-gray-0:#FFFFFF;
+  --ap-gray-25:#FAF9F8;
+  --ap-gray-50:#F3F1EF;
+  --ap-gray-100:#E8E5E1;
+  --ap-gray-200:#D4D0CA;
+  --ap-gray-300:#B2ADA5;
+  --ap-gray-400:#8B857C;
+  --ap-gray-500:#67625A;
+  --ap-gray-600:#4A453E;
+  --ap-gray-700:#33302B;
+  --ap-gray-800:#211F1C;
+  --ap-gray-900:#141311;
+
+  /* Acento unico — cobalto. Maximo DOS usos por pantalla. */
+  --ap-accent:#1F3CE8;
+  --ap-accent-hover:#1730C4;
+  --ap-accent-tint:#ECEEFD;
+
+  /* Estados, apagados a proposito */
+  --ap-ok:#1B6B4C;
+  --ap-ok-tint:#E9F2ED;
+  --ap-warn:#8A6314;
+  --ap-warn-tint:#F6F0E2;
+  --ap-error:#A32E22;
+  --ap-error-tint:#F7EAE7;
+
+  /* Alias semanticos */
+  --ap-surface:var(--ap-gray-0);
+  --ap-surface-sunken:var(--ap-gray-25);
+  --ap-surface-raised:var(--ap-gray-0);
+  --ap-surface-subtle:var(--ap-gray-50);
+  --ap-surface-hover:var(--ap-gray-50);
+  --ap-surface-active:var(--ap-gray-100);
+  --ap-surface-inverse:var(--ap-gray-900);
+
+  --ap-border:var(--ap-gray-100);
+  --ap-border-strong:var(--ap-gray-200);
+  --ap-border-input:var(--ap-gray-200);
+  --ap-border-focus:var(--ap-accent);
+
+  --ap-text:var(--ap-gray-900);
+  --ap-text-secondary:var(--ap-gray-500);
+  --ap-text-muted:var(--ap-gray-400);
+  --ap-text-inverse:var(--ap-gray-0);
+  --ap-text-accent:var(--ap-accent);
+  /* Los enlaces en producto son grafito: no gastan una de las dos apariciones del acento. */
+  --ap-text-link:var(--ap-text);
+  --ap-text-link-hover:var(--ap-accent);
+}

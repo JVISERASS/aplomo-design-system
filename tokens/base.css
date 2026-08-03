@@ -1,0 +1,26 @@
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{margin:0;background:var(--ap-surface-sunken);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose);font-feature-settings:"ss01" off}
+a{color:var(--ap-text-link);text-decoration:none;border-bottom:1px solid var(--ap-border-strong);transition:color var(--ap-dur-micro) var(--ap-ease),border-color var(--ap-dur-micro) var(--ap-ease)}
+a:hover{color:var(--ap-text-link-hover);border-bottom-color:var(--ap-text-link-hover)}
+:focus-visible{outline:none;box-shadow:var(--ap-focus-ring)}
+button,input,select,textarea{font:inherit;font-variation-settings:inherit;color:inherit}
+
+/* Eje MONO: la distincion semantica del sistema */
+.ap-prose{font-variation-settings:var(--ap-vf-prose)}
+.ap-data{font-variation-settings:var(--ap-vf-data);font-variant-numeric:tabular-nums}
+.ap-label{font:var(--ap-text-label);letter-spacing:var(--ap-tracking-label);text-transform:uppercase;color:var(--ap-text-muted);font-variation-settings:var(--ap-vf-prose)}
+.ap-display{font:var(--ap-text-display);letter-spacing:var(--ap-tracking-display)}
+.ap-longform{font:var(--ap-text-prose);max-width:var(--ap-measure-prose);text-wrap:pretty}
+
+/* Firma 1 — el dato "cuaja": MONO 0 -> 1 */
+.ap-congeal{font-variation-settings:var(--ap-vf-data);font-variant-numeric:tabular-nums;transition:font-variation-settings var(--ap-dur-state) var(--ap-ease),opacity var(--ap-dur-state) var(--ap-ease)}
+.ap-congeal[data-loading="true"]{font-variation-settings:var(--ap-vf-prose);opacity:.45}
+
+/* Firma 2 — entrada coreografiada, una sola vez */
+@keyframes ap-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ap-rise{animation:ap-rise var(--ap-dur-state) var(--ap-ease) both;animation-delay:var(--ap-delay,0ms)}
+@media (prefers-reduced-motion:reduce){.ap-rise{animation-duration:1ms;animation-delay:0ms}.ap-congeal{transition-duration:1ms}}
+
+@keyframes ap-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){[style*="ap-spin"]{animation-duration:2s}}

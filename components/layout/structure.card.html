@@ -1,0 +1,36 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Estructura de pagina" subtitle="TopBar, SectionHeader, Columns, Stack, Prose, Divider, Avatar" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:18px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {TopBar,SectionHeader,Columns,Stack,Prose,Panel,Divider,Avatar,Button,DataValue,Breadcrumb}=NS;
+function Demo(){
+  return (<div className="col">
+    <div style={{border:"1px solid var(--ap-border)",borderRadius:8,overflow:"hidden"}}>
+      <TopBar brand={<span style={{font:"var(--ap-weight-bold) var(--ap-size-16)/1 var(--ap-font-display)",letterSpacing:"-.02em"}}>Aplomo</span>}
+        center={<Breadcrumb items={["Infraestructura","Servicios",{label:"SVC-4820-DE",data:true}]}/>}
+        user={{name:"Marta Iglesias",meta:"guardia · eu-central-1"}}/>
+    </div>
+    <div>
+      <SectionHeader label="Carga por region" meta="24 h" actions={<Button size="sm">Exportar</Button>}/>
+      <Columns min={180}>
+        <Panel padded><Stack gap="var(--ap-space-1)"><span style={{font:"var(--ap-text-label)",color:"var(--ap-text-muted)"}}>eu-central-1</span><DataValue value="71.844" size="var(--ap-size-19)" weight={500}/></Stack></Panel>
+        <Panel padded><Stack gap="var(--ap-space-1)"><span style={{font:"var(--ap-text-label)",color:"var(--ap-text-muted)"}}>us-east-1</span><DataValue value="160.382" size="var(--ap-size-19)" weight={500}/></Stack></Panel>
+        <Panel padded><Stack gap="var(--ap-space-1)"><span style={{font:"var(--ap-text-label)",color:"var(--ap-text-muted)"}}>sa-east-1</span><DataValue value="26.050" size="var(--ap-size-19)" weight={500}/></Stack></Panel>
+      </Columns>
+    </div>
+    <Divider label="Nota de version"/>
+    <div className="grp" style={{alignItems:"center",gap:12}}>
+      <Avatar name="Marta Iglesias"/><Avatar name="Rahul Menon"/><Avatar name="Ana Duarte" size={32}/>
+      <Divider direction="vertical" spacing="var(--ap-space-2)"/>
+      <Prose style={{fontSize:"var(--ap-size-14)"}}>El agregador calcula el p95 sobre ventanas de 60 s; la vista se refresca cada 30 s salvo que la congeles.</Prose>
+    </div>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

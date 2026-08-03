@@ -1,0 +1,38 @@
+<!-- @dsCard group="Components" viewport="700x330" name="Procesos y estados" subtitle="Steps, ProgressBar, Accordion, FrozenState, FileDrop, Toast, Spinner" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}#root{padding:18px 24px}.lab{font:var(--ap-text-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ap-text-muted);margin-bottom:8px}.grp{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.col{display:flex;flex-direction:column;gap:18px}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NS=window.AplomoDesignSystem_c0efc3;
+
+const {Steps,ProgressBar,Accordion,FrozenState,FileDrop,Toast,Spinner,Button,MetricTile,Panel}=NS;
+function Demo(){
+  const [frozen,setFrozen]=React.useState(true);
+  const [toasts,setToasts]=React.useState([]);
+  return (<div className="col">
+    <div><div className="lab">Steps</div>
+      <Steps current={2} steps={[{label:"Canaria 5%",meta:"13:58"},{label:"Canaria 25%",meta:"14:00"},{label:"Canaria 100%",meta:"14:02"},{label:"Verificacion"}]}/></div>
+    <div className="grp" style={{gap:24}}>
+      <div style={{flex:1,minWidth:220}}><div className="lab">ProgressBar</div><ProgressBar label="Drenando trafico" value={62}/></div>
+      <div><div className="lab">Spinner</div><Spinner label="Guardando"/></div>
+      <div><div className="lab">Toast</div><Button size="sm" onClick={()=>setToasts([{id:"1",message:"Filtro guardado",action:"Deshacer"}])}>Lanzar toast</Button></div>
+    </div>
+    <div className="grp" style={{gap:20}}>
+      <div style={{flex:1,minWidth:260}}><div className="lab">FrozenState</div>
+        <FrozenState frozen={frozen} since="hace 4 min" onResume={()=>setFrozen(false)}>
+          <div style={{display:"flex",border:"1px solid var(--ap-border)",borderRadius:8,overflow:"hidden"}}>
+            <MetricTile label="p95" value="184" unit="ms"/><MetricTile label="Error" value="0,31%" style={{borderRight:0}}/>
+          </div>
+        </FrozenState></div>
+      <div style={{flex:1,minWidth:240}}><div className="lab">Accordion</div>
+        <Accordion defaultOpen={["a"]} items={[{id:"a",title:"Umbrales",meta:"4 campos",children:<span style={{font:"var(--ap-text-small)",color:"var(--ap-text-secondary)"}}>Error maximo 1,00% · p95 250 ms</span>},{id:"b",title:"Aprobaciones",meta:"1 de 2"}]}/></div>
+    </div>
+    <div><div className="lab">FileDrop</div><FileDrop accept=".csv" hint="CSV de hasta 5 MB" files={[{name:"servicios.csv",size:"48 kB"}]} onRemove={()=>{}} style={{maxWidth:420}}/></div>
+    <Toast toasts={toasts} onDismiss={()=>setToasts([])} onAction={()=>setToasts([])}/>
+  </div>);}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo/>);
+</script></body></html>

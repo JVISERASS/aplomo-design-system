@@ -1,0 +1,18 @@
+<!-- @dsCard group="Motion" viewport="700x190" name="Curva y duraciones" subtitle="Una sola curva: cubic-bezier(0.2, 0, 0, 1). Tres duraciones, sin muelles ni rebotes" -->
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><link rel="stylesheet" href="../styles.css"><style>
+body{margin:0;background:var(--ap-surface);color:var(--ap-text);font:var(--ap-text-ui);font-variation-settings:var(--ap-vf-prose)}
+.wrap{padding:18px 24px;display:grid;gap:12px}
+.fx{font:var(--ap-text-micro);font-variation-settings:var(--ap-vf-data);color:var(--ap-text-secondary);letter-spacing:.02em}
+.r{display:grid;grid-template-columns:64px 1fr 200px;gap:16px;align-items:center}
+.d{font:500 13px/1 var(--ap-font-core);font-variation-settings:var(--ap-vf-data);font-variant-numeric:tabular-nums;text-align:right;color:var(--ap-text)}
+.track{position:relative;height:20px;border-bottom:1px solid var(--ap-border)}
+.dot{position:absolute;top:5px;left:0;width:10px;height:10px;border-radius:2px;background:var(--ap-gray-500);animation:travel 2.6s var(--ap-ease) infinite}
+.dot.a{background:var(--ap-accent)}
+@keyframes travel{0%{transform:translateX(0)}18%,50%{transform:translateX(calc(100% - 10px))}0%,100%{transform:translateX(0)}68%,100%{transform:translateX(0)}}
+.u{font:var(--ap-text-small);color:var(--ap-text-secondary)}
+</style></head><body><div class="wrap">
+<div class="fx">cubic-bezier(0.2, 0, 0, 1) — sale rápido, entra sin rebote</div>
+<div class="r"><div class="d">150 ms</div><div class="track"><div class="dot" style="animation-duration:1.9s"></div></div><div class="u">microinteracción — hover, foco</div></div>
+<div class="r"><div class="d">250 ms</div><div class="track"><div class="dot" style="animation-duration:2.3s"></div></div><div class="u">cambio de estado — cuajado MONO, selección</div></div>
+<div class="r"><div class="d">400 ms</div><div class="track"><div class="dot a" style="animation-duration:2.9s"></div></div><div class="u">transición de capa — panel, diálogo</div></div>
+</div></body></html>

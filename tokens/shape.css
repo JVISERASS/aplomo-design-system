@@ -1,0 +1,7 @@
+:root{
+  --ap-radius-chip:3px;
+  --ap-radius-control:5px;
+  --ap-radius-panel:8px;
+  --ap-border-width:1px;
+  --ap-focus-ring:0 0 0 2px var(--ap-gray-0),0 0 0 4px var(--ap-accent);
+}
