@@ -1,14 +1,21 @@
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const manifest = JSON.parse(readFileSync(resolve(root, "_ds_manifest.json"), "utf8"));
+const componentsDir = resolve(root, "components");
 mkdirSync(resolve(root, "src"), { recursive: true });
 
-const lines = [...manifest.components]
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .map((c) => `export * from "../${c.sourcePath.replace(/\.jsx$/, "")}";`);
+const sourcePaths = readdirSync(componentsDir, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .flatMap((category) =>
+    readdirSync(join(componentsDir, category.name))
+      .filter((file) => file.endsWith(".jsx"))
+      .map((file) => `components/${category.name}/${file}`)
+  )
+  .sort();
+
+const lines = sourcePaths.map((p) => `export * from "../${p.replace(/\.jsx$/, "")}";`);
 
 writeFileSync(
   resolve(root, "src", "index.ts"),

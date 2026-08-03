@@ -1,6 +1,6 @@
 # UI kit — Panel de administracion
 
-Recreacion viva de la vista listado + detalle del brief. Cinco superficies en un shell.
+Recreacion viva de la vista listado + detalle. Cinco superficies en un shell.
 
 | Archivo | Superficie |
 | --- | --- |
