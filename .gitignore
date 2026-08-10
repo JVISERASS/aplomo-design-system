@@ -1,11 +1,10 @@
 # dependencies
 node_modules/
-examples/**/node_modules/
 
 # build output
 dist/
 storybook-static/
-examples/**/dist/
+.angular/
 
 # test / coverage
 coverage/

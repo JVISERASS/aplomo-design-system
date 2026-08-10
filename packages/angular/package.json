@@ -1,0 +1,59 @@
+{
+  "name": "@jviserass/aplomo-angular",
+  "version": "0.1.0",
+  "description": "Aplomo design system — componentes Angular sobrios, guiados por tipografía.",
+  "license": "MIT",
+  "author": "JVISERASS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JVISERASS/aplomo-design-system.git",
+    "directory": "packages/angular"
+  },
+  "homepage": "https://github.com/JVISERASS/aplomo-design-system#readme",
+  "bugs": {
+    "url": "https://github.com/JVISERASS/aplomo-design-system/issues"
+  },
+  "keywords": [
+    "design-system",
+    "angular",
+    "components",
+    "ui",
+    "aplomo"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "gen:barrel": "node scripts/gen-barrel.mjs",
+    "build": "npm run gen:barrel && ng build --configuration production",
+    "build:dev": "npm run gen:barrel && ng build --configuration development",
+    "watch": "ng build --watch --configuration development",
+    "typecheck": "tsc -p tsconfig.lib.json --noEmit --declaration false --declarationMap false",
+    "test": "ng test"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=20.0.0",
+    "@angular/core": ">=20.0.0",
+    "@angular/forms": ">=20.0.0",
+    "@jviserass/aplomo-tokens": "^0.1.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.3",
+    "@angular/cli": "^22.1.3",
+    "@angular/common": "^22.1.0",
+    "@angular/compiler": "^22.1.0",
+    "@angular/compiler-cli": "^22.1.0",
+    "@angular/core": "^22.1.0",
+    "@angular/forms": "^22.1.0",
+    "@angular/platform-browser": "^22.1.0",
+    "jsdom": "^28.0.0",
+    "ng-packagr": "^22.1.0",
+    "rxjs": "~7.8.0",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

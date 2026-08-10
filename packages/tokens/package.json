@@ -1,0 +1,38 @@
+{
+  "name": "@jviserass/aplomo-tokens",
+  "version": "0.1.0",
+  "description": "Aplomo — tokens de diseño: variables CSS --ap-*, fuentes y resets base.",
+  "type": "module",
+  "license": "MIT",
+  "author": "JVISERASS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JVISERASS/aplomo-design-system.git",
+    "directory": "packages/tokens"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css",
+    "aplomo"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./styles.css": "./dist/aplomo.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "tokens",
+    "styles.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build-css.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,25 @@
+<label class="ap-input-root">
+  @if (label()) {
+    <span class="ap-input-label">{{ label() }}</span>
+  }
+
+  <span class="ap-input-field">
+    @if (icon(); as iconName) {
+      <ap-icon class="ap-input-icon" [name]="iconName" [size]="14" />
+    }
+    <input
+      class="ap-input-control"
+      [type]="type()"
+      [value]="value()"
+      [attr.placeholder]="placeholder() ?? null"
+      [disabled]="isDisabled()"
+      [class.ap-input-data]="data()"
+      (input)="handleInput($event)"
+      (blur)="onTouched()"
+    />
+  </span>
+
+  @if (message(); as text) {
+    <span class="ap-input-message">{{ text }}</span>
+  }
+</label>

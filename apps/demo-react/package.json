@@ -1,5 +1,5 @@
 {
-  "name": "aplomo-demo",
+  "name": "aplomo-demo-react",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@jviserass/aplomo": "file:../..",
+    "@jviserass/aplomo": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

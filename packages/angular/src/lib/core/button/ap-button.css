@@ -1,0 +1,133 @@
+/* Alturas 24/32/40, radius 5px, peso 500, sin sombra nunca.
+   Hover = un paso de fondo; press = un paso mas; sin escalado ni elevacion. */
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ap-space-2);
+  border-radius: var(--ap-radius-control);
+  border: 1px solid transparent;
+  font-family: var(--ap-font-core);
+  font-weight: var(--ap-weight-medium);
+  font-variation-settings: var(--ap-vf-prose);
+  letter-spacing: -0.005em;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    border-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* --- tamanos --- */
+
+:host([data-size="sm"]) {
+  height: var(--ap-control-h-sm);
+  padding: 0 10px;
+  font-size: var(--ap-size-13);
+}
+
+:host([data-size="md"]) {
+  height: var(--ap-control-h);
+  padding: 0 14px;
+  font-size: var(--ap-size-14);
+}
+
+:host([data-size="lg"]) {
+  height: var(--ap-control-h-lg);
+  padding: 0 18px;
+  font-size: var(--ap-size-14);
+}
+
+/* --- primary: cobalto relleno, una vez por pantalla --- */
+
+:host([data-variant="primary"]) {
+  background: var(--ap-accent);
+  color: var(--ap-text-inverse);
+}
+
+:host([data-variant="primary"]:not(:disabled):hover) {
+  background: var(--ap-accent-hover);
+}
+
+:host([data-variant="primary"]:not(:disabled):active) {
+  background: #14279e;
+}
+
+/* --- secondary: borde grafito, el default --- */
+
+:host([data-variant="secondary"]) {
+  background: var(--ap-surface);
+  color: var(--ap-text);
+  border-color: var(--ap-border-strong);
+}
+
+:host([data-variant="secondary"]:not(:disabled):hover) {
+  background: var(--ap-surface-sunken);
+  border-color: var(--ap-gray-300);
+}
+
+:host([data-variant="secondary"]:not(:disabled):active) {
+  background: var(--ap-surface-active);
+  border-color: var(--ap-gray-300);
+}
+
+/* --- ghost: barras de herramientas --- */
+
+:host([data-variant="ghost"]) {
+  background: transparent;
+  color: var(--ap-text-secondary);
+}
+
+:host([data-variant="ghost"]:not(:disabled):hover) {
+  background: var(--ap-surface-hover);
+  color: var(--ap-text);
+}
+
+:host([data-variant="ghost"]:not(:disabled):active) {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+}
+
+/* --- danger: contorno rojo --- */
+
+:host([data-variant="danger"]) {
+  background: var(--ap-surface);
+  color: var(--ap-error);
+  border-color: color-mix(in srgb, var(--ap-error) 30%, transparent);
+}
+
+:host([data-variant="danger"]:not(:disabled):hover) {
+  background: var(--ap-error-tint);
+  border-color: color-mix(in srgb, var(--ap-error) 45%, transparent);
+}
+
+:host([data-variant="danger"]:not(:disabled):active) {
+  background: var(--ap-error-tint);
+  border-color: var(--ap-error);
+}
+
+/* --- danger solid: solo al confirmar un dialogo destructivo --- */
+
+:host([data-variant="danger"][data-solid]) {
+  background: var(--ap-error);
+  color: var(--ap-text-inverse);
+  border-color: transparent;
+}
+
+:host([data-variant="danger"][data-solid]:not(:disabled):hover) {
+  background: #8c271c;
+}
+
+:host([data-variant="danger"][data-solid]:not(:disabled):active) {
+  background: #79211a;
+}
+
+/* --- deshabilitado --- */
+
+:host(:disabled) {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

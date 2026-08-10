@@ -1,0 +1,31 @@
+:host {
+  font-variation-settings: var(--ap-vf-prose);
+  font-variant-numeric: tabular-nums;
+  transition:
+    font-variation-settings var(--ap-dur-state) var(--ap-ease),
+    opacity var(--ap-dur-state) var(--ap-ease);
+}
+
+:host(.ap-settled) {
+  font-variation-settings: var(--ap-vf-data);
+}
+
+:host([aria-busy="true"]) {
+  opacity: 0.35;
+}
+
+:host([data-tone="muted"]) {
+  color: var(--ap-text-secondary);
+}
+
+:host([data-tone="ok"]) {
+  color: var(--ap-ok);
+}
+
+:host([data-tone="warn"]) {
+  color: var(--ap-warn);
+}
+
+:host([data-tone="error"]) {
+  color: var(--ap-error);
+}

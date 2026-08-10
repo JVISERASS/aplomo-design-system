@@ -11,13 +11,21 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: ".nvmrc"
           cache: npm
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm run build
       - run: npm run typecheck
       - run: npm test
-      - run: npm publish
+      # Los tokens primero: los otros dos paquetes los declaran como dependencia.
+      - run: npm publish -w @jviserass/aplomo-tokens
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish -w @jviserass/aplomo
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # El paquete Angular se publica desde la salida de ng-packagr, no desde el fuente.
+      - run: npm publish packages/angular/dist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
