@@ -1,0 +1,51 @@
+/* El host absorbe el `style` que ponga el consumidor; la raiz interna hace la maquetacion. */
+:host {
+  display: block;
+}
+
+.ap-textarea-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-1);
+}
+
+.ap-textarea-label {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-textarea-control {
+  resize: vertical;
+  padding: var(--ap-space-2);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  outline: none;
+  font: var(--ap-weight-body) var(--ap-size-14)/var(--ap-leading-prose) var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-prose);
+  transition: border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* El foco sustituye al useState de la version React. */
+.ap-textarea-control:focus {
+  border-color: var(--ap-accent);
+}
+
+/* El error gana al foco, igual que en la version React. */
+:host([data-invalid]) .ap-textarea-control,
+:host([data-invalid]) .ap-textarea-control:focus {
+  border-color: var(--ap-error);
+}
+
+:host([data-disabled]) .ap-textarea-control {
+  background: var(--ap-surface-subtle);
+}
+
+.ap-textarea-message {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+:host([data-invalid]) .ap-textarea-message {
+  color: var(--ap-error);
+}

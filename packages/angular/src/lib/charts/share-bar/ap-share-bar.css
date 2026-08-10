@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.ap-share-bar-track {
+  display: flex;
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--ap-gray-50);
+}
+
+.ap-share-bar-segment {
+  transition: width var(--ap-dur-state) var(--ap-ease);
+}
+
+.ap-share-bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ap-space-4);
+  margin-top: var(--ap-space-3);
+}
+
+.ap-share-bar-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ap-share-bar-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.ap-share-bar-legend-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}

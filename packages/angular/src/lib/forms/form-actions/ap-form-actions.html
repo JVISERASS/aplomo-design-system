@@ -1,0 +1,13 @@
+<span class="ap-form-actions-summary">
+  @if (count() !== undefined) {
+    <ap-data-value [value]="count()!" /> cambios sin guardar
+  } @else {
+    Cambios sin guardar
+  }
+</span>
+<div class="ap-form-actions-buttons">
+  <button apButton [disabled]="saving()" (click)="discard.emit()">Descartar</button>
+  <button apButton variant="primary" [disabled]="saving()" (click)="save.emit()">
+    {{ saving() ? "Guardando" : saveLabel() }}
+  </button>
+</div>

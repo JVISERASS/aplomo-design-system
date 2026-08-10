@@ -1,0 +1,86 @@
+/* Raiz semantica <label>: se conserva dentro del host; el host queda block y lleva el `width`
+   del prop (host binding), igual que la raiz React; la raiz interna lo llena. */
+:host {
+  display: block;
+}
+
+.ap-duration-input-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-1);
+}
+
+.ap-duration-input-label {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-duration-input-field {
+  display: flex;
+  align-items: stretch;
+  height: var(--ap-control-h);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  overflow: hidden;
+}
+
+/* El foco sustituye al useState de la version React. */
+.ap-duration-input-field:focus-within {
+  border-color: var(--ap-accent);
+}
+
+:host([data-disabled]) .ap-duration-input-field {
+  background: var(--ap-surface-subtle);
+}
+
+.ap-duration-input-control {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 0 var(--ap-space-2);
+  text-align: right;
+  font: var(--ap-text-ui);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-duration-input-units {
+  display: flex;
+  border-left: 1px solid var(--ap-border);
+}
+
+.ap-duration-input-unit {
+  width: 32px;
+  border: 0;
+  border-right: 1px solid var(--ap-border);
+  background: var(--ap-surface-sunken);
+  color: var(--ap-text-muted);
+  font: var(--ap-text-micro);
+  font-variation-settings: var(--ap-vf-data);
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* La ultima unidad ("d") no lleva separador, igual que en la version React. */
+.ap-duration-input-unit:last-child {
+  border-right: 0;
+}
+
+.ap-duration-input-unit-active {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+}
+
+.ap-duration-input-unit:disabled {
+  cursor: not-allowed;
+}
+
+.ap-duration-input-hint {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}

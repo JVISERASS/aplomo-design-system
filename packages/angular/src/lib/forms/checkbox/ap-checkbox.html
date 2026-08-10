@@ -1,0 +1,18 @@
+<label class="ap-checkbox-root">
+  <input
+    type="checkbox"
+    class="ap-checkbox-input"
+    [checked]="checked()"
+    [disabled]="isDisabled()"
+    (change)="handleChange($event)"
+    (blur)="onTouched()"
+  />
+  <span class="ap-checkbox-box">
+    @if (on()) {
+      <ap-icon [name]="indeterminate() ? 'minus' : 'check'" [size]="12" [strokeWidth]="2.25" />
+    }
+  </span>
+  @if (label(); as text) {
+    <span class="ap-checkbox-label">{{ text }}</span>
+  }
+</label>

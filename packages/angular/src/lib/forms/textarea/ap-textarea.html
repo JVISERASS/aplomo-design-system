@@ -1,0 +1,17 @@
+<label class="ap-textarea-root">
+  @if (label()) {
+    <span class="ap-textarea-label">{{ label() }}</span>
+  }
+  <textarea
+    class="ap-textarea-control"
+    [rows]="rows()"
+    [value]="value()"
+    [attr.placeholder]="placeholder() ?? null"
+    [disabled]="isDisabled()"
+    (input)="handleInput($event)"
+    (blur)="onTouched()"
+  ></textarea>
+  @if (message(); as text) {
+    <span class="ap-textarea-message">{{ text }}</span>
+  }
+</label>

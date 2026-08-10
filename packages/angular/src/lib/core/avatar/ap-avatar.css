@@ -1,0 +1,18 @@
+:host {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ap-radius-chip);
+  background: var(--ap-gray-100);
+  color: var(--ap-gray-600);
+  /* React: font:"var(--ap-weight-medium) <0.42*size>px/1 var(--ap-font-core)".
+     El font-size sale de size() y viaja en [style.font-size.px]; el shorthand se
+     descompone aqui para que `font-variation-settings` no lo pise el reset del
+     shorthand (los estilos inline ganan a la hoja del componente). */
+  font-weight: var(--ap-weight-medium);
+  line-height: 1;
+  font-family: var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-prose);
+  letter-spacing: 0.02em;
+}

@@ -1,0 +1,74 @@
+/* El host absorbe el `style` que ponga el consumidor (ancho, margen); la raiz interna lo llena. */
+:host {
+  display: block;
+}
+
+.ap-unit-input-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-1);
+}
+
+.ap-unit-input-label {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-unit-input-field {
+  display: flex;
+  align-items: stretch;
+  height: var(--ap-control-h);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  overflow: hidden;
+  transition: border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* El foco sustituye al useState de la version React. */
+.ap-unit-input-field:focus-within {
+  border-color: var(--ap-accent);
+}
+
+/* El error gana al foco, igual que en la version React. */
+:host([data-invalid]) .ap-unit-input-field,
+:host([data-invalid]) .ap-unit-input-field:focus-within {
+  border-color: var(--ap-error);
+}
+
+:host([data-disabled]) .ap-unit-input-field {
+  background: var(--ap-surface-subtle);
+}
+
+.ap-unit-input-control {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 0 var(--ap-space-2);
+  text-align: right;
+  font: var(--ap-text-ui);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-unit-input-unit {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--ap-space-2);
+  border-left: 1px solid var(--ap-border);
+  background: var(--ap-surface-sunken);
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  color: var(--ap-text-secondary);
+}
+
+.ap-unit-input-message {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+:host([data-invalid]) .ap-unit-input-message {
+  color: var(--ap-error);
+}

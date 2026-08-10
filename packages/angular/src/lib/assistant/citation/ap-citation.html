@@ -1,0 +1,7 @@
+<button type="button" class="ap-citation-button">
+  <ap-icon class="ap-citation-icon" [name]="icon()" [size]="12" />
+  <span class="ap-citation-label">{{ label() }}</span>
+  @if (hint(); as hintText) {
+    <span class="ap-citation-hint">{{ hintText }}</span>
+  }
+</button>

@@ -1,0 +1,47 @@
+/* El host absorbe el `style` que ponga el consumidor; la raiz interna hace la maquetacion. */
+:host {
+  display: block;
+}
+
+.ap-checkbox-root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  cursor: pointer;
+}
+
+:host([data-disabled]) .ap-checkbox-root {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ap-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ap-checkbox-box {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1px solid var(--ap-border-strong);
+  background: var(--ap-surface);
+  color: var(--ap-text-inverse);
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+:host([data-checked]) .ap-checkbox-box {
+  border-color: var(--ap-accent);
+  background: var(--ap-accent);
+}
+
+.ap-checkbox-label {
+  font: var(--ap-text-ui);
+}

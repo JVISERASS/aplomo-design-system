@@ -1,0 +1,24 @@
+<div class="ap-radio-root">
+  @for (option of normalizedOptions(); track option.value) {
+    <label class="ap-radio-option">
+      <input
+        type="radio"
+        class="ap-radio-input"
+        [attr.name]="name() ?? null"
+        [checked]="value() === option.value"
+        [disabled]="isDisabled()"
+        (change)="handleChange(option.value)"
+        (blur)="onTouched()"
+      />
+      <span class="ap-radio-dot" [class.ap-radio-dot-on]="value() === option.value">
+        <span class="ap-radio-dot-inner"></span>
+      </span>
+      <span class="ap-radio-text">
+        <span class="ap-radio-option-label">{{ option.label }}</span>
+        @if (option.hint) {
+          <span class="ap-radio-option-hint">{{ option.hint }}</span>
+        }
+      </span>
+    </label>
+  }
+</div>

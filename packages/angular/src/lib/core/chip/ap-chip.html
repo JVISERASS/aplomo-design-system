@@ -1,0 +1,6 @@
+<ng-content />
+@if (showRemove()) {
+  <button type="button" class="ap-chip-remove" aria-label="Quitar filtro" (click)="remove.emit()">
+    <ap-icon name="x" [size]="12" />
+  </button>
+}

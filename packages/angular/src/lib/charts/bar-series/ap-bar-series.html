@@ -1,0 +1,21 @@
+<div class="ap-bar-series-row" [style.gap.px]="gap()" [style.height.px]="height()">
+  @if (threshold() !== undefined) {
+    <div class="ap-bar-series-threshold" [style.bottom.px]="thresholdBottom()"></div>
+  }
+  @for (value of data(); track $index) {
+    <div
+      class="ap-bar-series-bar"
+      [attr.title]="barTitle(value)"
+      [style.height]="barHeight(value)"
+      [style.background]="barColor($index)"
+      [style.transition-delay.ms]="barDelay($index)"
+    ></div>
+  }
+</div>
+@if (labels(); as items) {
+  <div class="ap-bar-series-labels">
+    @for (item of items; track item) {
+      <span>{{ item }}</span>
+    }
+  </div>
+}

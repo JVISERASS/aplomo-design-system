@@ -1,0 +1,26 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+.ap-spinner-ring {
+  border-radius: 50%;
+  border: 1.5px solid var(--ap-gray-200);
+  border-top-color: var(--ap-gray-600);
+  animation: ap-spin 700ms linear infinite;
+}
+
+/* tokens/base.css atenua ap-spin en reduced-motion via [style*="ap-spin"], que solo
+   detecta el estilo inline de React. Aqui la animacion es CSS estatico de componente,
+   asi que replicamos la misma cortesia localmente sin redefinir el keyframe global. */
+@media (prefers-reduced-motion: reduce) {
+  .ap-spinner-ring {
+    animation-duration: 2s;
+  }
+}
+
+.ap-spinner-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}

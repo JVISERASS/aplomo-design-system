@@ -1,0 +1,81 @@
+/* El host absorbe el `style` que ponga el consumidor; la raiz interna hace la maquetacion. */
+:host {
+  display: block;
+}
+
+.ap-radio-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-2);
+}
+
+:host([data-direction="row"]) .ap-radio-root {
+  flex-direction: row;
+  gap: var(--ap-space-4);
+}
+
+.ap-radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ap-space-2);
+  cursor: pointer;
+}
+
+:host([data-disabled]) .ap-radio-option {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ap-radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ap-radio-dot {
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1px solid var(--ap-border-strong);
+  background: var(--ap-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-radio-dot-on {
+  border-color: var(--ap-accent);
+}
+
+.ap-radio-dot-inner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  transform: scale(0.4);
+  transition:
+    transform var(--ap-dur-micro) var(--ap-ease),
+    background-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-radio-dot-on .ap-radio-dot-inner {
+  background: var(--ap-accent);
+  transform: none;
+}
+
+.ap-radio-text {
+  display: grid;
+  gap: 2px;
+}
+
+.ap-radio-option-label {
+  font: var(--ap-text-ui);
+}
+
+.ap-radio-option-hint {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}

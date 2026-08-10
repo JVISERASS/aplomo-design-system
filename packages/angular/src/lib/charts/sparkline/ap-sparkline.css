@@ -1,0 +1,12 @@
+/* La raiz React era el propio <svg> con display:block: el host reproduce esa misma
+   posicion en el flujo, para que el contenido contiguo se comporte igual que en React. */
+:host {
+  display: block;
+}
+
+/* Cuando no hay datos, React devolvia un <svg> sin display:block/overflow:visible; se
+   reproduce aqui aplicando la clase solo si hay puntos que dibujar. */
+.ap-sparkline-svg {
+  display: block;
+  overflow: visible;
+}

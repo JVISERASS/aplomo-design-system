@@ -1,0 +1,10 @@
+@if (direction() === "vertical") {
+  <span class="ap-divider-vertical" aria-hidden="true" [style.margin]="'0 ' + spacing()"></span>
+} @else if (!label()) {
+  <hr class="ap-divider-line" [style.margin]="spacing() + ' 0'" />
+} @else {
+  <div class="ap-divider-labeled" [style.margin]="spacing() + ' 0'">
+    <span class="ap-divider-label">{{ label() }}</span>
+    <span class="ap-divider-rule"></span>
+  </div>
+}

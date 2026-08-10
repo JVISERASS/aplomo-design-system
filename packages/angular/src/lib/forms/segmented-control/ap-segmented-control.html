@@ -1,0 +1,11 @@
+@for (option of options(); track optionValue(option)) {
+  <button
+    type="button"
+    role="tab"
+    class="ap-segmented-control-option"
+    [attr.aria-selected]="isSelected(option)"
+    [disabled]="isDisabled()"
+    (click)="handleSelect(option)"
+    (blur)="onTouched()"
+  >{{ optionLabel(option) }}</button>
+}

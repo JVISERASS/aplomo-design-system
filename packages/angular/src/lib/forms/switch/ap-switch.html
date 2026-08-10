@@ -1,0 +1,16 @@
+<label class="ap-switch-root">
+  <input
+    type="checkbox"
+    class="ap-switch-input"
+    [checked]="checked()"
+    [disabled]="isDisabled()"
+    (change)="handleChange($event)"
+    (blur)="onTouched()"
+  />
+  <span class="ap-switch-track">
+    <span class="ap-switch-thumb"></span>
+  </span>
+  @if (label(); as text) {
+    <span class="ap-switch-label">{{ text }}</span>
+  }
+</label>

@@ -1,0 +1,38 @@
+/* El host no genera caja propia: la raiz React variaba entre span/hr/div y debe
+   participar directamente en el flujo del padre (p.ej. align-self:stretch de la
+   variante vertical dentro de un flex del consumidor). */
+:host {
+  display: contents;
+}
+
+.ap-divider-vertical {
+  width: 1px;
+  align-self: stretch;
+  background: var(--ap-border);
+}
+
+.ap-divider-line {
+  border: 0;
+  height: 1px;
+  background: var(--ap-border);
+}
+
+.ap-divider-labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+}
+
+.ap-divider-label {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  white-space: nowrap;
+}
+
+.ap-divider-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--ap-border);
+}

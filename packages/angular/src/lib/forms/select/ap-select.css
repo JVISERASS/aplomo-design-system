@@ -1,0 +1,45 @@
+/* El host absorbe el `style` que ponga el consumidor (ancho, margen); la raiz interna lo llena. */
+:host {
+  display: block;
+}
+
+.ap-select-root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-1);
+}
+
+.ap-select-label {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-select-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ap-select-control {
+  appearance: none;
+  width: 100%;
+  height: var(--ap-control-h);
+  padding: 0 28px 0 var(--ap-space-2);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  font: var(--ap-text-ui);
+  font-variation-settings: var(--ap-vf-prose);
+  cursor: pointer;
+}
+
+:host([data-disabled]) .ap-select-control {
+  background: var(--ap-surface-subtle);
+}
+
+.ap-select-chevron {
+  position: absolute;
+  right: 8px;
+  color: var(--ap-text-muted);
+  pointer-events: none;
+}

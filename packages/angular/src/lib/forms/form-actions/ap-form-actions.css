@@ -1,0 +1,36 @@
+/* Raiz React sin semantica propia (<div>): el host absorbe la caja directamente. */
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  position: sticky;
+  bottom: 0;
+  padding: var(--ap-space-3) var(--ap-space-4);
+  background: var(--ap-surface);
+  border-top: 1px solid var(--ap-border-strong);
+  box-shadow: none;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--ap-dur-state) var(--ap-ease),
+    opacity var(--ap-dur-state) var(--ap-ease);
+}
+
+:host([data-dirty]) {
+  box-shadow: var(--ap-shadow-2);
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ap-form-actions-summary {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+.ap-form-actions-buttons {
+  display: flex;
+  gap: var(--ap-space-2);
+}

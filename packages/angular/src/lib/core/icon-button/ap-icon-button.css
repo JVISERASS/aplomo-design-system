@@ -1,0 +1,47 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: var(--ap-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* --- tamanos --- */
+
+:host([data-size="sm"]) {
+  width: 24px;
+  height: 24px;
+}
+
+:host([data-size="md"]) {
+  width: 32px;
+  height: 32px;
+}
+
+:host([data-size="lg"]) {
+  width: 40px;
+  height: 40px;
+}
+
+/* El :not([data-selected]) es deliberado: en React "selected" ganaba siempre a "hover"
+   (background:selected?A:hover?B:C), asi que el hover no debe pisar el estado seleccionado. */
+:host(:not(:disabled):not([data-selected]):hover) {
+  background: var(--ap-surface-hover);
+  color: var(--ap-text);
+}
+
+:host([data-selected]) {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+}
+
+:host(:disabled) {
+  cursor: not-allowed;
+  opacity: 0.4;
+}

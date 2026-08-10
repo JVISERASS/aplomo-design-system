@@ -1,0 +1,53 @@
+/* El host absorbe el `style` que ponga el consumidor; la raiz interna hace la maquetacion. */
+:host {
+  display: block;
+}
+
+.ap-switch-root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  cursor: pointer;
+}
+
+:host([data-disabled]) .ap-switch-root {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.ap-switch-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ap-switch-track {
+  width: 30px;
+  height: 18px;
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--ap-gray-200);
+  transition: background-color var(--ap-dur-state) var(--ap-ease);
+  display: inline-flex;
+}
+
+:host([data-checked]) .ap-switch-track {
+  background: var(--ap-gray-700);
+}
+
+.ap-switch-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--ap-gray-0);
+  transition: transform var(--ap-dur-state) var(--ap-ease);
+}
+
+:host([data-checked]) .ap-switch-thumb {
+  transform: translateX(12px);
+}
+
+.ap-switch-label {
+  font: var(--ap-text-ui);
+}

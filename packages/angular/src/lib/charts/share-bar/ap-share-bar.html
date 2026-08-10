@@ -1,0 +1,22 @@
+<div class="ap-share-bar-track" [style.height.px]="height()">
+  @for (segment of segments(); track segment.label) {
+    <div
+      class="ap-share-bar-segment"
+      [attr.title]="segment.label"
+      [style.width]="segmentWidth(segment.value)"
+      [style.background]="segmentColor(segment, $index)"
+      [style.transition-delay.ms]="segmentDelay($index)"
+    ></div>
+  }
+</div>
+@if (showLegend()) {
+  <div class="ap-share-bar-legend">
+    @for (segment of segments(); track segment.label) {
+      <div class="ap-share-bar-legend-item">
+        <span class="ap-share-bar-swatch" [style.background]="segmentColor(segment, $index)"></span>
+        <span class="ap-share-bar-legend-label">{{ segment.label }}</span>
+        <ap-data-value [value]="segmentPercent(segment.value)" [loading]="loading()" size="var(--ap-size-13)" />
+      </div>
+    }
+  </div>
+}

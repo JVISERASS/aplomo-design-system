@@ -1,0 +1,39 @@
+:host {
+  display: inline-flex;
+}
+
+.ap-copy-value-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--ap-control-h-sm);
+  padding: 0 6px 0 4px;
+  margin: 0 -4px;
+  border: 1px solid transparent;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-copy-value-btn:hover {
+  background: var(--ap-surface-hover);
+  border-color: var(--ap-border);
+}
+
+.ap-copy-value-text {
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-copy-value-icon {
+  color: var(--ap-text-muted);
+  transition: color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-copy-value-icon-done {
+  color: var(--ap-ok);
+}

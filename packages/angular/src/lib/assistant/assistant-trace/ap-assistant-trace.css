@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-control);
+  background: var(--ap-surface-sunken);
+}
+
+.ap-assistant-trace-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  width: 100%;
+  height: var(--ap-control-h);
+  padding: 0 var(--ap-space-3);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ap-assistant-trace-chevron {
+  color: var(--ap-text-muted);
+}
+
+.ap-assistant-trace-status {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-assistant-trace-body {
+  border-top: 1px solid var(--ap-border);
+  padding: var(--ap-space-2) var(--ap-space-3);
+}
+
+.ap-assistant-trace-step {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: var(--ap-space-2);
+  align-items: center;
+  padding: 3px 0;
+}
+
+.ap-assistant-trace-step-icon[data-tone="error"] {
+  color: var(--ap-error);
+}
+
+.ap-assistant-trace-step-icon[data-tone="muted"] {
+  color: var(--ap-text-muted);
+}
+
+.ap-assistant-trace-step-icon[data-tone="ok"] {
+  color: var(--ap-ok);
+}
+
+.ap-assistant-trace-step-label {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  color: var(--ap-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

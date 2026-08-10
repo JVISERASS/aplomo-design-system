@@ -1,0 +1,38 @@
+:host {
+  display: inline-flex;
+}
+
+.ap-citation-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-chip);
+  background: var(--ap-surface);
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-citation-button:hover {
+  border-color: var(--ap-gray-300);
+  background: var(--ap-surface-hover);
+}
+
+.ap-citation-icon {
+  color: var(--ap-text-muted);
+}
+
+.ap-citation-label {
+  font: var(--ap-text-label);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-citation-hint {
+  font: var(--ap-text-micro);
+  color: var(--ap-text-muted);
+}

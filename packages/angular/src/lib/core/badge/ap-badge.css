@@ -1,0 +1,42 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--ap-radius-chip);
+  border: 1px solid transparent;
+  font: var(--ap-text-micro);
+  font-variation-settings: var(--ap-vf-data);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+:host([data-tone="neutral"]) {
+  background: var(--ap-gray-50);
+  color: var(--ap-gray-600);
+  border-color: var(--ap-gray-100);
+}
+
+:host([data-tone="ok"]) {
+  background: var(--ap-ok-tint);
+  color: var(--ap-ok);
+  border-color: color-mix(in srgb, var(--ap-ok) 18%, transparent);
+}
+
+:host([data-tone="warn"]) {
+  background: var(--ap-warn-tint);
+  color: var(--ap-warn);
+  border-color: color-mix(in srgb, var(--ap-warn) 18%, transparent);
+}
+
+:host([data-tone="error"]) {
+  background: var(--ap-error-tint);
+  color: var(--ap-error);
+  border-color: color-mix(in srgb, var(--ap-error) 18%, transparent);
+}
+
+:host([data-tone="accent"]) {
+  background: var(--ap-accent-tint);
+  color: var(--ap-accent);
+  border-color: color-mix(in srgb, var(--ap-accent) 18%, transparent);
+}

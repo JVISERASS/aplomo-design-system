@@ -220,7 +220,90 @@ ejecución: `grid-template-columns` calculado, `--ap-delay` del stagger, anchos 
 Las `animation: ap-rise …` y la clase `.ap-rise` vienen de `tokens/base.css` y son globales:
 se usan igual que en React, sin redefinirlas.
 
-## 9. Trampas del compilador
+## 9. Props `defaultX` y la regla del constructor
+
+**Nunca leas un signal input dentro del constructor.** Los inputs todavía no tienen el valor que
+pasó el consumidor: devuelven el valor por defecto que declaraste, y el binding se pierde en
+silencio. Están disponibles a partir de `ngOnInit`.
+
+React usa `defaultChecked` / `defaultOpen` para el modo no controlado ("así ninguna casilla queda
+muerta por olvidar `onChange`"). En Angular ese fallo no existe: un `model()` se actualiza solo
+aunque nadie lo bindee. La prop se conserva por paridad de API y se aplica así:
+
+```ts
+readonly defaultChecked = input(false, { transform: booleanAttribute });
+readonly checked = model(false);
+
+ngOnInit(): void {
+  if (this.defaultChecked() && !this.checked()) this.checked.set(true);
+}
+```
+
+La guarda `&& !this.checked()` es necesaria: sin ella, `ngOnInit` pisaría un `[checked]`
+explícito del consumidor.
+
+Aplica a `Checkbox` (`defaultChecked`), `Switch` (`defaultChecked`), `Accordion` (`defaultOpen`)
+y `AssistantTrace` (`defaultOpen`).
+
+## 10. Dos desviaciones deliberadas de la API de React
+
+Son las dos únicas cosas que el port Angular hace distinto a propósito. Ambas están en el
+README y en el CHANGELOG; no improvises otras.
+
+### 10.1 Render condicionado por un callback → input `show<Acción>`
+
+En React, `{onRemove && <button …/>}` hace que el botón **exista solo si te pasan el handler**.
+En Angular un `output()` existe siempre, así que la traducción ingenua deja un botón enfocable
+que no hace nada y además cambia el padding del componente.
+
+La traducción correcta es un booleano explícito, `false` por defecto:
+
+```ts
+readonly showRemove = input(false, { transform: booleanAttribute });
+readonly remove = output<void>();
+```
+
+```html
+@if (showRemove()) {
+  <button type="button" class="…" (click)="remove.emit()" aria-label="Quitar">…</button>
+}
+```
+
+Afecta exactamente a cinco componentes, y el nombre es siempre `show` + la acción:
+
+| Componente | React | Angular |
+| --- | --- | --- |
+| `Chip` | `onRemove` | `showRemove` + `remove` |
+| `Composer` | `onAttach` | `showAttach` + `attach` |
+| `ErrorState` | `onRetry` | `showRetry` + `retry` |
+| `FileDrop` | `onRemove` | `showRemove` + `remove` |
+| `FrozenState` | `onResume` | `showResume` + `resume` |
+
+### 10.2 Props que chocan con atributos globales de HTML
+
+React sacaba `title` del `...rest`, así que nunca llegaba al DOM. En Angular, un
+`<ap-panel title="Servicios">` deja el atributo puesto y el navegador pinta su tooltip nativo
+sobre todo el panel. Con `role` es peor: `<ap-message role="assistant">` declara un rol ARIA
+inválido.
+
+Se neutraliza en el host, conservando el nombre de la prop:
+
+```ts
+host: { "[attr.title]": "null" }
+```
+
+Está verificado que esto quita el atributo estático del DOM y que el `input()` conserva su
+valor. Componentes afectados:
+
+- `[attr.title]="null"` → `Dialog`, `EmptyState`, `ErrorState`, `InlineAlert`, `PageError`,
+  `FormSection`, `PageHeader`, `Panel`, `SectionHeader`.
+- `[attr.role]="null"` → `Message`.
+- `[attr.hidden]="null"` → `ColumnManager`.
+
+Si al convertir encuentras otra prop que sea atributo global (`id`, `slot`, `lang`, `dir`,
+`tabindex`, `style`, `class`), aplícale lo mismo y déjalo dicho en tus notas.
+
+## 11. Trampas del compilador
 
 `strictTemplates` está activado. Lo que más aparece:
 
@@ -233,13 +316,16 @@ se usan igual que en React, sin redefinirlas.
 - No uses `any`. Para APIs globales sin tipar (como el UMD de Lucide) declara una interfaz
   mínima y castea una sola vez, como hace `ap-icon.ts`.
 
-## 10. Checklist antes de dar por convertido un componente
+## 12. Checklist antes de dar por convertido un componente
 
 1. `.ts`, `.css` y (si hace falta) `.html` dentro de su propio directorio, y nada más tocado.
 2. `OnPush`, sin `standalone: true`, `@if`/`@for` con `track`.
 3. Todas las props del `.d.ts` de React están como `input()` / `model()`, con los mismos
    nombres y los mismos valores por defecto.
 4. Todos los `onX` están como `output()` sin el prefijo.
+4b. No se lee ningún signal input dentro del constructor (ver §9).
+4c. Si el React renderizaba algo solo al recibir un callback, hay un `show<Acción>` (§10.1); si
+    alguna prop choca con un atributo global de HTML, está neutralizada en el host (§10.2).
 5. Todas las declaraciones CSS del original están en el `.css`, con los mismos tokens.
 6. Hover, press y focus como pseudo-clases, con `:not(:disabled)` donde corresponda.
 7. `:host` tiene `display` explícito.

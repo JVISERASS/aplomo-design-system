@@ -1,0 +1,24 @@
+<article class="ap-message-root">
+  @if (mine()) {
+    <ap-avatar [name]="author() || 'Tu'" />
+  } @else {
+    <span aria-hidden="true" class="ap-message-avatar-fallback">AP</span>
+  }
+
+  <div class="ap-message-content">
+    <div class="ap-message-header">
+      <span class="ap-message-author">{{ author() || (mine() ? "Tu" : "Asistente") }}</span>
+      @if (at(); as atText) {
+        <span class="ap-message-at">{{ atText }}</span>
+      }
+    </div>
+
+    <div class="ap-message-body">
+      <ng-content />
+    </div>
+
+    <div class="ap-message-footer">
+      <ng-content select="[apFooter]" />
+    </div>
+  </div>
+</article>

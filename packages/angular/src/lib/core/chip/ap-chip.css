@@ -1,0 +1,37 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: var(--ap-radius-chip);
+  border: 1px solid var(--ap-border-strong);
+  background: var(--ap-surface);
+  color: var(--ap-text);
+  font: var(--ap-text-label);
+  font-variation-settings: var(--ap-vf-prose);
+  font-variant-numeric: normal;
+}
+
+:host([data-data]) {
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-chip-remove {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: var(--ap-text-muted);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* Con boton de quitar, el original estrechaba el lado derecho para compensarlo. */
+:host([data-removable]) {
+  padding: 0 4px 0 8px;
+}

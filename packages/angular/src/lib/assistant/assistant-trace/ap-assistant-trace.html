@@ -1,0 +1,41 @@
+<button
+  type="button"
+  class="ap-assistant-trace-toggle"
+  [attr.aria-expanded]="open()"
+  (click)="toggle()"
+>
+  <ap-icon
+    class="ap-assistant-trace-chevron"
+    [name]="open() ? 'chevron-down' : 'chevron-right'"
+    [size]="13"
+  />
+  <span class="ap-assistant-trace-status">{{ running() ? "Consultando" : "Consultado" }}</span>
+  <ap-data-value [value]="done() + '/' + steps().length" size="var(--ap-size-11)" tone="muted" />
+</button>
+
+@if (open()) {
+  <div class="ap-assistant-trace-body">
+    @for (step of steps(); track $index) {
+      <div class="ap-assistant-trace-step">
+        <ap-icon
+          class="ap-assistant-trace-step-icon"
+          [name]="
+            step.status === 'running'
+              ? 'circle-dashed'
+              : step.status === 'error'
+                ? 'circle-x'
+                : 'circle-check'
+          "
+          [size]="12"
+          [attr.data-tone]="
+            step.status === 'error' ? 'error' : step.status === 'running' ? 'muted' : 'ok'
+          "
+        />
+        <span class="ap-assistant-trace-step-label">{{ step.label }}</span>
+        @if (step.ms !== undefined) {
+          <ap-data-value [value]="step.ms + ' ms'" size="var(--ap-size-11)" tone="muted" />
+        }
+      </div>
+    }
+  </div>
+}

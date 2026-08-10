@@ -1,0 +1,20 @@
+<label class="ap-select-root">
+  @if (label()) {
+    <span class="ap-select-label">{{ label() }}</span>
+  }
+
+  <span class="ap-select-field">
+    <select
+      class="ap-select-control"
+      [value]="value()"
+      [disabled]="isDisabled()"
+      (change)="handleChange($event)"
+      (blur)="onTouched()"
+    >
+      @for (option of options(); track optionValue(option)) {
+        <option [value]="optionValue(option)" [selected]="isSelected(option)">{{ optionLabel(option) }}</option>
+      }
+    </select>
+    <ap-icon class="ap-select-chevron" name="chevron-down" [size]="14" />
+  </span>
+</label>

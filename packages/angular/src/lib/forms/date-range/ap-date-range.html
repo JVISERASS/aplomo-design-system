@@ -1,0 +1,19 @@
+@for (preset of presets; track preset.id) {
+  <button
+    type="button"
+    class="ap-date-range-preset"
+    [class.ap-date-range-active]="value() === preset.id"
+    [disabled]="isDisabled()"
+    (click)="select(preset.id)"
+  >{{ preset.label }}</button>
+}
+<button
+  type="button"
+  class="ap-date-range-custom"
+  [class.ap-date-range-active]="value() === 'custom'"
+  [disabled]="isDisabled()"
+  (click)="select('custom')"
+>
+  <ap-icon name="calendar" [size]="13" />
+  <span class="ap-date-range-absolute">{{ absolute() || "personalizado" }}</span>
+</button>

@@ -1,0 +1,31 @@
+<label class="ap-duration-input-root">
+  @if (label()) {
+    <span class="ap-duration-input-label">{{ label() }}</span>
+  }
+
+  <span class="ap-duration-input-field">
+    <input
+      class="ap-duration-input-control"
+      [value]="valueText()"
+      [disabled]="isDisabled()"
+      inputmode="numeric"
+      (input)="handleInput($event)"
+      (blur)="onTouched()"
+    />
+    <span class="ap-duration-input-units">
+      @for (u of units; track u) {
+        <button
+          type="button"
+          class="ap-duration-input-unit"
+          [class.ap-duration-input-unit-active]="u === unit()"
+          [disabled]="isDisabled()"
+          (click)="selectUnit(u)"
+        >{{ u }}</button>
+      }
+    </span>
+  </span>
+
+  @if (hint()) {
+    <span class="ap-duration-input-hint">{{ hint() }}</span>
+  }
+</label>

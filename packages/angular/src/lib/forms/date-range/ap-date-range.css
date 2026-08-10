@@ -1,0 +1,50 @@
+/* Raiz React sin semantica propia (<div>): el host absorbe la caja directamente. */
+:host {
+  display: inline-flex;
+  align-items: stretch;
+  height: var(--ap-control-h);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  overflow: hidden;
+  background: var(--ap-surface);
+}
+
+.ap-date-range-preset {
+  padding: 0 10px;
+  border: 0;
+  border-right: 1px solid var(--ap-border);
+  background: transparent;
+  color: var(--ap-text-secondary);
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-date-range-preset.ap-date-range-active {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+}
+
+.ap-date-range-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ap-text-secondary);
+  cursor: pointer;
+}
+
+.ap-date-range-custom.ap-date-range-active {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+}
+
+.ap-date-range-absolute {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+}

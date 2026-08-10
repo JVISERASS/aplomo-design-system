@@ -1,0 +1,21 @@
+<label class="ap-unit-input-root">
+  @if (label()) {
+    <span class="ap-unit-input-label">{{ label() }}</span>
+  }
+
+  <span class="ap-unit-input-field">
+    <input
+      class="ap-unit-input-control"
+      inputmode="decimal"
+      [value]="value()"
+      [disabled]="isDisabled()"
+      (input)="handleInput($event)"
+      (blur)="onTouched()"
+    />
+    <span class="ap-unit-input-unit">{{ unit() }}</span>
+  </span>
+
+  @if (message(); as text) {
+    <span class="ap-unit-input-message">{{ text }}</span>
+  }
+</label>

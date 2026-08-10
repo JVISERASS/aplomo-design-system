@@ -1,0 +1,11 @@
+<section class="ap-form-section-root">
+  <div class="ap-form-section-header">
+    <h3 class="ap-form-section-title">{{ title() }}</h3>
+    @if (description()) {
+      <p class="ap-form-section-description">{{ description() }}</p>
+    }
+  </div>
+  <div class="ap-form-section-fields" [style.grid-template-columns]="gridColumns()">
+    <ng-content />
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<button type="button" class="ap-copy-value-btn" [attr.title]="label()" (click)="copy()">
+  <span class="ap-copy-value-text" [style.font-size]="fontSize()" [style.font-weight]="weight() ?? null">{{
+    value()
+  }}</span>
+  <ap-icon
+    class="ap-copy-value-icon"
+    [class.ap-copy-value-icon-done]="done()"
+    [name]="done() ? 'check' : 'copy'"
+    [size]="12"
+  />
+</button>

@@ -1,0 +1,54 @@
+:host {
+  display: inline-flex;
+  height: var(--ap-control-h);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  overflow: hidden;
+  background: var(--ap-surface);
+}
+
+:host([data-size="sm"]) {
+  height: var(--ap-control-h-sm);
+}
+
+.ap-segmented-control-option {
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: var(--ap-text-secondary);
+  font: var(--ap-text-ui);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-segmented-control-option:not(:first-child) {
+  border-left: 1px solid var(--ap-border);
+}
+
+.ap-segmented-control-option[aria-selected="true"] {
+  background: var(--ap-surface-active);
+  color: var(--ap-text);
+  font: var(--ap-text-ui-medium);
+}
+
+/* font-size y font-variation-settings van al final y por encima de [aria-selected]: el
+   shorthand `font` reinicia ambos, y en el objeto de estilo React iban despues de `font`,
+   asi que ganaban siempre, este o no seleccionada la opcion. */
+:host([data-size="sm"]) .ap-segmented-control-option {
+  font-size: var(--ap-size-13);
+}
+
+:host([data-size="md"]) .ap-segmented-control-option {
+  font-size: var(--ap-size-14);
+}
+
+:host .ap-segmented-control-option {
+  font-variation-settings: var(--ap-vf-prose);
+}
+
+:host([data-data]) .ap-segmented-control-option {
+  font-variation-settings: var(--ap-vf-data);
+}
