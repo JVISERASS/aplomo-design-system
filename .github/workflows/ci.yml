@@ -19,3 +19,5 @@ jobs:
       - run: npm run build
       - run: npm run typecheck
       - run: npm test
+      # Cuarta puerta: ninguna declaracion de estilo ni token --ap-* se pierde en el port.
+      - run: npm run parity
