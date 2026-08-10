@@ -1,0 +1,21 @@
+:host {
+  display: inline-flex;
+  gap: var(--ap-space-2);
+  align-items: baseline;
+  font-family: var(--ap-font-ascii);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--ap-size-12);
+  color: var(--ap-text-secondary);
+}
+
+:host([data-tone="ok"]) {
+  color: var(--ap-ok);
+}
+
+:host([data-tone="warn"]) {
+  color: var(--ap-warn);
+}
+
+:host([data-tone="error"]) {
+  color: var(--ap-error);
+}

@@ -1,0 +1,11 @@
+<section class="ap-panel-root">
+  <header class="ap-panel-header">
+    <h2 class="ap-panel-title">{{ title() }}</h2>
+    <div class="ap-panel-actions">
+      <ng-content select="[apActions]" />
+    </div>
+  </header>
+  <div class="ap-panel-body" [class.ap-panel-body-padded]="padded()">
+    <ng-content />
+  </div>
+</section>

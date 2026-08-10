@@ -1,0 +1,29 @@
+:host {
+  position: relative;
+  display: inline-flex;
+}
+
+.ap-tooltip-bubble {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: var(--ap-radius-chip);
+  background: var(--ap-surface-inverse);
+  color: var(--ap-text-inverse);
+  font: var(--ap-text-micro);
+  box-shadow: var(--ap-shadow-1);
+  transition:
+    opacity var(--ap-dur-micro) var(--ap-ease),
+    transform var(--ap-dur-micro) var(--ap-ease);
+  z-index: 30;
+}
+
+:host(:hover) .ap-tooltip-bubble {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}

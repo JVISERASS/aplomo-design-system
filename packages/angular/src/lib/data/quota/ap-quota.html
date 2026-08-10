@@ -1,0 +1,14 @@
+<div class="ap-quota-header">
+  @if (label(); as l) {
+    <span class="ap-quota-label">{{ l }}</span>
+  }
+  <span class="ap-quota-value-row">
+    <ap-data-value [value]="used()" size="var(--ap-size-13)" [weight]="500" />
+    <span class="ap-quota-unit">{{ unitSuffix() }}</span>
+  </span>
+</div>
+<div class="ap-quota-cells">
+  @for (cell of cellRange(); track $index) {
+    <span class="ap-quota-cell" [style.background]="cellColor($index)" [style.transition-delay.ms]="$index * 8"></span>
+  }
+</div>

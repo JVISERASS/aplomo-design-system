@@ -1,0 +1,32 @@
+<ap-data-value
+  class="ap-page-error-code"
+  [value]="code()"
+  size="var(--ap-size-48)"
+  [weight]="500"
+  [attr.data-code]="code()"
+/>
+<div class="ap-page-error-heading">
+  <h1 class="ap-page-error-title">{{ resolvedTitle() }}</h1>
+  <p class="ap-page-error-detail">{{ resolvedDetail() }}</p>
+</div>
+@if (requestId() || eta()) {
+  <div class="ap-page-error-meta">
+    @if (requestId(); as requestIdText) {
+      <div class="ap-page-error-meta-row">
+        <span class="ap-page-error-meta-label">Identificador</span>
+        <ap-data-value [value]="requestIdText" size="var(--ap-size-12)" />
+      </div>
+    }
+    @if (eta(); as etaText) {
+      <div class="ap-page-error-meta-row">
+        <span class="ap-page-error-meta-label">Fin previsto</span>
+        <ap-data-value [value]="etaText" size="var(--ap-size-12)" />
+      </div>
+    }
+  </div>
+}
+<div class="ap-page-error-actions">
+  <ng-content select="[apActions]">
+    <button apButton variant="primary">Volver al listado</button>
+  </ng-content>
+</div>

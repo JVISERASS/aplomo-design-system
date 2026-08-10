@@ -1,0 +1,6 @@
+/* width/height son dinamicos (input numero|string) y se aplican via [style] en el host. */
+:host {
+  display: inline-block;
+  border-radius: 2px;
+  background: var(--ap-gray-100);
+}

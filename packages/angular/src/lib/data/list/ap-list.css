@@ -1,0 +1,88 @@
+/* La raiz React era un <ul> semantico: se conserva dentro, el host solo es block
+   (mismo patron que ap-input.css con el <label>). */
+:host {
+  display: block;
+}
+
+.ap-list-root {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ap-list-row {
+  display: grid;
+  grid-template-columns: 2px 1fr auto;
+  gap: var(--ap-space-3);
+  align-items: center;
+  width: 100%;
+  padding: var(--ap-space-2) var(--ap-space-3) var(--ap-space-2) 0;
+  border: 0;
+  border-bottom: 1px solid var(--ap-border);
+  background: transparent;
+  /* React hacia `cursor: onSelect ? "pointer" : "default"`. Un output() existe siempre, asi
+     que la capacidad se declara con el input `selectable` (CONVENTIONS 10.1). */
+  cursor: default;
+  text-align: left;
+  transition: background-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-list-row:hover {
+  background: var(--ap-surface-hover);
+}
+
+/* Seleccionado gana al hover, igual que en la version React. */
+.ap-list-row[data-selected],
+.ap-list-row[data-selected]:hover {
+  background: var(--ap-accent-tint);
+}
+
+.ap-list-stripe {
+  align-self: stretch;
+  background: var(--ap-gray-200);
+  border-radius: 1px;
+}
+
+.ap-list-stripe[data-tone="ok"] {
+  background: var(--ap-ok);
+}
+
+.ap-list-stripe[data-tone="warn"] {
+  background: var(--ap-warn);
+}
+
+.ap-list-stripe[data-tone="error"] {
+  background: var(--ap-error);
+}
+
+.ap-list-content {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ap-list-heading {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ap-space-2);
+  min-width: 0;
+}
+
+.ap-list-title {
+  font: var(--ap-text-ui-medium);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-list-subtitle {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:host([data-selectable]) .ap-list-row {
+  cursor: pointer;
+}

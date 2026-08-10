@@ -1,0 +1,7 @@
+<ap-icon [name]="icon()" [size]="15" class="ap-inline-alert-icon" />
+<div class="ap-inline-alert-body">
+  @if (title(); as titleText) {
+    <div class="ap-inline-alert-title">{{ titleText }}</div>
+  }
+  <div class="ap-inline-alert-description"><ng-content /></div>
+</div>

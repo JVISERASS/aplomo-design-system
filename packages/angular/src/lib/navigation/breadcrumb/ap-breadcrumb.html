@@ -1,0 +1,12 @@
+<nav class="ap-breadcrumb-root">
+  @for (it of normalizedItems(); track $index) {
+    <span
+      class="ap-breadcrumb-item"
+      [class.ap-breadcrumb-item--last]="it.last"
+      [class.ap-breadcrumb-item--data]="it.data"
+    >{{ it.label }}</span>
+    @if (!it.last) {
+      <span aria-hidden="true" class="ap-breadcrumb-sep">/</span>
+    }
+  }
+</nav>

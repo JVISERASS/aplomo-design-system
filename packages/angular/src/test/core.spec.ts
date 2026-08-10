@@ -18,6 +18,7 @@ class IconHost {}
 describe("core", () => {
   it("ApButton monta", async () => {
     const fixture = TestBed.createComponent(ButtonHost);
+    fixture.detectChanges();
     await fixture.whenStable();
     const button = fixture.nativeElement.querySelector("button");
     expect(button).toBeTruthy();
@@ -27,6 +28,7 @@ describe("core", () => {
 
   it("ApIcon monta sin lucide cargado", async () => {
     const fixture = TestBed.createComponent(IconHost);
+    fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.nativeElement.querySelector("ap-icon")).toBeTruthy();
   });

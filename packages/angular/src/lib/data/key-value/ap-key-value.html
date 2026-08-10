@@ -1,0 +1,6 @@
+<span class="ap-key-value-label">{{ label() }}</span>
+@if (data()) {
+  <ap-data-value [value]="value() ?? ''" [loading]="loading()" size="var(--ap-size-13)" />
+} @else {
+  <span class="ap-key-value-value">{{ value() }}</span>
+}

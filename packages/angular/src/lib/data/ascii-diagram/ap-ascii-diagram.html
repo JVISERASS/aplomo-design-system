@@ -1,0 +1,6 @@
+<figure class="ap-ascii-diagram-root">
+  @if (label(); as text) {
+    <figcaption class="ap-ascii-diagram-label">{{ text }}</figcaption>
+  }
+  <pre class="ap-ascii-diagram-pre" [style.font-size]="size()"><ng-content /></pre>
+</figure>

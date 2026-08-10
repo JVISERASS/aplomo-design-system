@@ -1,0 +1,54 @@
+/* Raiz semantica <section>: se conserva dentro del host; el host queda block. */
+:host {
+  display: block;
+}
+
+.ap-panel-root {
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-panel);
+  overflow: hidden;
+}
+
+/* El original pintaba la cabecera si habia titulo O acciones: `(title||actions)&&<header>`.
+   Por defecto queda oculta y la reactivan las dos ramas de esa condicion (ver mas abajo). */
+.ap-panel-header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  height: var(--ap-header-h);
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+}
+
+/* Rama `title`: la sabe la clase, va como data-* en el host.
+   Rama `actions`: es contenido proyectado, asi que se detecta en CSS igual que el resto del
+   sistema detecta un slot vacio (:empty), aqui elevado al padre con :has(). */
+:host([data-titled]) .ap-panel-header,
+.ap-panel-header:has(> .ap-panel-actions:not(:empty)) {
+  display: flex;
+}
+
+.ap-panel-title {
+  margin: 0;
+  font: var(--ap-text-subtitle);
+  letter-spacing: -0.01em;
+}
+
+.ap-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+/* El original solo renderizaba este bloque si `actions` traia contenido (`actions&&<div>...`).
+   Sin contenido proyectado, ng-content no deja hijos, asi que :empty reproduce la misma condicion. */
+.ap-panel-actions:empty {
+  display: none;
+}
+
+/* `padded` en React alternaba entre `undefined` (sin objeto de estilo) y `{padding:"16px"}. */
+.ap-panel-body-padded {
+  padding: var(--ap-space-4);
+}

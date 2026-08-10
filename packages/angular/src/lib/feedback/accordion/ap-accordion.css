@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-panel);
+  overflow: hidden;
+}
+
+/* El original ponia borde superior a todo item salvo el primero (`i ? "1px solid …" : 0`). */
+.ap-accordion-item + .ap-accordion-item {
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-accordion-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  width: 100%;
+  height: var(--ap-row-h);
+  padding: 0 var(--ap-space-4);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ap-accordion-trigger-open {
+  background: var(--ap-surface-subtle);
+}
+
+.ap-accordion-chevron {
+  color: var(--ap-text-muted);
+}
+
+.ap-accordion-title {
+  flex: 1;
+  font: var(--ap-text-ui-medium);
+}
+
+.ap-accordion-meta {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-accordion-panel {
+  padding: var(--ap-space-4);
+  border-top: 1px solid var(--ap-border);
+}

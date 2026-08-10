@@ -1,0 +1,54 @@
+:host {
+  display: flex;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--ap-radius-control);
+}
+
+:host([data-tone="info"]) {
+  background: var(--ap-gray-50);
+  color: var(--ap-gray-600);
+  border-color: color-mix(in srgb, var(--ap-gray-600) 16%, transparent);
+}
+
+:host([data-tone="ok"]) {
+  background: var(--ap-ok-tint);
+  color: var(--ap-ok);
+  border-color: color-mix(in srgb, var(--ap-ok) 16%, transparent);
+}
+
+:host([data-tone="warn"]) {
+  background: var(--ap-warn-tint);
+  color: var(--ap-warn);
+  border-color: color-mix(in srgb, var(--ap-warn) 16%, transparent);
+}
+
+:host([data-tone="error"]) {
+  background: var(--ap-error-tint);
+  color: var(--ap-error);
+  border-color: color-mix(in srgb, var(--ap-error) 16%, transparent);
+}
+
+.ap-inline-alert-icon {
+  margin-top: 2px;
+}
+
+.ap-inline-alert-body {
+  min-width: 0;
+}
+
+.ap-inline-alert-title {
+  font: var(--ap-text-ui-medium);
+}
+
+.ap-inline-alert-description {
+  font: var(--ap-text-small);
+  color: var(--ap-gray-600);
+  text-wrap: pretty;
+}
+
+/* El original solo renderizaba este bloque cuando habia `children`. */
+.ap-inline-alert-description:empty {
+  display: none;
+}

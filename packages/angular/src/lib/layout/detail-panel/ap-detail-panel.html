@@ -1,0 +1,14 @@
+<aside class="ap-detail-panel-root" [attr.aria-hidden]="!open()">
+  <div class="ap-detail-panel-header">
+    <div class="ap-detail-panel-header-content">
+      <ng-content select="[apHeader]" />
+    </div>
+    <button apIconButton icon="x" label="Cerrar panel" (click)="close.emit()"></button>
+  </div>
+  <div class="ap-detail-panel-body">
+    <ng-content />
+  </div>
+  <div class="ap-detail-panel-footer">
+    <ng-content select="[apFooter]" />
+  </div>
+</aside>

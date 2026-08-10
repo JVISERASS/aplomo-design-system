@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-10) var(--ap-space-6);
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-empty-state-title {
+  font: var(--ap-text-subtitle);
+}
+
+.ap-empty-state-description {
+  margin: 0;
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  max-width: 52ch;
+  text-wrap: pretty;
+}
+
+.ap-empty-state-action {
+  margin-top: var(--ap-space-2);
+}
+
+/* El original solo renderizaba este bloque cuando habia `action`. */
+.ap-empty-state-action:empty {
+  display: none;
+}

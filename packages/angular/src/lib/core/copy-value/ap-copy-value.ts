@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from "@angular/core";
+import { cssLength } from "../../shared/css-length";
 import { ApIcon } from "../icon/ap-icon";
 
 /**
@@ -21,11 +22,7 @@ export class ApCopyValue {
 
   protected readonly done = signal(false);
 
-  /** React deja que fontSize numerico se convierta en px automaticamente; aqui se hace explicito. */
-  protected readonly fontSize = computed(() => {
-    const size = this.size();
-    return typeof size === "number" ? `${size}px` : size;
-  });
+  protected readonly fontSize = computed(() => cssLength(this.size()));
 
   protected copy(): void {
     const text = String(this.value());

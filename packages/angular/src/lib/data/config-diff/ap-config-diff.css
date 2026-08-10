@@ -1,0 +1,58 @@
+/* La raiz React era un unico <div>: el host hace de esa raiz (como ap-chip). */
+:host {
+  display: block;
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-control);
+  overflow: hidden;
+}
+
+.ap-config-diff-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) 1fr 12px 1fr;
+  gap: var(--ap-space-2);
+  align-items: center;
+  padding: 6px var(--ap-space-3);
+  background: var(--ap-surface);
+}
+
+/* El original ponia borderTop solo a partir de la segunda fila (i truthy). */
+.ap-config-diff-row:not(:first-child) {
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-config-diff-key {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  color: var(--ap-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-config-diff-from {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+  color: var(--ap-text-muted);
+  text-decoration: line-through;
+  background: var(--ap-error-tint);
+  padding: 0 4px;
+  border-radius: 2px;
+}
+
+.ap-config-diff-arrow {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  color: var(--ap-gray-300);
+  text-align: center;
+}
+
+.ap-config-diff-to {
+  font: var(--ap-text-small);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+  color: var(--ap-ok);
+  background: var(--ap-ok-tint);
+  padding: 0 4px;
+  border-radius: 2px;
+}

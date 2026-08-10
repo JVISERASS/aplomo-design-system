@@ -1,0 +1,26 @@
+@if (open()) {
+  <div class="ap-menu-backdrop" (click)="close.emit()"></div>
+  <div role="menu" class="ap-menu-panel">
+    @for (item of items(); track $index) {
+      @if (item.divider) {
+        <div class="ap-menu-divider"></div>
+      } @else {
+        <button
+          type="button"
+          role="menuitem"
+          class="ap-menu-item"
+          [class.ap-menu-item-danger]="item.tone === 'danger'"
+          (click)="pick(item)"
+        >
+          @if (item.icon; as iconName) {
+            <ap-icon [name]="iconName" [size]="15" class="ap-menu-item-icon" />
+          }
+          <span class="ap-menu-item-label">{{ item.label }}</span>
+          @if (item.shortcut; as shortcut) {
+            <span class="ap-menu-item-shortcut">{{ shortcut }}</span>
+          }
+        </button>
+      }
+    }
+  </div>
+}

@@ -1,0 +1,30 @@
+<ol class="ap-steps-root">
+  @for (step of steps(); track $index) {
+    <li class="ap-steps-item">
+      <span
+        class="ap-steps-bullet"
+        [class.ap-steps-bullet-done]="$index < current()"
+        [class.ap-steps-bullet-active]="$index === current()"
+      >
+        @if ($index < current()) {
+          <ap-icon name="check" [size]="11" [strokeWidth]="2.5" />
+        } @else {
+          <span class="ap-steps-index" [class.ap-steps-index-active]="$index === current()">{{ $index + 1 }}</span>
+        }
+      </span>
+      <span class="ap-steps-meta-col">
+        <span
+          class="ap-steps-label"
+          [class.ap-steps-label-seen]="$index <= current()"
+          [class.ap-steps-label-active]="$index === current()"
+        >{{ stepLabel(step) }}</span>
+        @if (stepMeta(step); as metaText) {
+          <ap-data-value class="ap-steps-meta" [value]="metaText" size="var(--ap-size-11)" tone="muted" />
+        }
+      </span>
+      @if (direction() === "row" && $index < steps().length - 1) {
+        <span class="ap-steps-connector" [class.ap-steps-connector-done]="$index < current()"></span>
+      }
+    </li>
+  }
+</ol>

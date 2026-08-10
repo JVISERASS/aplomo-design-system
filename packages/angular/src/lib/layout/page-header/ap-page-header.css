@@ -1,0 +1,56 @@
+/* Raiz semantica <header>: se conserva dentro del host; el host queda block. */
+:host {
+  display: block;
+}
+
+.ap-page-header-root {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ap-space-4);
+  padding: var(--ap-space-6) var(--ap-space-6) var(--ap-space-4);
+  background: var(--ap-surface);
+}
+
+.ap-page-header-main {
+  min-width: 0;
+}
+
+.ap-page-header-eyebrow {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  margin-bottom: 6px;
+}
+
+.ap-page-header-title {
+  margin: 0;
+  font: var(--ap-weight-bold) var(--ap-size-29)/var(--ap-leading-display) var(--ap-font-display);
+  letter-spacing: var(--ap-tracking-display);
+}
+
+.ap-page-header-meta {
+  margin-top: var(--ap-space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+/* El original solo renderizaba este bloque si `meta` traia contenido (`meta&&<div>...`). Sin
+   contenido proyectado, ng-content no deja hijos, asi que :empty reproduce la misma condicion. */
+.ap-page-header-meta:empty {
+  display: none;
+}
+
+.ap-page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+.ap-page-header-actions:empty {
+  display: none;
+}

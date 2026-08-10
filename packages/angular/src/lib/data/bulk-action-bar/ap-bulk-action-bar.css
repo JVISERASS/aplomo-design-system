@@ -1,0 +1,69 @@
+:host {
+  position: sticky;
+  bottom: var(--ap-space-4);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.ap-bulk-action-bar-surface {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  padding: var(--ap-space-2) var(--ap-space-2) var(--ap-space-2) var(--ap-space-4);
+  background: var(--ap-surface-inverse);
+  color: var(--ap-text-inverse);
+  border: 1px solid var(--ap-gray-800);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--ap-dur-state) var(--ap-ease),
+    transform var(--ap-dur-state) var(--ap-ease);
+}
+
+.ap-bulk-action-bar-surface.ap-bulk-action-bar-on {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
+.ap-bulk-action-bar-count-label {
+  font: var(--ap-text-small);
+  color: var(--ap-gray-200);
+}
+
+.ap-bulk-action-bar-count-value {
+  color: var(--ap-text-inverse);
+}
+
+.ap-bulk-action-bar-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--ap-gray-700);
+}
+
+.ap-bulk-action-bar-action {
+  height: var(--ap-control-h-sm);
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: var(--ap-gray-100);
+  font: var(--ap-text-ui-medium);
+  cursor: pointer;
+}
+
+.ap-bulk-action-bar-action.ap-bulk-action-bar-action-danger {
+  color: #e9a79e;
+}
+
+/* El original ganaba siempre via `style` (se mezclaba el ultimo en el objeto): aqui el
+   !important reproduce que el color de este boton concreto nunca lo pise el :host de
+   ApIconButton. */
+.ap-bulk-action-bar-clear {
+  color: var(--ap-gray-300) !important;
+}

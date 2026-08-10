@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  height: var(--ap-header-h);
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-surface);
+}
+
+.ap-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  min-width: 0;
+}
+
+.ap-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+/* El original solo renderizaba este bloque si `right` traia contenido (`right&&<div>...`).
+   Sin el, la caja vacia seguiria siendo un item flex del host y, con `justify-content:
+   space-between` y `gap: var(--ap-space-3)`, reservaria 12px que estrecharian la zona
+   izquierda. Sin contenido proyectado ng-content no deja hijos, asi que :empty reproduce la
+   misma condicion. */
+.ap-toolbar-right:empty {
+  display: none;
+}

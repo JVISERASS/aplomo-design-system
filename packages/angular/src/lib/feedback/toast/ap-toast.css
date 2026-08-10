@@ -1,0 +1,45 @@
+:host {
+  position: fixed;
+  left: 50%;
+  bottom: var(--ap-space-6);
+  transform: translateX(-50%);
+  display: grid;
+  gap: var(--ap-space-2);
+  z-index: 55;
+}
+
+.ap-toast-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  padding: var(--ap-space-2) var(--ap-space-2) var(--ap-space-2) var(--ap-space-4);
+  background: var(--ap-surface-inverse);
+  color: var(--ap-text-inverse);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  animation: ap-rise var(--ap-dur-state) var(--ap-ease) both;
+}
+
+.ap-toast-message {
+  font: var(--ap-text-ui);
+}
+
+.ap-toast-action {
+  height: var(--ap-control-h-sm);
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: var(--ap-gray-800);
+  color: var(--ap-gray-100);
+  font: var(--ap-text-ui-medium);
+  cursor: pointer;
+}
+
+.ap-toast-close {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ap-gray-400);
+  display: inline-flex;
+  padding: 4px;
+}

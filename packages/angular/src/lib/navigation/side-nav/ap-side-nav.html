@@ -1,0 +1,35 @@
+<nav class="ap-side-nav-root">
+  <div class="ap-side-nav-brand">
+    <ng-content select="[apBrand]" />
+  </div>
+
+  <div class="ap-side-nav-groups">
+    @for (group of groups(); track group.label) {
+      <div class="ap-side-nav-group">
+        <div class="ap-side-nav-group-label">{{ group.label }}</div>
+        <div class="ap-side-nav-group-items">
+          @for (it of group.items; track it.value) {
+            <button
+              type="button"
+              class="ap-side-nav-item"
+              [attr.data-selected]="isSelected(it) ? '' : null"
+              (click)="select(it)"
+            >
+              @if (it.icon; as iconName) {
+                <ap-icon [name]="iconName" [size]="15" />
+              }
+              <span class="ap-side-nav-item-label">{{ it.label }}</span>
+              @if (it.count !== undefined) {
+                <ap-data-value [value]="it.count" size="var(--ap-size-12)" tone="muted" />
+              }
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="ap-side-nav-footer">
+    <ng-content select="[apFooter]" />
+  </div>
+</nav>

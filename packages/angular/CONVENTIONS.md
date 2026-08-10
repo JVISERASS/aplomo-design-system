@@ -269,7 +269,11 @@ readonly remove = output<void>();
 }
 ```
 
-Afecta exactamente a cinco componentes, y el nombre es siempre `show` + la acción:
+La regla vale igual cuando lo que dependía del callback era un **estilo** y no un elemento
+(`cursor: onSelect ? "pointer" : "default"`). En ese caso el booleano describe la capacidad y no
+lleva prefijo `show`.
+
+Afecta exactamente a seis componentes:
 
 | Componente | React | Angular |
 | --- | --- | --- |
@@ -278,6 +282,7 @@ Afecta exactamente a cinco componentes, y el nombre es siempre `show` + la acci�
 | `ErrorState` | `onRetry` | `showRetry` + `retry` |
 | `FileDrop` | `onRemove` | `showRemove` + `remove` |
 | `FrozenState` | `onResume` | `showResume` + `resume` |
+| `List` | `onSelect` (solo el cursor) | `selectable` |
 
 ### 10.2 Props que chocan con atributos globales de HTML
 

@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.ap-frozen-state-content {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  transition: opacity var(--ap-dur-state) var(--ap-ease);
+}
+
+:host([data-frozen]) .ap-frozen-state-content {
+  opacity: 0.45;
+  filter: saturate(0);
+  pointer-events: none;
+}
+
+.ap-frozen-state-banner {
+  position: absolute;
+  top: var(--ap-space-3);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-2) var(--ap-space-3);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-control);
+  box-shadow: var(--ap-shadow-1);
+}
+
+.ap-frozen-state-icon {
+  color: var(--ap-warn);
+}
+
+.ap-frozen-state-reason {
+  font: var(--ap-text-small);
+}
+
+.ap-frozen-state-resume {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin-left: var(--ap-space-2);
+  color: var(--ap-accent);
+  font: var(--ap-text-label);
+  cursor: pointer;
+}

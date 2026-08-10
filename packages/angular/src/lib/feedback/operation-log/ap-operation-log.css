@@ -1,0 +1,91 @@
+/* React solo montaba este contenedor cuando `operations.length`; aqui el host existe siempre
+   y `display` hace ese mismo trabajo: oculto con `data-empty`. */
+:host {
+  display: grid;
+  position: fixed;
+  right: var(--ap-space-4);
+  bottom: var(--ap-space-4);
+  width: 320px;
+  gap: var(--ap-space-2);
+  z-index: 45;
+}
+
+:host([data-empty]) {
+  display: none;
+}
+
+.ap-operation-log-card {
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  padding: var(--ap-space-3);
+  animation: ap-rise var(--ap-dur-state) var(--ap-ease) both;
+}
+
+.ap-operation-log-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ap-space-2);
+}
+
+.ap-operation-log-title {
+  font: var(--ap-text-ui-medium);
+}
+
+.ap-operation-log-dismiss {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ap-text-muted);
+  padding: 0;
+  line-height: 1;
+}
+
+.ap-operation-log-progress-row {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+.ap-operation-log-track {
+  flex: 1;
+  height: 3px;
+  background: var(--ap-gray-100);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ap-operation-log-fill {
+  height: 100%;
+  background: var(--ap-gray-600);
+  transition: width var(--ap-dur-state) var(--ap-ease);
+}
+
+.ap-operation-log-fill-error {
+  background: var(--ap-error);
+}
+
+.ap-operation-log-fill-ok {
+  background: var(--ap-ok);
+}
+
+/* El original mantiene DOS mapas de color distintos por status: el relleno de la barra
+   (gray-600 por defecto, arriba) y la cifra de porcentaje (text-secundario por defecto). */
+.ap-operation-log-percent {
+  color: var(--ap-text-secondary);
+}
+
+.ap-operation-log-percent-error {
+  color: var(--ap-error);
+}
+
+.ap-operation-log-percent-ok {
+  color: var(--ap-ok);
+}
+
+.ap-operation-log-detail {
+  margin-top: 4px;
+}

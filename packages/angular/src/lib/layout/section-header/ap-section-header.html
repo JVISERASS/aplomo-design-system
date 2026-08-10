@@ -1,0 +1,14 @@
+<div class="ap-section-header-main">
+  @if (label()) {
+    <span class="ap-section-header-label">{{ label() }}</span>
+  }
+  @if (title()) {
+    <span class="ap-section-header-title">{{ title() }}</span>
+  }
+  @if (meta()) {
+    <span class="ap-section-header-meta">{{ meta() }}</span>
+  }
+</div>
+<div class="ap-section-header-actions">
+  <ng-content select="[apActions]" />
+</div>

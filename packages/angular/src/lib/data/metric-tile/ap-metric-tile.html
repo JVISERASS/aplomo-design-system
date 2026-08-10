@@ -1,0 +1,22 @@
+<span class="ap-metric-tile-label">{{ label() }}</span>
+<span class="ap-metric-tile-value-row">
+  <ap-data-value
+    class="ap-metric-tile-value"
+    [value]="value() ?? ''"
+    [loading]="loading()"
+    size="var(--ap-size-29)"
+    [weight]="500"
+  />
+  @if (unit(); as u) {
+    <span class="ap-metric-tile-unit">{{ u }}</span>
+  }
+</span>
+@if (delta(); as d) {
+  <ap-data-value
+    [value]="d"
+    [loading]="loading()"
+    placeholder="—"
+    size="var(--ap-size-12)"
+    [tone]="deltaDataTone()"
+  />
+}

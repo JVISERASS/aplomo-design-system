@@ -1,0 +1,12 @@
+<div class="ap-error-state-heading">
+  <span class="ap-error-state-title">{{ title() }}</span>
+  @if (code(); as codeText) {
+    <ap-data-value [value]="codeText" size="var(--ap-size-12)" tone="error" />
+  }
+</div>
+@if (detail(); as detailText) {
+  <p class="ap-error-state-detail">{{ detailText }}</p>
+}
+@if (showRetry()) {
+  <button apButton size="sm" (click)="retry.emit()">Reintentar</button>
+}

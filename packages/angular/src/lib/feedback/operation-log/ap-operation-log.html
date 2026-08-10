@@ -1,0 +1,34 @@
+@for (op of operations(); track op.id) {
+  <div class="ap-operation-log-card">
+    <div class="ap-operation-log-header">
+      <span class="ap-operation-log-title">{{ op.title }}</span>
+      @if (op.status !== "running") {
+        <button type="button" class="ap-operation-log-dismiss" (click)="dismiss.emit(op.id)">
+          <ap-icon name="x" [size]="12" />
+        </button>
+      }
+    </div>
+    <div class="ap-operation-log-progress-row">
+      <div class="ap-operation-log-track">
+        <div
+          class="ap-operation-log-fill"
+          [class.ap-operation-log-fill-error]="op.status === 'error'"
+          [class.ap-operation-log-fill-ok]="op.status === 'ok'"
+          [style.width.%]="op.progress || 0"
+        ></div>
+      </div>
+      <ap-data-value
+        class="ap-operation-log-percent"
+        [class.ap-operation-log-percent-error]="op.status === 'error'"
+        [class.ap-operation-log-percent-ok]="op.status === 'ok'"
+        [value]="(op.progress || 0) + '%'"
+        size="var(--ap-size-11)"
+      />
+    </div>
+    @if (op.detail; as detail) {
+      <div class="ap-operation-log-detail">
+        <ap-data-value [value]="detail" size="var(--ap-size-11)" tone="muted" />
+      </div>
+    }
+  </div>
+}

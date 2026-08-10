@@ -1,0 +1,28 @@
+@for (item of items(); track itemId(item)) {
+  <div class="ap-accordion-item">
+    <button
+      type="button"
+      class="ap-accordion-trigger"
+      [class.ap-accordion-trigger-open]="isOpen(item)"
+      [attr.aria-expanded]="isOpen(item)"
+      (click)="toggle(itemId(item))"
+    >
+      <ap-icon
+        class="ap-accordion-chevron"
+        [name]="isOpen(item) ? 'chevron-down' : 'chevron-right'"
+        [size]="14"
+      />
+      <span class="ap-accordion-title">{{ item.title }}</span>
+      @if (item.meta) {
+        <span class="ap-accordion-meta">{{ item.meta }}</span>
+      }
+    </button>
+    @if (isOpen(item)) {
+      <div class="ap-accordion-panel">
+        @if (item.children; as panel) {
+          <ng-container [ngTemplateOutlet]="panel" />
+        }
+      </div>
+    }
+  </div>
+}

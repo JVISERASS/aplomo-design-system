@@ -1,0 +1,56 @@
+:host {
+  display: block;
+}
+
+.ap-audit-timeline-root {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ap-audit-timeline-item {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: var(--ap-space-4);
+  padding: var(--ap-space-3) 0;
+  border-bottom: 1px solid var(--ap-border);
+}
+
+/* El original ponia `borderBottom:0` en la ultima entrada; el selector compuesto evita que la
+   anulacion dependa del orden de las reglas (mismo patron que .ap-input-control.ap-input-data). */
+.ap-audit-timeline-item.ap-audit-timeline-item-last {
+  border-bottom: 0;
+}
+
+.ap-audit-timeline-meta {
+  display: grid;
+  gap: 2px;
+}
+
+.ap-audit-timeline-actor {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+.ap-audit-timeline-body {
+  min-width: 0;
+  display: grid;
+  gap: var(--ap-space-2);
+}
+
+.ap-audit-timeline-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  flex-wrap: wrap;
+}
+
+.ap-audit-timeline-title {
+  font: var(--ap-text-ui-medium);
+}
+
+.ap-audit-timeline-note {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  text-wrap: pretty;
+}

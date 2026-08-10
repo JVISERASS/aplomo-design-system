@@ -1,0 +1,18 @@
+@if (label() || showValue()) {
+  <div class="ap-progress-bar-header">
+    @if (label(); as labelText) {
+      <span class="ap-progress-bar-label">{{ labelText }}</span>
+    }
+    @if (showValue()) {
+      <ap-data-value class="ap-progress-bar-value" [value]="pct() + '%'" size="var(--ap-size-12)" />
+    }
+  </div>
+}
+<div
+  class="ap-progress-bar-track"
+  role="progressbar"
+  [attr.aria-valuenow]="pct()"
+  [style.height.px]="height()"
+>
+  <div class="ap-progress-bar-fill" [style.width.%]="pct()"></div>
+</div>

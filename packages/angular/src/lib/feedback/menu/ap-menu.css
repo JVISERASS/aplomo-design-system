@@ -1,0 +1,76 @@
+/* El original era un Fragment: dos capas hermanas sin caja propia. El host no aporta layout. */
+:host {
+  display: contents;
+}
+
+.ap-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.ap-menu-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 41;
+  min-width: 200px;
+  padding: var(--ap-space-1);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  animation: ap-rise var(--ap-dur-state) var(--ap-ease) both;
+}
+
+:host([data-anchor="left"]) .ap-menu-panel {
+  left: 0;
+}
+
+:host([data-anchor="right"]) .ap-menu-panel {
+  right: 0;
+}
+
+.ap-menu-divider {
+  height: 1px;
+  background: var(--ap-border);
+  margin: var(--ap-space-1) 0;
+}
+
+.ap-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  width: 100%;
+  height: var(--ap-control-h);
+  padding: 0 var(--ap-space-2);
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: var(--ap-text);
+  font: var(--ap-text-ui);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-menu-item:hover {
+  background: var(--ap-surface-hover);
+}
+
+.ap-menu-item-danger {
+  color: var(--ap-error);
+}
+
+.ap-menu-item-icon {
+  color: var(--ap-text-muted);
+}
+
+.ap-menu-item-label {
+  flex: 1;
+}
+
+.ap-menu-item-shortcut {
+  font: var(--ap-text-micro);
+  color: var(--ap-text-muted);
+  font-variation-settings: var(--ap-vf-data);
+}

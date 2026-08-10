@@ -1,0 +1,59 @@
+/* React solo montaba este div cuando `open`; aqui el host existe siempre y `display` hace
+   ese mismo trabajo: oculto sin `data-open`, superpuesto y centrado con el. */
+:host {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgb(20 19 17 / 0.32);
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+:host([data-open]) {
+  display: flex;
+  animation: ap-rise var(--ap-dur-layer) var(--ap-ease) both;
+}
+
+.ap-dialog-box {
+  max-width: calc(100vw - 32px);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+}
+
+.ap-dialog-content {
+  padding: var(--ap-space-5) var(--ap-space-5) var(--ap-space-4);
+}
+
+.ap-dialog-title {
+  margin: 0;
+  font: var(--ap-text-subtitle);
+}
+
+.ap-dialog-description {
+  margin: var(--ap-space-2) 0 0;
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+/* El original solo envolvia los children en un div con marginTop cuando habia children. */
+.ap-dialog-body:not(:empty) {
+  margin-top: var(--ap-space-4);
+}
+
+.ap-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-3) var(--ap-space-5);
+  border-top: 1px solid var(--ap-border);
+}
+
+/* El original solo renderizaba este bloque cuando habia `footer`. */
+.ap-dialog-footer:empty {
+  display: none;
+}

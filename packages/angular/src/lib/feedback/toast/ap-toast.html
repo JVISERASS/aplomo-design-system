@@ -1,0 +1,11 @@
+@for (toast of toasts(); track toast.id) {
+  <div class="ap-toast-item">
+    <span class="ap-toast-message">{{ toast.message }}</span>
+    @if (toast.action; as actionLabel) {
+      <button type="button" class="ap-toast-action" (click)="action.emit(toast)">{{ actionLabel }}</button>
+    }
+    <button type="button" class="ap-toast-close" aria-label="Cerrar" (click)="dismiss.emit(toast.id)">
+      <ap-icon name="x" [size]="12" />
+    </button>
+  </div>
+}

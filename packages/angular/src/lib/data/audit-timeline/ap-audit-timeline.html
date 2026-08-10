@@ -1,0 +1,32 @@
+<ol class="ap-audit-timeline-root">
+  @for (e of entries(); track e.id || $index; let last = $last) {
+    <li class="ap-audit-timeline-item" [class.ap-audit-timeline-item-last]="last">
+      <div class="ap-audit-timeline-meta">
+        <ap-data-value
+          [value]="e.at"
+          [loading]="loading()"
+          placeholder="0000-00-00 00:00"
+          size="var(--ap-size-11)"
+          tone="muted"
+        />
+        @if (e.actor) {
+          <span class="ap-audit-timeline-actor">{{ e.actor }}</span>
+        }
+      </div>
+      <div class="ap-audit-timeline-body">
+        <div class="ap-audit-timeline-heading">
+          <span class="ap-audit-timeline-title">{{ e.title }}</span>
+          @if (e.tag) {
+            <ap-badge [tone]="e.tone || 'neutral'">{{ e.tag }}</ap-badge>
+          }
+        </div>
+        @if (e.note) {
+          <span class="ap-audit-timeline-note">{{ e.note }}</span>
+        }
+        @if (e.children; as tpl) {
+          <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: e }" />
+        }
+      </div>
+    </li>
+  }
+</ol>

@@ -14,6 +14,7 @@ class DataValueHost {
 describe("data", () => {
   it("ApDataValue monta y pinta el valor", async () => {
     const fixture = TestBed.createComponent(DataValueHost);
+    fixture.detectChanges();
     await fixture.whenStable();
     const el = fixture.nativeElement.querySelector("ap-data-value") as HTMLElement;
     expect(el.textContent?.trim()).toBe("4.18.2");
@@ -23,6 +24,7 @@ describe("data", () => {
   it("ApDataValue muestra el placeholder mientras carga", async () => {
     const fixture = TestBed.createComponent(DataValueHost);
     fixture.componentInstance.loading.set(true);
+    fixture.detectChanges();
     await fixture.whenStable();
     const el = fixture.nativeElement.querySelector("ap-data-value") as HTMLElement;
     expect(el.textContent?.trim()).toBe("0000");

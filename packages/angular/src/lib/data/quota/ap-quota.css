@@ -1,0 +1,41 @@
+:host {
+  display: grid;
+  gap: var(--ap-space-2);
+}
+
+.ap-quota-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ap-space-2);
+}
+
+.ap-quota-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+.ap-quota-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.ap-quota-unit {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+  font-variation-settings: var(--ap-vf-data);
+}
+
+.ap-quota-cells {
+  display: flex;
+  gap: 2px;
+}
+
+/* background y transition-delay dependen de la posicion de la celda: van en [style]. */
+.ap-quota-cell {
+  flex: 1;
+  height: 8px;
+  border-radius: 1px;
+  transition: background-color var(--ap-dur-state) var(--ap-ease);
+}

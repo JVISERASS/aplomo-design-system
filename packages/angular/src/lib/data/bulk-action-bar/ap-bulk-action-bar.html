@@ -1,0 +1,23 @@
+<div class="ap-bulk-action-bar-surface" [class.ap-bulk-action-bar-on]="on()">
+  <span class="ap-bulk-action-bar-count-label">
+    <ap-data-value class="ap-bulk-action-bar-count-value" [value]="count()" [weight]="500" />
+    seleccionados
+  </span>
+  <span class="ap-bulk-action-bar-divider"></span>
+  @for (a of actions(); track a.label) {
+    <button
+      type="button"
+      class="ap-bulk-action-bar-action"
+      [class.ap-bulk-action-bar-action-danger]="a.tone === 'danger'"
+      (click)="a.onClick?.()"
+    >{{ a.label }}</button>
+  }
+  <button
+    apIconButton
+    class="ap-bulk-action-bar-clear"
+    icon="x"
+    label="Quitar seleccion"
+    size="sm"
+    (click)="clear.emit()"
+  ></button>
+</div>

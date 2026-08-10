@@ -1,0 +1,45 @@
+/* Raiz React sin semantica propia (<div>): el host absorbe la caja directamente. */
+:host {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  padding-bottom: var(--ap-space-2);
+}
+
+.ap-section-header-main {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ap-space-3);
+  min-width: 0;
+}
+
+.ap-section-header-label {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+}
+
+.ap-section-header-title {
+  font: var(--ap-text-subtitle);
+}
+
+.ap-section-header-meta {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-section-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+/* El original solo renderizaba este bloque si `actions` traia contenido (`actions&&<div>...`).
+   Sin contenido proyectado, ng-content no deja hijos, asi que :empty reproduce la misma condicion. */
+.ap-section-header-actions:empty {
+  display: none;
+}

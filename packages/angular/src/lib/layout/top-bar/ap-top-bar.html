@@ -1,0 +1,22 @@
+<header class="ap-top-bar-root">
+  <div class="ap-top-bar-brand">
+    <ng-content select="[apBrand]" />
+  </div>
+  <div class="ap-top-bar-center">
+    <ng-content select="[apCenter]" />
+  </div>
+  <div class="ap-top-bar-right">
+    <ng-content select="[apRight]" />
+    @if (user(); as u) {
+      <div class="ap-top-bar-user">
+        <ap-avatar [name]="u.name" />
+        <div class="ap-top-bar-user-meta">
+          <span class="ap-top-bar-user-name">{{ u.name }}</span>
+          @if (u.meta; as meta) {
+            <ap-data-value [value]="meta" size="var(--ap-size-11)" tone="muted" />
+          }
+        </div>
+      </div>
+    }
+  </div>
+</header>

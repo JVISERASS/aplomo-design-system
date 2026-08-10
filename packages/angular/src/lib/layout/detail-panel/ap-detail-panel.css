@@ -1,0 +1,71 @@
+/* La raiz React era un <aside> (landmark) con todo encima. Aqui se parte en dos, como en
+   ap-input.css: el host absorbe el `style` del consumidor y hace de item flex dentro de AppShell
+   (de ahi `flex`, `width` y el `margin-right` negativo, que son propiedades de caja en el padre),
+   y el <aside> interno conserva la semantica y llena el host con el aspecto y la transicion. */
+:host {
+  display: block;
+  flex: 0 0 auto;
+  transition: margin-right var(--ap-dur-layer) var(--ap-ease);
+}
+
+/* cerrado, el hueco del host no debe interceptar el puntero (era `pointerEvents:"none"` del aside) */
+:host(:not([data-open])) {
+  pointer-events: none;
+}
+
+.ap-detail-panel-root {
+  width: 100%;
+  height: 100%;
+  background: var(--ap-surface);
+  border-left: 1px solid var(--ap-border-strong);
+  box-shadow: var(--ap-shadow-2);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--ap-dur-layer) var(--ap-ease),
+    opacity var(--ap-dur-layer) var(--ap-ease);
+}
+
+:host([data-open]) .ap-detail-panel-root {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ap-detail-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  padding: var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-detail-panel-header-content {
+  min-width: 0;
+}
+
+.ap-detail-panel-body {
+  flex: 1;
+  overflow: auto;
+  padding: var(--ap-space-4);
+}
+
+.ap-detail-panel-footer {
+  padding: var(--ap-space-3) var(--ap-space-4);
+  border-top: 1px solid var(--ap-border);
+  display: flex;
+  gap: var(--ap-space-2);
+  justify-content: flex-end;
+}
+
+/* El original solo renderizaba este bloque si `footer` traia contenido (`footer&&<div>...`).
+   Sin contenido proyectado, ng-content no deja hijos (solo el marcador de comentario, que :empty
+   ignora, y sin texto en blanco porque preserveWhitespaces es false), asi que :empty reproduce la
+   misma condicion sin necesitar un input adicional. */
+.ap-detail-panel-footer:empty {
+  display: none;
+}

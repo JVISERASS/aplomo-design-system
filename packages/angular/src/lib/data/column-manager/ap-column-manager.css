@@ -1,0 +1,53 @@
+/* La raiz React era un Fragment (backdrop fijo + panel absoluto), sin caja propia: el host
+   usa display:contents para no anadir una caja que rompa ese posicionamiento. Mismo patron
+   que ap-menu, su gemelo estructural (capa flotante con backdrop + panel anclado), y que
+   ap-divider. El "contenedor padre necesita position:relative" (ver TSDoc) porque el panel se
+   posiciona respecto a el, no respecto a este host.
+
+   Consecuencia conocida de display:contents: el `style`/`class` que el consumidor ponga en el
+   host no genera caja, asi que no reproduce el `...style` que React derramaba sobre el panel.
+   Es el precio de conservar el posicionamiento; ap-menu tiene exactamente el mismo limite. */
+:host {
+  display: contents;
+}
+
+.ap-column-manager-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.ap-column-manager-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 41;
+  width: 220px;
+  padding: var(--ap-space-2);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  animation: ap-rise var(--ap-dur-state) var(--ap-ease) both;
+}
+
+:host([data-anchor="right"]) .ap-column-manager-panel {
+  right: 0;
+}
+
+:host([data-anchor="left"]) .ap-column-manager-panel {
+  left: 0;
+}
+
+.ap-column-manager-title {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  padding: var(--ap-space-1) var(--ap-space-1) var(--ap-space-2);
+}
+
+.ap-column-manager-list {
+  display: grid;
+  gap: var(--ap-space-2);
+  padding: 0 var(--ap-space-1) var(--ap-space-1);
+}

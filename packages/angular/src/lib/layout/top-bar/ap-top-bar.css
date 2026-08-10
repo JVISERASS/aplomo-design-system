@@ -1,0 +1,52 @@
+/* El host absorbe el `style` que ponga el consumidor; la raiz <header> interna hace el trabajo. */
+:host {
+  display: block;
+}
+
+.ap-top-bar-root {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-4);
+  height: var(--ap-header-h);
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-surface);
+}
+
+.ap-top-bar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  min-width: 0;
+}
+
+.ap-top-bar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.ap-top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+}
+
+.ap-top-bar-user {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  padding-left: var(--ap-space-3);
+  border-left: 1px solid var(--ap-border);
+}
+
+.ap-top-bar-user-meta {
+  display: grid;
+  gap: 1px;
+}
+
+.ap-top-bar-user-name {
+  font: var(--ap-text-small);
+  line-height: 1.2;
+}

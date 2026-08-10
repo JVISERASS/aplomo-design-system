@@ -1,0 +1,11 @@
+<div class="ap-centered-page-brand">
+  <ng-content select="[apBrand]" />
+</div>
+<div class="ap-centered-page-content">
+  <div class="ap-centered-page-column" [style.width]="widthStyle()">
+    <ng-content />
+  </div>
+</div>
+<div class="ap-centered-page-footer">
+  <ng-content select="[apFooter]" />
+</div>

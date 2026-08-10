@@ -1,0 +1,35 @@
+:host {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: var(--ap-header-h) 1fr auto;
+  background: var(--ap-surface-sunken);
+}
+
+.ap-centered-page-brand {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--ap-space-6);
+  border-bottom: 1px solid var(--ap-border);
+  background: var(--ap-surface);
+}
+
+.ap-centered-page-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ap-space-8) var(--ap-space-6);
+}
+
+.ap-centered-page-column {
+  max-width: 100%;
+}
+
+.ap-centered-page-footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--ap-space-4);
+  padding: var(--ap-space-4);
+  border-top: 1px solid var(--ap-border);
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}

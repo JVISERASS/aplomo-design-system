@@ -1,0 +1,8 @@
+@for (c of changes(); track c.key) {
+  <div class="ap-config-diff-row">
+    <span class="ap-config-diff-key">{{ c.key }}</span>
+    <span class="ap-config-diff-from">{{ c.from }}</span>
+    <span class="ap-config-diff-arrow" aria-hidden="true">→</span>
+    <span class="ap-config-diff-to">{{ c.to }}</span>
+  </div>
+}

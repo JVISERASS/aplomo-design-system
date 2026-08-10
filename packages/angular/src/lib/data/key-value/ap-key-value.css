@@ -1,0 +1,18 @@
+/* La raiz React era un unico <div>: el host hace de esa raiz (como ap-chip). */
+:host {
+  display: grid;
+  grid-template-columns: 128px 1fr;
+  gap: var(--ap-space-3);
+  align-items: baseline;
+  padding: var(--ap-space-2) 0;
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-key-value-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+.ap-key-value-value {
+  font: var(--ap-text-small);
+}

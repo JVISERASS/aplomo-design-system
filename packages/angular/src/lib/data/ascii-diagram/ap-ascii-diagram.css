@@ -1,0 +1,33 @@
+/* La raiz React era un <figure>, que se conserva dentro: el host solo ocupa su sitio en el
+   flujo (block, como el figure) y absorbe el `style` del consumidor. */
+:host {
+  display: block;
+}
+
+.ap-ascii-diagram-root {
+  margin: 0;
+}
+
+.ap-ascii-diagram-label {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  margin-bottom: var(--ap-space-2);
+}
+
+.ap-ascii-diagram-pre {
+  margin: 0;
+  font-family: var(--ap-font-ascii);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--ap-text);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* El ternario `tone==="muted" ? secondary : text` del original. */
+:host([data-tone="muted"]) .ap-ascii-diagram-pre {
+  color: var(--ap-text-secondary);
+}

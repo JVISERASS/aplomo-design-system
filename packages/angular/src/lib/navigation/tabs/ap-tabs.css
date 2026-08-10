@@ -1,0 +1,33 @@
+/* La raiz React es un <div role="tablist"> sin estructura semantica que preservar: el propio
+   host hace de contenedor, como en ap-chip.css. */
+:host {
+  display: flex;
+  align-items: stretch;
+  gap: var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+  padding: 0 var(--ap-space-4);
+  background: var(--ap-surface);
+}
+
+.ap-tabs-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: var(--ap-text-ui);
+  color: var(--ap-text-secondary);
+  cursor: pointer;
+  box-shadow: none;
+  transition:
+    color var(--ap-dur-micro) var(--ap-ease),
+    box-shadow var(--ap-dur-state) var(--ap-ease);
+}
+
+.ap-tabs-tab[aria-selected="true"] {
+  font: var(--ap-text-ui-medium);
+  color: var(--ap-text);
+  box-shadow: inset 0 -2px 0 var(--ap-gray-900);
+}

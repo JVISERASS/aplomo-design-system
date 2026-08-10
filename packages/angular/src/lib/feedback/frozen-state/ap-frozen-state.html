@@ -1,0 +1,13 @@
+<div class="ap-frozen-state-content"><ng-content /></div>
+@if (frozen()) {
+  <div class="ap-frozen-state-banner">
+    <ap-icon name="pause" [size]="13" class="ap-frozen-state-icon" />
+    <span class="ap-frozen-state-reason">{{ reason() }}</span>
+    @if (since(); as sinceValue) {
+      <ap-data-value [value]="sinceValue" size="var(--ap-size-11)" tone="muted" />
+    }
+    @if (showResume()) {
+      <button type="button" class="ap-frozen-state-resume" (click)="resume.emit()">Reanudar</button>
+    }
+  </div>
+}

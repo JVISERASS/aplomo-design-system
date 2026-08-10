@@ -1,0 +1,29 @@
+<ul class="ap-list-root">
+  @for (it of items(); track it.id ?? $index; let i = $index) {
+    <li>
+      <button
+        type="button"
+        class="ap-rise ap-list-row"
+        [style.--ap-delay]="delay(i)"
+        [attr.data-selected]="selectedId() === it.id ? '' : null"
+        (click)="select.emit(it)"
+      >
+        <span class="ap-list-stripe" [attr.data-tone]="it.tone ?? 'neutral'"></span>
+        <span class="ap-list-content">
+          <span class="ap-list-heading">
+            <span class="ap-list-title">{{ it.title }}</span>
+            @if (it.ref) {
+              <ap-data-value [value]="it.ref" size="var(--ap-size-12)" tone="muted" />
+            }
+          </span>
+          @if (it.subtitle) {
+            <span class="ap-list-subtitle">{{ it.subtitle }}</span>
+          }
+        </span>
+        @if (it.meta) {
+          <ap-data-value [value]="it.meta" size="var(--ap-size-12)" tone="muted" />
+        }
+      </button>
+    </li>
+  }
+</ul>

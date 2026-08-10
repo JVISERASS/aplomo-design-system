@@ -1,0 +1,9 @@
+/* Raiz React sin semantica propia (<div>): el host absorbe la caja directamente. */
+:host {
+  display: block;
+  font: var(--ap-weight-body) var(--ap-size-15)/var(--ap-leading-prose) var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-prose);
+  max-width: var(--ap-measure-prose);
+  text-wrap: pretty;
+  color: var(--ap-text);
+}

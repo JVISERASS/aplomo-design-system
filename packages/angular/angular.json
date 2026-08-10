@@ -29,6 +29,30 @@
           "options": {
             "tsConfig": "tsconfig.spec.json"
           }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "compodoc": false,
+            "port": 6007,
+            "tsConfig": ".storybook/tsconfig.json",
+            "styles": [
+              "../tokens/styles.css"
+            ]
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": ".storybook",
+            "compodoc": false,
+            "outputDir": "storybook-static",
+            "tsConfig": ".storybook/tsconfig.json",
+            "styles": [
+              "../tokens/styles.css"
+            ]
+          }
         }
       }
     }

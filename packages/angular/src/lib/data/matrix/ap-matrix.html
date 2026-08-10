@@ -1,0 +1,28 @@
+<div class="ap-matrix-grid" [style.grid-template-columns]="gridTemplate()">
+  <span></span>
+  @for (c of columns(); track c) {
+    <span class="ap-matrix-col-header">{{ c }}</span>
+  }
+  @for (r of rows(); track r) {
+    <span class="ap-matrix-row-label">{{ r }}</span>
+    @for (c of columns(); track c) {
+      <span
+        class="ap-matrix-cell"
+        [attr.title]="cellTitle(r, c)"
+        [style.background]="cellBackground(r, c)"
+        [style.color]="cellColor(r, c)"
+      >{{ cellText(r, c) }}</span>
+    }
+  }
+</div>
+@if (legend()) {
+  <div class="ap-matrix-legend">
+    <ap-data-value [value]="legendMin()" size="var(--ap-size-11)" tone="muted" />
+    <span class="ap-matrix-legend-swatches">
+      @for (s of shades; track s) {
+        <span class="ap-matrix-legend-swatch" [style.background]="s"></span>
+      }
+    </span>
+    <ap-data-value [value]="legendMax()" size="var(--ap-size-11)" tone="muted" />
+  </div>
+}

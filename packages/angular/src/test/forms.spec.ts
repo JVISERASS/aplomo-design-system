@@ -22,6 +22,7 @@ class ReactiveHost {
 describe("forms", () => {
   it("ApInput monta y refleja el valor", async () => {
     const fixture = TestBed.createComponent(InputHost);
+    fixture.detectChanges();
     await fixture.whenStable();
     const input = fixture.nativeElement.querySelector("input") as HTMLInputElement;
     expect(input.value).toBe("svc-01");
@@ -29,16 +30,19 @@ describe("forms", () => {
 
   it("ApInput funciona como ControlValueAccessor", async () => {
     const fixture = TestBed.createComponent(ReactiveHost);
+    fixture.detectChanges();
     await fixture.whenStable();
     const input = fixture.nativeElement.querySelector("input") as HTMLInputElement;
     expect(input.value).toBe("inicial");
 
     input.value = "editado";
     input.dispatchEvent(new Event("input"));
+    fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance.control.value).toBe("editado");
 
     fixture.componentInstance.control.disable();
+    fixture.detectChanges();
     await fixture.whenStable();
     expect(input.disabled).toBe(true);
   });

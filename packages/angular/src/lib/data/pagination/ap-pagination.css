@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+  height: var(--ap-header-h);
+  padding: 0 var(--ap-space-4);
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-pagination-range {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+.ap-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+}
+
+.ap-pagination-select {
+  width: 150px;
+}
+
+.ap-pagination-arrows {
+  display: flex;
+  gap: var(--ap-space-1);
+}

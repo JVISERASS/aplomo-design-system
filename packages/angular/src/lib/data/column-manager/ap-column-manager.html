@@ -1,0 +1,16 @@
+@if (open()) {
+  <div class="ap-column-manager-backdrop" (click)="close.emit()"></div>
+  <div class="ap-column-manager-panel">
+    <div class="ap-column-manager-title">Columnas</div>
+    <div class="ap-column-manager-list">
+      @for (c of columns(); track c.key) {
+        <ap-checkbox
+          [checked]="!hidden().includes(c.key)"
+          (checkedChange)="toggle.emit(c.key)"
+          [label]="c.label"
+          [disabled]="!!c.locked"
+        />
+      }
+    </div>
+  </div>
+}

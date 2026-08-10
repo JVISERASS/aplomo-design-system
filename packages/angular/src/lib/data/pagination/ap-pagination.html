@@ -1,0 +1,16 @@
+<span class="ap-pagination-range">
+  <ap-data-value [value]="range()" [loading]="loading()" placeholder="0–00" /> de
+  <ap-data-value [value]="total()" [loading]="loading()" placeholder="000" />
+</span>
+<div class="ap-pagination-controls">
+  <ap-select
+    class="ap-pagination-select"
+    [value]="pageSizeValue()"
+    (valueChange)="handlePageSizeChange($event)"
+    [options]="pageSizeOptions"
+  />
+  <div class="ap-pagination-arrows">
+    <button apIconButton icon="chevron-left" label="Pagina anterior" [disabled]="prevDisabled()" (click)="prev.emit()"></button>
+    <button apIconButton icon="chevron-right" label="Pagina siguiente" [disabled]="nextDisabled()" (click)="next.emit()"></button>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<div class="ap-empty-state-title">{{ title() }}</div>
+@if (description(); as descriptionText) {
+  <p class="ap-empty-state-description">{{ descriptionText }}</p>
+}
+<div class="ap-empty-state-action"><ng-content select="[apAction]" /></div>

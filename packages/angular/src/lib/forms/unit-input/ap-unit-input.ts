@@ -8,6 +8,7 @@ import {
   model,
   signal,
 } from "@angular/core";
+import { cssLength } from "../../shared/css-length";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 /**
@@ -48,10 +49,7 @@ export class ApUnitInput implements ControlValueAccessor {
 
   protected readonly message = computed(() => this.error() ?? this.hint());
 
-  protected readonly widthPx = computed(() => {
-    const w = this.width();
-    return typeof w === "number" ? `${w}px` : w;
-  });
+  protected readonly widthPx = computed(() => cssLength(this.width()));
 
   private onChange: (value: string) => void = () => {};
   protected onTouched: () => void = () => {};

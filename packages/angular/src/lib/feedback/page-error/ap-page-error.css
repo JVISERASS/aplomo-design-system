@@ -1,0 +1,62 @@
+:host {
+  display: grid;
+  gap: var(--ap-space-4);
+}
+
+.ap-page-error-code {
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ap-text);
+}
+
+.ap-page-error-code[data-code="500"] {
+  color: var(--ap-error);
+}
+
+.ap-page-error-heading {
+  display: grid;
+  gap: var(--ap-space-2);
+}
+
+.ap-page-error-title {
+  margin: 0;
+  font: var(--ap-weight-bold) var(--ap-size-23)/1.25 var(--ap-font-display);
+  letter-spacing: -0.02em;
+}
+
+.ap-page-error-detail {
+  margin: 0;
+  font: var(--ap-text-prose);
+  font-size: var(--ap-size-14);
+  color: var(--ap-text-secondary);
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.ap-page-error-meta {
+  display: grid;
+  gap: var(--ap-space-1);
+  padding: var(--ap-space-3);
+  background: var(--ap-surface-subtle);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-control);
+}
+
+.ap-page-error-meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--ap-space-3);
+}
+
+.ap-page-error-meta-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+/* Nunca esta vacio: sin contenido proyectado en [apActions] el <ng-content> pinta su boton por
+   defecto, igual que el `actions || <Button …>` del original. */
+.ap-page-error-actions {
+  display: flex;
+  gap: var(--ap-space-2);
+  flex-wrap: wrap;
+}

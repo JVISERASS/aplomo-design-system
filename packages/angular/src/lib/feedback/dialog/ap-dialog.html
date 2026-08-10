@@ -1,0 +1,18 @@
+<div
+  role="dialog"
+  aria-modal="true"
+  class="ap-dialog-box"
+  [style.width.px]="width()"
+  (click)="$event.stopPropagation()"
+>
+  <div class="ap-dialog-content">
+    @if (title(); as titleText) {
+      <h2 class="ap-dialog-title">{{ titleText }}</h2>
+    }
+    @if (description(); as descriptionText) {
+      <p class="ap-dialog-description">{{ descriptionText }}</p>
+    }
+    <div class="ap-dialog-body"><ng-content /></div>
+  </div>
+  <div class="ap-dialog-footer"><ng-content select="[apFooter]" /></div>
+</div>

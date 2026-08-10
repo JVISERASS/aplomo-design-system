@@ -1,0 +1,30 @@
+/* La raiz React es un <nav>: se conserva el elemento semantico dentro y el host queda en
+   block, igual que en ap-input.css. */
+:host {
+  display: block;
+}
+
+.ap-breadcrumb-root {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+.ap-breadcrumb-item {
+  color: var(--ap-text-secondary);
+  font-variation-settings: var(--ap-vf-prose);
+}
+
+.ap-breadcrumb-item--last {
+  color: var(--ap-text);
+}
+
+.ap-breadcrumb-item--data {
+  font-variation-settings: var(--ap-vf-data);
+}
+
+.ap-breadcrumb-sep {
+  color: var(--ap-gray-300);
+}

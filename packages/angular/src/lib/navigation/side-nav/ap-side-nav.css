@@ -1,0 +1,111 @@
+/* La raiz React <nav> hacia dos cosas a la vez: era el item flex del AppShell (232px de ancho,
+   `flex: 0 0 auto` para no encoger, estirada a toda la altura de la fila) y el contenedor en
+   columna de su contenido. Quien participa en el flujo del padre es el host, asi que el ancho y
+   el flex viven aqui —si se quedan en el <nav> interno son inertes: el host encogeria y el
+   sidebar se saldria de sus 232px—. El <nav> conserva el landmark y llena el host (ver el mismo
+   reparto en ap-split.css). */
+:host {
+  display: flex;
+  flex-direction: column;
+  width: var(--ap-sidebar-w);
+  flex: 0 0 auto;
+}
+
+.ap-side-nav-root {
+  /* `flex: 1` + `min-height: 0` hacen que el <nav> ocupe toda la altura del host y pueda
+     encoger: sin lo primero el fondo hundido y el borde derecho acabarian donde acaba el
+     contenido y el pie no bajaria; sin lo segundo el scroll de .ap-side-nav-groups no llega a
+     activarse. Los pide el anidamiento extra que introduce el host, no el original. */
+  flex: 1;
+  min-height: 0;
+  background: var(--ap-surface-sunken);
+  border-right: 1px solid var(--ap-border);
+  display: flex;
+  flex-direction: column;
+}
+
+.ap-side-nav-brand {
+  height: var(--ap-header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-side-nav-brand:empty {
+  display: none;
+}
+
+.ap-side-nav-groups {
+  flex: 1;
+  overflow: auto;
+  padding: var(--ap-space-3) var(--ap-space-2);
+}
+
+.ap-side-nav-group {
+  margin-bottom: var(--ap-space-4);
+}
+
+.ap-side-nav-group-label {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  padding: 0 var(--ap-space-2) var(--ap-space-2);
+}
+
+.ap-side-nav-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ap-side-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  height: var(--ap-control-h);
+  padding: 0 var(--ap-space-2);
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: var(--ap-text-secondary);
+  font: var(--ap-text-ui);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    color var(--ap-dur-micro) var(--ap-ease);
+}
+
+.ap-side-nav-item:hover {
+  background: var(--ap-gray-50);
+}
+
+.ap-side-nav-item[data-selected] {
+  background: var(--ap-gray-100);
+  color: var(--ap-text);
+  font: var(--ap-text-ui-medium);
+}
+
+/* La version React siempre pinta el item seleccionado con gray-100: el hover no debe
+   sustituirlo por gray-50 aunque el puntero este encima. */
+.ap-side-nav-item[data-selected]:hover {
+  background: var(--ap-gray-100);
+}
+
+.ap-side-nav-item-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-side-nav-footer {
+  padding: var(--ap-space-3);
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-side-nav-footer:empty {
+  display: none;
+}

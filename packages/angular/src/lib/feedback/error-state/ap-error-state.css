@@ -1,0 +1,25 @@
+:host {
+  display: grid;
+  gap: var(--ap-space-3);
+  justify-items: start;
+  padding: var(--ap-space-8) var(--ap-space-6);
+}
+
+.ap-error-state-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+}
+
+.ap-error-state-title {
+  font: var(--ap-text-subtitle);
+  color: var(--ap-error);
+}
+
+.ap-error-state-detail {
+  margin: 0;
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+  max-width: 56ch;
+  text-wrap: pretty;
+}

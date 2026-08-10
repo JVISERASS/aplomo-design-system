@@ -1,0 +1,14 @@
+@for (tab of normalizedTabs(); track tab.id) {
+  <button
+    type="button"
+    role="tab"
+    class="ap-tabs-tab"
+    [attr.aria-selected]="tab.selected"
+    (click)="value.set(tab.id)"
+  >
+    {{ tab.label }}
+    @if (tab.count !== undefined) {
+      <ap-data-value [value]="tab.count" size="var(--ap-size-12)" tone="muted" />
+    }
+  </button>
+}

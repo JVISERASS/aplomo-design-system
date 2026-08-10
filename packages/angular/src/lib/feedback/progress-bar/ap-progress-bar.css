@@ -1,0 +1,50 @@
+:host {
+  display: grid;
+  gap: var(--ap-space-1);
+}
+
+.ap-progress-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--ap-space-2);
+}
+
+.ap-progress-bar-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+/* El original calculaba una sola constante `color` a partir de `tone` y la usaba en dos sitios:
+   el dato y el relleno de la barra. Aqui va literal en ambos, con el mismo token que el JSX. */
+.ap-progress-bar-value {
+  color: var(--ap-gray-600);
+}
+
+:host([data-tone="ok"]) .ap-progress-bar-value {
+  color: var(--ap-ok);
+}
+
+:host([data-tone="error"]) .ap-progress-bar-value {
+  color: var(--ap-error);
+}
+
+.ap-progress-bar-track {
+  background: var(--ap-gray-100);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ap-progress-bar-fill {
+  height: 100%;
+  background: var(--ap-gray-600);
+  transition: width var(--ap-dur-state) var(--ap-ease);
+}
+
+:host([data-tone="ok"]) .ap-progress-bar-fill {
+  background: var(--ap-ok);
+}
+
+:host([data-tone="error"]) .ap-progress-bar-fill {
+  background: var(--ap-error);
+}

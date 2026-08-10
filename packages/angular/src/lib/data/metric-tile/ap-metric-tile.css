@@ -1,0 +1,33 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ap-space-1);
+  padding: var(--ap-space-4);
+  border-right: 1px solid var(--ap-border);
+  min-width: 0;
+}
+
+.ap-metric-tile-label {
+  font: var(--ap-text-label);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+}
+
+.ap-metric-tile-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+/* letter-spacing y line-height venian en el `style` que MetricTile pasaba a su DataValue interno. */
+.ap-metric-tile-value {
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.ap-metric-tile-unit {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+  font-variation-settings: var(--ap-vf-data);
+}

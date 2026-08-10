@@ -18,7 +18,13 @@ const sourcePaths = dirs(libDir)
   .flatMap((category) =>
     dirs(join(libDir, category)).flatMap((component) =>
       readdirSync(join(libDir, category, component))
-        .filter((file) => file.startsWith("ap-") && file.endsWith(".ts") && !file.endsWith(".spec.ts"))
+        .filter(
+          (file) =>
+            file.startsWith("ap-") &&
+            file.endsWith(".ts") &&
+            !file.endsWith(".spec.ts") &&
+            !file.endsWith(".stories.ts")
+        )
         .map((file) => `./lib/${category}/${component}/${file.replace(/\.ts$/, "")}`)
     )
   )
