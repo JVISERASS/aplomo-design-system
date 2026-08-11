@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # para crear la GitHub Release y adjuntarle los tarballs
+    env:
+      # El contexto `secrets` no existe en un `if` de paso: hay que exponerlo como variable
+      # de entorno del job para poder condicionar la publicacion en npm a que haya token.
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -46,7 +50,7 @@ jobs:
       # Solo si hay token configurado: sin el, la Release de GitHub ya es utilizable y el
       # workflow no tiene por que fallar.
       - name: Publicar en npm
-        if: ${{ secrets.NPM_TOKEN != '' }}
+        if: env.NPM_TOKEN != ''
         run: |
           # Los tokens primero: los otros dos paquetes los declaran como dependencia.
           npm publish -w @jviserass/aplomo-tokens
