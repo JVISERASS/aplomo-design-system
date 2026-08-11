@@ -52,13 +52,7 @@ export function App() {
 
 - **`@jviserass/aplomo/styles.css`** — hoja completa: fuentes (Google Fonts), variables y resets base.
 - **`@jviserass/aplomo/tokens.css`** — solo las variables `--ap-*`, sin resets globales, para integrarlo sobre un reset propio.
-- **Iconos:** `Icon` usa el set [Lucide](https://lucide.dev) cargado por CDN. Inclúyelo en el HTML para que se pinten:
-
-  ```html
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  ```
-
-  Sin él, `Icon` degrada a un hueco vacío en vez de romper.
+- **Iconos:** los trazos son de [Lucide](https://lucide.dev) (ISC) y van **incrustados en el paquete**: no hay petición de red ni script que incluir. Ver «Iconos» más abajo.
 
 El paquete expone ESM y CJS (`import` y `require`) con tipos TypeScript incluidos.
 
@@ -104,9 +98,32 @@ La API es la misma que en React salvo en cuatro puntos, todos deliberados:
    nombre: `title` (nueve componentes) pintaría el tooltip nativo del navegador sobre todo el
    componente, y `role` en `Message` declararía un rol ARIA inválido.
 
-Los iconos funcionan igual que en React: `ApIcon` lee `window.lucide`, así que hay que incluir el
-script de [Lucide](https://lucide.dev) en el `index.html`. Sin él degrada a un hueco vacío en vez
-de romper.
+Los iconos funcionan igual que en React y tampoco necesitan red: ver «Iconos» más abajo.
+
+## Iconos
+
+Los trazos son de [Lucide](https://lucide.dev) (ISC) y van **incrustados en los paquetes**: no hay
+petición de red, ni script de CDN que incluir, ni dependencia en tiempo de ejecución. Una página
+hecha con Aplomo funciona sin salida a internet.
+
+Se incrustan **solo los que el sistema usa** (unos 50, ~8 KB). El paquete `lucide` completo son
+2.021 iconos y 21 MB, y como `name` es dinámico ningún bundler puede podarlo: quien usara un botón
+se llevaría el set entero. Para cualquier otro icono, impórtalo tú —así tu bundler solo se lleva
+los que nombras— y regístralo al arrancar:
+
+```ts
+import { Rocket, Wrench } from "lucide";
+import { registerApIcons } from "@jviserass/aplomo-angular"; // o "@jviserass/aplomo"
+
+registerApIcons({ rocket: Rocket, wrench: Wrench });
+```
+
+Un nombre no registrado deja un hueco vacío del tamaño pedido, en vez de descuadrar el layout.
+`apIconNames()` devuelve los disponibles, para diagnosticar.
+
+El set se regenera con `npm run gen:icons`, que **falla si un nombre no existe en Lucide**: es
+como se descubrió que `users-square`, `cut` y `paste` llevaban tiempo pintando huecos vacíos,
+porque Lucide los había renombrado.
 
 ## Principios de diseño
 

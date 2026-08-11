@@ -1,7 +1,7 @@
 {
   "name": "@jviserass/aplomo",
   "version": "0.1.0",
-  "description": "Aplomo design system — componentes React sobrios, guiados por tipografía.",
+  "description": "Aplomo design system \u2014 componentes React sobrios, guiados por tipograf\u00eda.",
   "type": "module",
   "license": "MIT",
   "author": "JVISERASS",
@@ -49,14 +49,16 @@
     "gen:barrel": "node scripts/gen-barrel.mjs",
     "build:js": "tsup",
     "build:css": "node ../tokens/scripts/build-css.mjs && node scripts/copy-tokens.mjs",
-    "build": "npm run gen:barrel && npm run build:js && npm run build:css",
+    "build": "npm run gen:barrel && npm run build:js && npm run build:css && npm run build:umd && npm run build:kits",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "build:umd": "node scripts/build-umd.mjs",
+    "build:kits": "node scripts/build-kits.mjs"
   },
   "peerDependencies": {
     "react": ">=18",

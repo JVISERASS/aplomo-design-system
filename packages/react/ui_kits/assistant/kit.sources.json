@@ -1,0 +1,6 @@
+{
+  "ficheros": [
+    "AssistantKit.jsx"
+  ],
+  "inline": "\nconst mount=()=>{ if(typeof window.AssistantKit!==\"function\") return setTimeout(mount,60); ReactDOM.createRoot(document.getElementById('root')).render(<AssistantKit/>); };\nmount();\n"
+}

@@ -2,33 +2,48 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  computed,
   effect,
   inject,
   input,
   numberAttribute,
 } from "@angular/core";
+import { AP_ICONS, type ApIconNode } from "./icon-data";
 
-/** Forma minima del UMD de Lucide que consume el componente. */
-interface LucideGlobal {
-  icons?: Record<string, unknown>;
-  createElement?: (node: unknown) => SVGElement;
-}
+export type { ApIconNode };
 
-const pascal = (name: string): string =>
-  String(name)
-    .split("-")
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-    .join("");
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+/** Set activo: arranca con los iconos que incrusta el sistema y crece con registerApIcons. */
+const registro = new Map<string, ApIconNode>(Object.entries(AP_ICONS));
 
 /**
- * Envoltorio del set Lucide (cargado por CDN en la pagina).
+ * Registra iconos adicionales, disponibles para cualquier `ap-icon` por su nombre.
  *
- * El SVG se inyecta directamente en el host, cuya plantilla esta vacia: Angular no tiene
- * ningun nodo propio ahi que reconciliar, asi que ningun cambio de estado puede provocar
- * un removeChild sobre el nodo que inyecto lucide.
+ * Aplomo incrusta solo los iconos que usa (unos 50). Para cualquier otro, importalo tu de
+ * `lucide` —asi tu bundler solo se lleva los que nombras— y registralo al arrancar la app:
  *
- * Si lucide no esta cargado, reintenta 20 veces cada 100ms y luego degrada a un hueco
- * vacio en vez de romper.
+ * ```ts
+ * import { Rocket, Wrench } from "lucide";
+ * import { registerApIcons } from "@jviserass/aplomo-angular";
+ *
+ * registerApIcons({ rocket: Rocket, wrench: Wrench });
+ * ```
+ */
+export function registerApIcons(iconos: Record<string, ApIconNode>): void {
+  for (const [nombre, nodo] of Object.entries(iconos)) registro.set(nombre, nodo);
+}
+
+/** Nombres disponibles ahora mismo. Util para diagnosticar un icono que no aparece. */
+export function apIconNames(): string[] {
+  return [...registro.keys()].sort();
+}
+
+/**
+ * Icono del sistema. Los trazos son de [Lucide](https://lucide.dev) (ISC), incrustados en el
+ * paquete: no hay peticion de red ni dependencia de un script externo.
+ *
+ * Un nombre no registrado deja un hueco vacio del tamano pedido, en vez de romper el layout.
  */
 @Component({
   selector: "ap-icon",
@@ -47,45 +62,39 @@ export class ApIcon {
   readonly strokeWidth = input(1.5, { transform: numberAttribute });
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly nodo = computed(() => registro.get(this.name()));
 
   constructor() {
-    effect((onCleanup) => {
-      const name = this.name();
+    effect(() => {
+      const nodo = this.nodo();
       const size = this.size();
       const strokeWidth = this.strokeWidth();
       const el = this.host.nativeElement;
 
-      if (typeof window === "undefined") return;
+      // El host no tiene plantilla: Angular no gestiona ningun nodo aqui, asi que escribirlo
+      // a mano no puede colisionar con su reconciliacion.
+      el.textContent = "";
+      if (!nodo || typeof document === "undefined") return;
 
-      let alive = true;
-      let tries = 0;
-      let timer: ReturnType<typeof setTimeout> | undefined;
+      const svg = document.createElementNS(SVG_NS, "svg");
+      svg.setAttribute("xmlns", SVG_NS);
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("width", String(size));
+      svg.setAttribute("height", String(size));
+      svg.setAttribute("fill", "none");
+      svg.setAttribute("stroke", "currentColor");
+      svg.setAttribute("stroke-width", String(strokeWidth));
+      svg.setAttribute("stroke-linecap", "round");
+      svg.setAttribute("stroke-linejoin", "round");
+      svg.style.display = "block";
 
-      const paint = (): void => {
-        if (!alive) return;
-        const lucide = (window as unknown as { lucide?: LucideGlobal }).lucide;
-        if (!lucide?.icons || !lucide.createElement) {
-          if (tries++ < 20) timer = setTimeout(paint, 100);
-          return;
-        }
-        const node = lucide.icons[pascal(name)];
-        el.textContent = "";
-        if (!node) return;
-        const svg = lucide.createElement(node);
-        svg.setAttribute("width", String(size));
-        svg.setAttribute("height", String(size));
-        svg.setAttribute("stroke-width", String(strokeWidth));
-        svg.style.display = "block";
-        el.appendChild(svg);
-      };
+      for (const [tag, attrs] of nodo) {
+        const hijo = document.createElementNS(SVG_NS, tag);
+        for (const [k, v] of Object.entries(attrs)) hijo.setAttribute(k, String(v));
+        svg.appendChild(hijo);
+      }
 
-      paint();
-
-      onCleanup(() => {
-        alive = false;
-        if (timer !== undefined) clearTimeout(timer);
-        el.textContent = "";
-      });
+      el.appendChild(svg);
     });
   }
 }

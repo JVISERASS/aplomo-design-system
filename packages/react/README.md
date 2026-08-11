@@ -20,9 +20,9 @@ export function App() {
 
 - `@jviserass/aplomo/styles.css` — hoja completa: fuentes, variables y resets base.
 - `@jviserass/aplomo/tokens.css` — solo las variables `--ap-*`, para integrarlo sobre un reset propio.
-- **Iconos:** `Icon` usa el set [Lucide](https://lucide.dev) cargado por CDN:
-  `<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>`. Sin él, `Icon`
-  degrada a un hueco vacío en lugar de romper.
+- **Iconos:** los trazos son de [Lucide](https://lucide.dev) (ISC), incrustados en el paquete.
+  No hay petición de red ni script que incluir. Un nombre no registrado deja un hueco vacío en
+  lugar de romper; para añadir iconos, ver `registerApIcons`.
 
 El paquete expone ESM y CJS con tipos TypeScript incluidos.
 

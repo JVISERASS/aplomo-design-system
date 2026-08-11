@@ -1,4 +1,4 @@
-Icono Lucide; la pagina debe cargar `https://unpkg.com/lucide@latest/dist/umd/lucide.js`.
+Icono Lucide; la pagina debe cargar `incrustado`.
 
 ```jsx
 <Icon name="server" size={16} />

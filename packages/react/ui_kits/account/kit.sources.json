@@ -1,0 +1,6 @@
+{
+  "ficheros": [
+    "AccountKit.jsx"
+  ],
+  "inline": "\nconst mount=()=>{ if(typeof window.AccountKit!==\"function\") return setTimeout(mount,60); ReactDOM.createRoot(document.getElementById('root')).render(<AccountKit/>); };\nmount();\n"
+}

@@ -92,7 +92,45 @@ if (comprometidos.length) {
   process.exit(1);
 }
 
+// --- Sin recursos de terceros en tiempo de ejecucion ---
+// El sistema incrusta sus iconos (ver scripts/gen-icons.mjs) precisamente para no depender de
+// ninguna descarga externa: una etiqueta <script> hacia un CDN reintroduce el riesgo que se
+// quito, ademas de un punto de fallo y una fuga de la IP de quien abre la pagina.
+const { readdirSync, statSync } = await import("node:fs");
+const { join, relative } = await import("node:path");
+
+const IGNORAR = new Set(["node_modules", ".git", "dist", "storybook-static", "out-tsc", ".angular"]);
+const CDNS = /https?:\/\/(unpkg\.com|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|esm\.sh|skypack\.dev)/;
+
+function* ficheros(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    if (IGNORAR.has(e.name)) continue;
+    const full = join(dir, e.name);
+    if (e.isDirectory()) yield* ficheros(full);
+    else if (/\.(html|ts|tsx|js|jsx|mjs|md)$/.test(e.name)) yield full;
+  }
+}
+
+const conCdn = [];
+for (const f of ficheros(root)) {
+  const texto = readFileSync(f, "utf8");
+  for (const linea of texto.split("\n")) {
+    // Solo carga real de recursos, no una URL citada en documentacion.
+    if (CDNS.test(linea) && /<script|<link|import\(|fetch\(/.test(linea)) {
+      conCdn.push(`${relative(root, f)}: ${linea.trim().slice(0, 100)}`);
+    }
+  }
+}
+
+if (conCdn.length) {
+  console.error(`\n✖ ${conCdn.length} carga(s) de recursos desde un CDN:\n`);
+  for (const c of conCdn) console.error(`  ${c}`);
+  console.error("\n  Aplomo no depende de recursos externos en tiempo de ejecucion.\n");
+  process.exit(1);
+}
+
 console.log(
   `\n✔ ninguna version comprometida conocida ` +
-    `(${limpiosDeRiesgo.size} paquetes de las listas presentes, todos en version limpia)\n`
+    `(${limpiosDeRiesgo.size} paquetes de las listas presentes, todos en version limpia)`
 );
+console.log(`✔ ninguna carga de recursos desde un CDN\n`);

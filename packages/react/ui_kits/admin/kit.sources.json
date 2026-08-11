@@ -1,0 +1,11 @@
+{
+  "ficheros": [
+    "OverviewView.jsx",
+    "ServicesView.jsx",
+    "DeploymentsView.jsx",
+    "IncidentsView.jsx",
+    "SettingsView.jsx",
+    "AdminShell.jsx"
+  ],
+  "inline": "\nconst NEEDED=['OverviewView','ServicesView','DeploymentsView','IncidentsView','SettingsView','AdminShell'];\nconst ready=()=>NEEDED.every(k=>typeof window[k]==='function');\nconst mount=()=>{ if(!ready()) return setTimeout(mount,50); ReactDOM.createRoot(document.getElementById('root')).render(<AdminShell/>); };\nmount();\n"
+}

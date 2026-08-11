@@ -25,8 +25,8 @@ export const WithIcons: Story = {
     open: true,
     items: [
       { value: "copy", label: "Copiar", icon: "copy", shortcut: "Ctrl+C" },
-      { value: "paste", label: "Pegar", icon: "paste", shortcut: "Ctrl+V" },
-      { value: "cut", label: "Cortar", icon: "cut", shortcut: "Ctrl+X" },
+      { value: "paste", label: "Pegar", icon: "clipboard-paste", shortcut: "Ctrl+V" },
+      { value: "cut", label: "Cortar", icon: "scissors", shortcut: "Ctrl+X" },
     ],
   },
 };

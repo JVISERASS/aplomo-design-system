@@ -78,7 +78,7 @@ export const MultipleGroups: Story = {
         items: [
           { value: "users", label: "Usuarios", icon: "users", count: 342 },
           { value: "roles", label: "Roles", icon: "shield", count: 8 },
-          { value: "teams", label: "Equipos", icon: "users-square" },
+          { value: "teams", label: "Equipos", icon: "users" },
         ],
       },
       {

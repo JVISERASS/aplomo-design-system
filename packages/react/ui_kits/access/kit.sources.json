@@ -1,0 +1,6 @@
+{
+  "ficheros": [
+    "AccessScreens.jsx"
+  ],
+  "inline": "\nconst mount=()=>{ if(typeof window.AccessKit!==\"function\") return setTimeout(mount,60); ReactDOM.createRoot(document.getElementById('root')).render(<AccessKit/>); };\nmount();\n"
+}

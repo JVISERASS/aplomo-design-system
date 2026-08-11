@@ -20,13 +20,17 @@
     "build:tokens": "npm run build -w @jviserass/aplomo-tokens",
     "build:react": "npm run build -w @jviserass/aplomo",
     "build:angular": "npm run build -w @jviserass/aplomo-angular",
-    "build": "npm run build:tokens && npm run build:react && npm run build:angular",
+    "build": "npm run gen:icons && npm run build:tokens && npm run build:react && npm run build:angular",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "parity": "node scripts/parity-check.mjs",
     "storybook:react": "npm run storybook -w @jviserass/aplomo",
     "storybook:angular": "npm run storybook -w @jviserass/aplomo-angular",
     "smoke:angular": "node scripts/smoke-angular.mjs",
-    "supply-chain": "node scripts/supply-chain-check.mjs"
+    "supply-chain": "node scripts/supply-chain-check.mjs",
+    "gen:icons": "node scripts/gen-icons.mjs"
+  },
+  "devDependencies": {
+    "lucide": "^1.31.0"
   }
 }
