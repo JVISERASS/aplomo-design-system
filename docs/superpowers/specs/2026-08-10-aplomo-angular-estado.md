@@ -26,19 +26,22 @@ React sigue en 78/78 tests.
 - **Prueba de humo** (`npm run smoke:angular`) — el paquete se instala, enlaza y compila en una
   app Angular limpia desde su tarball. Bloquea la publicación en `release.yml`.
 
-## Lo mínimo que falta para que sea usable
+## Publicado
 
-Solo **publicar**. Todo lo demás está verificado:
+`v0.1.0` está en npm y en la Release de GitHub. Verificado desde fuera: una app Angular limpia
+instala `@jviserass/aplomo-angular` del registro público y compila.
 
-```bash
-npm version <patch|minor|major> --workspaces --include-workspace-root
-git push --follow-tags
-```
+Dos cosas que costaron y conviene recordar:
 
-El tag `v*` dispara `release.yml`, que corre las cinco puertas (build, typecheck, tests, parity,
-humo) y publica los tres paquetes. Requiere el secreto `NPM_TOKEN` en el repositorio.
+- **Con un scope de organización, npm publica en privado por defecto.** El
+  `publishConfig.access` del `package.json` no se aplica al publicar con `-w` desde la raíz del
+  monorepo: la v0.1.0 salió restringida y hubo que cambiar la visibilidad a mano. `release.yml`
+  ya pasa `--access public` explícito.
+- **npm está restringiendo los tokens con bypass de 2FA** para publicación directa
+  (gh.io/npm-gat-bypass2fa-deprecation). El `NPM_TOKEN` del CI funcionará un tiempo; la
+  migración es a *trusted publishing* con OIDC, que no usa tokens.
 
-Las stories, los tests y los ui_kits son catálogo y calidad: mejoran el paquete, no lo desbloquean.
+Para la siguiente versión basta con `npm version` en los tres paquetes y empujar el tag.
 
 ## Pendiente (calidad, no usabilidad)
 
