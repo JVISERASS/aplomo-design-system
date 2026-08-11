@@ -23,7 +23,24 @@
 Estado de las cuatro puertas: `ng build`, `tsc`, 6/6 tests Angular, parity-check sin pérdidas.
 React sigue en 78/78 tests.
 
-## Pendiente
+- **Prueba de humo** (`npm run smoke:angular`) — el paquete se instala, enlaza y compila en una
+  app Angular limpia desde su tarball. Bloquea la publicación en `release.yml`.
+
+## Lo mínimo que falta para que sea usable
+
+Solo **publicar**. Todo lo demás está verificado:
+
+```bash
+npm version <patch|minor|major> --workspaces --include-workspace-root
+git push --follow-tags
+```
+
+El tag `v*` dispara `release.yml`, que corre las cinco puertas (build, typecheck, tests, parity,
+humo) y publica los tres paquetes. Requiere el secreto `NPM_TOKEN` en el repositorio.
+
+Las stories, los tests y los ui_kits son catálogo y calidad: mejoran el paquete, no lo desbloquean.
+
+## Pendiente (calidad, no usabilidad)
 
 ### Revisión pendiente de los 8 difíciles
 
