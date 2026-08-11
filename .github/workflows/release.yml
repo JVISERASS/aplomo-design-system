@@ -52,10 +52,14 @@ jobs:
       - name: Publicar en npm
         if: env.NPM_TOKEN != ''
         run: |
+          # `--access public` va explicito: con un scope de organizacion, npm publica
+          # RESTRINGIDO por defecto y el `publishConfig.access` del package.json no basta
+          # cuando se publica con `-w` desde la raiz del monorepo. Sin esto, los paquetes
+          # salen privados y dan 404 a cualquiera que no sea miembro de la organizacion.
           # Los tokens primero: los otros dos paquetes los declaran como dependencia.
-          npm publish -w @jviserass/aplomo-tokens
-          npm publish -w @jviserass/aplomo
+          npm publish -w @jviserass/aplomo-tokens --access public
+          npm publish -w @jviserass/aplomo --access public
           # El paquete Angular se publica desde la salida de ng-packagr, no desde el fuente.
-          npm publish packages/angular/dist
+          npm publish packages/angular/dist --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
