@@ -18,6 +18,10 @@ jobs:
       - run: npm run build
       - run: npm run typecheck
       - run: npm test
+      - run: npm run parity
+      # Prueba que el artefacto de ng-packagr se instala y enlaza en una app Angular limpia.
+      # Bloquea la publicacion, que es donde ese fallo saldria caro.
+      - run: npm run smoke:angular
       # Los tokens primero: los otros dos paquetes los declaran como dependencia.
       - run: npm publish -w @jviserass/aplomo-tokens
         env:

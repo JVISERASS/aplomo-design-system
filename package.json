@@ -2,7 +2,7 @@
   "name": "aplomo-monorepo",
   "private": true,
   "version": "0.0.0",
-  "description": "Monorepo de Aplomo — tokens, librería React y librería Angular.",
+  "description": "Monorepo de Aplomo \u2014 tokens, librer\u00eda React y librer\u00eda Angular.",
   "license": "MIT",
   "author": "JVISERASS",
   "type": "module",
@@ -14,7 +14,7 @@
     "packages/tokens",
     "packages/react",
     "packages/angular",
-    "apps/*"
+    "apps/demo-react"
   ],
   "scripts": {
     "build:tokens": "npm run build -w @jviserass/aplomo-tokens",
@@ -25,6 +25,7 @@
     "test": "npm run test --workspaces --if-present",
     "parity": "node scripts/parity-check.mjs",
     "storybook:react": "npm run storybook -w @jviserass/aplomo",
-    "storybook:angular": "npm run storybook -w @jviserass/aplomo-angular"
+    "storybook:angular": "npm run storybook -w @jviserass/aplomo-angular",
+    "smoke:angular": "node scripts/smoke-angular.mjs"
   }
 }
