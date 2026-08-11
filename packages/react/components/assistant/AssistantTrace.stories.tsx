@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AssistantTrace } from "./AssistantTrace";
 
 const meta: Meta<typeof AssistantTrace> = {

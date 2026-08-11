@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DurationInput } from "./DurationInput";
 
 const meta: Meta<typeof DurationInput> = {

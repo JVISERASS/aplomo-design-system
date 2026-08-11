@@ -21,3 +21,6 @@ jobs:
       - run: npm test
       # Cuarta puerta: ninguna declaracion de estilo ni token --ap-* se pierde en el port.
       - run: npm run parity
+      # Quinta puerta: ninguna version comprometida conocida en el arbol de dependencias.
+      # npm audit no cubre esto: solo conoce vulnerabilidades con CVE publicado.
+      - run: npm run supply-chain

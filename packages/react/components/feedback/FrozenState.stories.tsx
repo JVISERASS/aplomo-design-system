@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FrozenState } from "./FrozenState";
 
 const meta: Meta<typeof FrozenState> = {

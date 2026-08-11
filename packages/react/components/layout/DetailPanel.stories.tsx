@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DetailPanel } from "./DetailPanel";
 
 const meta: Meta<typeof DetailPanel> = {

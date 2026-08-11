@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DateRange } from "./DateRange";
 
 const meta: Meta<typeof DateRange> = {

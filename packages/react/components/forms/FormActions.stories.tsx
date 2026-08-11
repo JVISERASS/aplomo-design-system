@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FormActions } from "./FormActions";
 
 const meta: Meta<typeof FormActions> = {

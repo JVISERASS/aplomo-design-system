@@ -26,6 +26,7 @@
     "parity": "node scripts/parity-check.mjs",
     "storybook:react": "npm run storybook -w @jviserass/aplomo",
     "storybook:angular": "npm run storybook -w @jviserass/aplomo-angular",
-    "smoke:angular": "node scripts/smoke-angular.mjs"
+    "smoke:angular": "node scripts/smoke-angular.mjs",
+    "supply-chain": "node scripts/supply-chain-check.mjs"
   }
 }

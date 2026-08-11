@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConfigDiff } from "./ConfigDiff";
 
 const meta: Meta<typeof ConfigDiff> = {
