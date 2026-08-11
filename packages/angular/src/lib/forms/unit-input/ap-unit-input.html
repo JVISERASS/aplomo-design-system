@@ -9,6 +9,7 @@
       inputmode="decimal"
       [value]="value()"
       [disabled]="isDisabled()"
+      [attr.placeholder]="placeholder() ?? null"
       (input)="handleInput($event)"
       (blur)="onTouched()"
     />

@@ -43,6 +43,8 @@ export class ApDurationInput implements ControlValueAccessor {
   readonly value = model<number | string>(0);
   readonly unit = model<DurationUnit>("min");
   readonly hint = input<string>();
+  /** React lo reenviaba al <input> interno con {...rest}; aqui hace falta declararlo */
+  readonly placeholder = input<string>();
   readonly width = input<number | string>(176);
   readonly disabled = input(false, { transform: booleanAttribute });
 

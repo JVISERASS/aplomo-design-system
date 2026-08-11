@@ -39,6 +39,8 @@ export class ApUnitInput implements ControlValueAccessor {
   /** unidad mostrada, p.ej. "ms" */
   readonly unit = input.required<string>();
   readonly hint = input<string>();
+  /** React lo reenviaba al <input> interno con {...rest}; aqui hace falta declararlo */
+  readonly placeholder = input<string>();
   readonly error = input<string>();
   readonly width = input<number | string>(140);
   readonly disabled = input(false, { transform: booleanAttribute });

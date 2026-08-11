@@ -28,7 +28,8 @@
     "storybook:angular": "npm run storybook -w @jviserass/aplomo-angular",
     "smoke:angular": "node scripts/smoke-angular.mjs",
     "supply-chain": "node scripts/supply-chain-check.mjs",
-    "gen:icons": "node scripts/gen-icons.mjs"
+    "gen:icons": "node scripts/gen-icons.mjs",
+    "stories": "node scripts/stories-check.mjs"
   },
   "devDependencies": {
     "lucide": "^1.31.0"

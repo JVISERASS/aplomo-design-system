@@ -24,3 +24,6 @@ jobs:
       # Quinta puerta: ninguna version comprometida conocida en el arbol de dependencias.
       # npm audit no cubre esto: solo conoce vulnerabilidades con CVE publicado.
       - run: npm run supply-chain
+      # Sexta puerta: el catalogo de Storybook de Angular refleja el de React. Que compile no
+      # dice nada de si faltan stories o de si un titulo se desvio.
+      - run: npm run stories

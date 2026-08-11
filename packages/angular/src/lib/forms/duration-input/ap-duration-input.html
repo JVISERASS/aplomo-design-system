@@ -9,6 +9,7 @@
       [value]="valueText()"
       [disabled]="isDisabled()"
       inputmode="numeric"
+      [attr.placeholder]="placeholder() ?? null"
       (input)="handleInput($event)"
       (blur)="onTouched()"
     />
