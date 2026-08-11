@@ -1,6 +1,12 @@
 # Aplomo
 
-Sistema de diseño en React para software de producto de empresa: paneles de administración, consolas de operación, vistas de listado + detalle. 78 componentes, tokens de diseño y cuatro kits de interfaz completos, publicados como paquete npm instalable.
+Sistema de diseño para software de producto de empresa: paneles de administración, consolas de operación, vistas de listado + detalle. 78 componentes, tokens de diseño y cuatro kits de interfaz completos, **en React y en Angular**, publicados como paquetes npm instalables.
+
+| Paquete | Qué es |
+| --- | --- |
+| `@jviserass/aplomo` | los 78 componentes en React (>=18) |
+| `@jviserass/aplomo-angular` | los 78 componentes en Angular (>=20), con signals y `ControlValueAccessor` |
+| `@jviserass/aplomo-tokens` | solo los tokens CSS `--ap-*`. Único origen, compartido por los dos |
 
 La premisa de diseño es la contención: casi todo es deliberadamente sobrio y la personalidad se concentra en dos sitios — la tipografía y la coreografía del movimiento. El color apenas interviene. La referencia es la señalética de infraestructura (aeropuertos, control de tráfico): jerarquía inmediata, legible de un vistazo, alta confianza, sin adornos.
 
@@ -36,6 +42,52 @@ export function App() {
   Sin él, `Icon` degrada a un hueco vacío en vez de romper.
 
 El paquete expone ESM y CJS (`import` y `require`) con tipos TypeScript incluidos.
+
+## Uso en Angular
+
+```bash
+npm install @jviserass/aplomo-angular @jviserass/aplomo-tokens
+```
+
+```css
+/* styles.css de la aplicación */
+@import "@jviserass/aplomo-tokens/styles.css";
+```
+
+```ts
+import { ApButton, ApInput, ApBadge } from "@jviserass/aplomo-angular";
+
+@Component({
+  imports: [ApButton, ApInput, ApBadge],
+  template: `
+    <ap-input label="Referencia" [(value)]="ref" />
+    <button apButton variant="primary">Acción principal</button>
+  `,
+})
+```
+
+Componentes standalone con signals (`input()`, `output()`, `model()`) y `OnPush`. Los 12
+controles de formulario con valor implementan `ControlValueAccessor`, así que funcionan con
+`[(ngModel)]`, `formControlName` y la validación de Angular.
+
+La API es la misma que en React salvo en cuatro puntos, todos deliberados:
+
+1. **`Button` e `IconButton` usan selector de atributo** (`<button apButton>`) en vez de envolver
+   un botón. Así `type`, `disabled`, `form`, `aria-*` y `(click)` son los nativos.
+2. **Los callbacks son outputs sin el prefijo `on`**, y emiten el dato en vez del evento:
+   `onClose` → `(close)`, `onSelect` → `(select)`. Los pares valor + `onChange` son `model()`,
+   o sea two-way: `[(value)]`.
+3. **Lo que React renderizaba solo al recibir un callback necesita un booleano explícito**, porque
+   en Angular un `output()` existe siempre y, sin él, quedaría un control enfocable que no hace
+   nada: `showRemove` en `Chip` y `FileDrop`, `showAttach` en `Composer`, `showRetry` en
+   `ErrorState`, `showResume` en `FrozenState`, y `selectable` en `List`.
+4. **Las props que chocan con un atributo global de HTML se neutralizan en el DOM** conservando su
+   nombre: `title` (nueve componentes) pintaría el tooltip nativo del navegador sobre todo el
+   componente, y `role` en `Message` declararía un rol ARIA inválido.
+
+Los iconos funcionan igual que en React: `ApIcon` lee `window.lucide`, así que hay que incluir el
+script de [Lucide](https://lucide.dev) en el `index.html`. Sin él degrada a un hueco vacío en vez
+de romper.
 
 ## Principios de diseño
 
@@ -84,28 +136,41 @@ Cuatro superficies completas construidas sobre los componentes base, en `ui_kits
 
 ## Estructura del proyecto
 
+Monorepo de npm workspaces. Node 24 (fijado en `.nvmrc`).
+
 ```
-components/     78 componentes (.jsx + .d.ts), organizados por categoría
-tokens/         variables CSS: color, tipografía, espacio, forma, elevación, movimiento
-guidelines/     tarjetas HTML de fundamentos de marca
-ui_kits/        cuatro kits de interfaz completos (cada uno con index.html navegable)
-src/index.ts    barrel de exports (generado, ver scripts/gen-barrel.mjs)
-scripts/        build de CSS y generación del barrel
-test/           smoke tests de render (Vitest + Testing Library)
-examples/demo/  app Vite mínima que consume el paquete publicado
+packages/tokens/     variables CSS --ap-*: color, tipografía, espacio, forma, elevación, movimiento
+packages/react/      los 78 componentes React (.jsx + .d.ts), sus tests, stories y ui_kits
+packages/angular/    los 78 componentes Angular (src/lib/<categoría>/<componente>/)
+apps/demo-react/     app Vite mínima que consume el paquete
+guidelines/          tarjetas HTML de fundamentos de marca, agnósticas de framework
+scripts/             parity-check y los workflows de conversión
 ```
+
+Los dos barriles de exports (`packages/react/src/index.ts` y
+`packages/angular/src/public-api.ts`) son generados: no se editan a mano.
 
 ## Desarrollo
 
 ```bash
 npm install
-npm run build        # tsup (ESM+CJS+d.ts) + CSS aplanado a dist/
-npm test              # vitest — smoke tests de render
-npm run typecheck     # tsc --noEmit
-npm run storybook     # catálogo navegable de los 78 componentes
+npm run build          # los tres paquetes, en orden (tokens primero)
+npm test               # los tests de todos los workspaces
+npm run typecheck
+npm run parity         # comprueba que el port Angular no pierde estilos
+
+npm run storybook:react     # catálogo React,  puerto 6006
+npm run storybook:angular   # catálogo Angular, puerto 6007
 ```
 
-CI (`.github/workflows/ci.yml`) ejecuta build, typecheck y tests en cada push y pull request a `main`.
+CI (`.github/workflows/ci.yml`) ejecuta build, typecheck, tests y `parity` en cada push y pull
+request a `main`.
+
+**`npm run parity`** compara, componente a componente, las propiedades CSS y las referencias
+`--ap-*` de los objetos de estilo de cada `.jsx` con las del `.css` de su equivalente Angular, y
+falla si alguna se ha perdido. Existe porque el modo de fallo característico de mantener dos
+implementaciones no es que no compilen, sino que una declaración se caiga y el componente se vea
+distinto.
 
 ## Publicación
 
@@ -114,7 +179,9 @@ npm version <patch|minor|major>
 git push --tags
 ```
 
-El tag `v*` dispara `release.yml`: build, test y `npm publish` contra el registro de npm.
+El tag `v*` dispara `release.yml`: build, typecheck, tests y `npm publish` de los tres paquetes,
+con los tokens primero. El paquete Angular se publica desde la salida de ng-packagr
+(`packages/angular/dist`), no desde el fuente.
 
 ## Licencia
 
