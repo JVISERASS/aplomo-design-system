@@ -13,10 +13,29 @@ La premisa de diseño es la contención: casi todo es deliberadamente sobrio y l
 ## Instalación
 
 ```bash
-npm install @jviserass/aplomo
+npm install @jviserass/aplomo              # React
+npm install @jviserass/aplomo-angular @jviserass/aplomo-tokens   # Angular
 ```
 
-`react` y `react-dom` son `peerDependencies` (`>=18`); instálalos si tu proyecto no los tiene ya.
+`react` y `react-dom` son `peerDependencies` (`>=18`); en Angular lo son `@angular/core`,
+`@angular/common` y `@angular/forms` (`>=20`).
+
+### Desde GitHub, sin npm
+
+Cada tag publica una [Release](https://github.com/JVISERASS/aplomo-design-system/releases) con
+los tres paquetes empaquetados. Son **los mismos tarballs que van a npm**, no una construcción
+aparte, así que no hay dos caminos que puedan divergir:
+
+```bash
+npm i https://github.com/JVISERASS/aplomo-design-system/releases/download/v0.1.0/jviserass-aplomo-angular-0.1.0.tgz \
+      https://github.com/JVISERASS/aplomo-design-system/releases/download/v0.1.0/jviserass-aplomo-tokens-0.1.0.tgz
+```
+
+No hace falta autenticación ni configurar ningún registro.
+
+> `npm install github:JVISERASS/aplomo-design-system` **no** funciona, y es a propósito: la raíz
+> del repositorio es el monorepo, no un paquete, y lo instalable es la salida de ng-packagr, que
+> no se versiona en git.
 
 ## Uso
 

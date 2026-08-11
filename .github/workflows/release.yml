@@ -7,6 +7,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # para crear la GitHub Release y adjuntarle los tarballs
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,6 +17,8 @@ jobs:
           cache: npm
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
+
+      # --- Las cinco puertas ---
       - run: npm run build
       - run: npm run typecheck
       - run: npm test
@@ -22,14 +26,32 @@ jobs:
       # Prueba que el artefacto de ng-packagr se instala y enlaza en una app Angular limpia.
       # Bloquea la publicacion, que es donde ese fallo saldria caro.
       - run: npm run smoke:angular
-      # Los tokens primero: los otros dos paquetes los declaran como dependencia.
-      - run: npm publish -w @jviserass/aplomo-tokens
+
+      # --- Distribucion por GitHub ---
+      # Los mismos tarballs que irian a npm, para que no haya dos caminos que puedan divergir.
+      - name: Empaquetar los tres paquetes
+        run: |
+          mkdir -p release-artifacts
+          npm pack ./packages/tokens  --pack-destination release-artifacts
+          npm pack ./packages/react   --pack-destination release-artifacts
+          npm pack ./packages/angular/dist --pack-destination release-artifacts
+          ls -la release-artifacts
+
+      - name: Crear la GitHub Release con los tarballs adjuntos
+        run: gh release create "$GITHUB_REF_NAME" release-artifacts/*.tgz --generate-notes --verify-tag
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: npm publish -w @jviserass/aplomo
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # El paquete Angular se publica desde la salida de ng-packagr, no desde el fuente.
-      - run: npm publish packages/angular/dist
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Distribucion por npm ---
+      # Solo si hay token configurado: sin el, la Release de GitHub ya es utilizable y el
+      # workflow no tiene por que fallar.
+      - name: Publicar en npm
+        if: ${{ secrets.NPM_TOKEN != '' }}
+        run: |
+          # Los tokens primero: los otros dos paquetes los declaran como dependencia.
+          npm publish -w @jviserass/aplomo-tokens
+          npm publish -w @jviserass/aplomo
+          # El paquete Angular se publica desde la salida de ng-packagr, no desde el fuente.
+          npm publish packages/angular/dist
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
