@@ -103,7 +103,7 @@ var AplomoDesignSystem_c0efc3 = (() => {
     registerApIcons: () => registerApIcons
   });
 
-  // ../../../../../../var/folders/0p/362tnwkd20d2_h3qmwfxynt00000gn/T/aplomo-umd-Ifq6xs/react-global.js
+  // aplomo:react-global
   var React = globalThis.React;
   if (!React) throw new Error("[Aplomo] _ds_bundle.js necesita que React este cargado antes.");
   var react_global_default = React;

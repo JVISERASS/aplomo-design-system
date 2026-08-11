@@ -8,30 +8,27 @@
 // hacia el artefacto original (905 llamadas a React.createElement).
 
 import { build } from "esbuild";
-import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
-import { resolve, dirname, join } from "node:path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { tmpdir } from "node:os";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const NAMESPACE = "AplomoDesignSystem_c0efc3";
 
 // Shim que resuelve "react" al global que cargan los kits, para que el bundle no lo incluya.
-const shimDir = mkdtempSync(join(tmpdir(), "aplomo-umd-"));
-const shim = join(shimDir, "react-global.js");
-writeFileSync(
-  shim,
-  `const React = globalThis.React;
+// Va como modulo VIRTUAL y no como fichero temporal: esbuild escribe la ruta del modulo como
+// comentario en la salida, y una ruta de directorio temporal (aleatoria) hacia que cada
+// compilacion produjese un fichero distinto y un diff espurio en git.
+const SHIM = `const React = globalThis.React;
 if (!React) throw new Error("[Aplomo] _ds_bundle.js necesita que React este cargado antes.");
 export default React;
 export const {
   createElement, Fragment, Children, cloneElement, isValidElement, createContext, forwardRef, memo,
   useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, useContext, useReducer, useId
 } = React;
-`
-);
+`;
 
-try {
+{
   const rutas = readFileSync(resolve(root, "src/index.ts"), "utf8")
     .split("\n")
     .filter((l) => l.startsWith("export * from"))
@@ -65,7 +62,11 @@ try {
         // "react/jsx-runtime" y lo resolveria contra un fichero, no un directorio.
         name: "react-desde-el-global",
         setup(b) {
-          b.onResolve({ filter: /^react$/ }, () => ({ path: shim }));
+          b.onResolve({ filter: /^react$/ }, () => ({ path: "react-global", namespace: "aplomo" }));
+          b.onLoad({ filter: /^react-global$/, namespace: "aplomo" }, () => ({
+            contents: SHIM,
+            loader: "js",
+          }));
         },
       },
     ],
@@ -76,6 +77,4 @@ try {
   const salida = resolve(root, "_ds_bundle.js");
   const size = readFileSync(salida).length;
   console.log(`build-umd: _ds_bundle.js (${(size / 1024).toFixed(0)} KB, ${manifiesto.components.length} componentes)`);
-} finally {
-  rmSync(shimDir, { recursive: true, force: true });
 }
