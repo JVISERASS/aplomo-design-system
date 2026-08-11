@@ -1,0 +1,126 @@
+/* El velo. React solo montaba este div cuando `open`; la plantilla ya reproduce eso con un
+   `@if`, pero el host existe igualmente siempre, y un `position: fixed; inset: 0` vacio seguiria
+   pintando el velo y comiendose todos los clics de la pantalla. Por eso el `display` del host es
+   la otra mitad del interruptor: sin `data-open` no hay caja. El resto de propiedades se declara
+   aqui aunque este cerrado; son inertes mientras `display: none`. */
+:host {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgb(20 19 17 / 0.32);
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 12vh;
+  z-index: 60;
+}
+
+:host([data-open]) {
+  display: flex;
+}
+
+/* La animacion vive en el panel, como en el original: el `@if` crea el nodo de cero en cada
+   apertura, asi que `ap-rise` se vuelve a ver cada vez sin tener que reiniciarla a mano. */
+.ap-command-palette-panel {
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  box-shadow: var(--ap-shadow-2);
+  overflow: hidden;
+  animation: ap-rise var(--ap-dur-layer) var(--ap-ease) both;
+}
+
+.ap-command-palette-search {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  padding: 0 var(--ap-space-4);
+  height: 48px;
+  border-bottom: 1px solid var(--ap-border);
+}
+
+.ap-command-palette-search-icon {
+  color: var(--ap-text-muted);
+}
+
+.ap-command-palette-query {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: var(--ap-text-ui);
+  font-variation-settings: var(--ap-vf-prose);
+}
+
+.ap-command-palette-esc {
+  font: var(--ap-text-micro);
+  font-variation-settings: var(--ap-vf-data);
+  color: var(--ap-text-muted);
+}
+
+.ap-command-palette-list {
+  max-height: 320px;
+  overflow: auto;
+  padding: var(--ap-space-1);
+}
+
+.ap-command-palette-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-3);
+  width: 100%;
+  height: var(--ap-row-h);
+  padding: 0 var(--ap-space-3);
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* El resaltado NO es `:hover`: es el cursor del teclado, que el raton tambien mueve
+   (`mouseenter`). Con `:hover` el puntero pintaria una fila y ↵ abriria otra. */
+.ap-command-palette-item[data-active] {
+  background: var(--ap-surface-hover);
+}
+
+.ap-command-palette-item-icon {
+  color: var(--ap-text-muted);
+}
+
+.ap-command-palette-item-label {
+  flex: 1;
+  font: var(--ap-text-ui);
+  font-variation-settings: var(--ap-vf-prose);
+}
+
+/* `data: true` — el rotulo es un identificador: MONO 1. */
+.ap-command-palette-item-label.ap-command-palette-item-data {
+  font-variation-settings: var(--ap-vf-data);
+}
+
+.ap-command-palette-item-hint {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+  font-variation-settings: var(--ap-vf-data);
+}
+
+.ap-command-palette-empty {
+  padding: var(--ap-space-4) var(--ap-space-3);
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+.ap-command-palette-footer {
+  display: flex;
+  gap: var(--ap-space-4);
+  padding: var(--ap-space-2) var(--ap-space-4);
+  border-top: 1px solid var(--ap-border);
+  font: var(--ap-text-micro);
+  color: var(--ap-text-muted);
+}
+
+.ap-command-palette-key {
+  font-variation-settings: var(--ap-vf-data);
+}

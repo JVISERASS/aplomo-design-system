@@ -1,0 +1,47 @@
+<button
+  type="button"
+  class="ap-file-drop-zone"
+  [attr.data-over]="over() ? '' : null"
+  (click)="openPicker()"
+  (dragover)="handleDragOver($event)"
+  (dragleave)="over.set(false)"
+  (drop)="handleDrop($event)"
+>
+  <ap-icon class="ap-file-drop-zone-icon" name="upload" [size]="15" />
+  <span class="ap-file-drop-label">{{ label() }}</span>
+</button>
+
+<input
+  #picker
+  class="ap-file-drop-picker"
+  type="file"
+  multiple
+  [attr.accept]="accept() ?? null"
+  (change)="handlePick($event)"
+/>
+
+@if (hint(); as hintText) {
+  <span class="ap-file-drop-hint">{{ hintText }}</span>
+}
+
+@if (files().length > 0) {
+  <div class="ap-file-drop-list">
+    @for (file of files(); track file.name + $index) {
+      <div class="ap-file-drop-row">
+        <ap-icon class="ap-file-drop-file-icon" name="file" [size]="14" />
+        <span class="ap-file-drop-name">{{ file.name }}</span>
+        <ap-data-value [value]="file.size ?? ''" size="var(--ap-size-11)" tone="muted" />
+        @if (showRemove()) {
+          <button
+            type="button"
+            class="ap-file-drop-remove"
+            aria-label="Quitar"
+            (click)="remove.emit(file)"
+          >
+            <ap-icon name="x" [size]="12" />
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

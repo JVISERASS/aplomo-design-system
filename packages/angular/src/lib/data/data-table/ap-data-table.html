@@ -1,0 +1,61 @@
+<div class="ap-data-table-head" role="row" [style.grid-template-columns]="grid()">
+  @if (selectable()) {
+    <span class="ap-data-table-check" (click)="$event.stopPropagation()">
+      <ap-checkbox
+        [checked]="allChecked()"
+        [indeterminate]="someChecked()"
+        (checkedChange)="check.emit('all')"
+      />
+    </span>
+  }
+
+  <!-- El @if de la flecha va pegado al rotulo a proposito: cualquier salto de linea entre
+       ambos se colapsaria a un espacio que se sumaria a su margin-left de 4px. -->
+  @for (c of columns(); track c.key) {
+    <span
+      class="ap-data-table-header-cell"
+      [attr.data-align]="c.align ?? null"
+      [attr.data-sortable]="c.sortable ? '' : null"
+      [attr.data-active]="isSorted(c) ? '' : null"
+      (click)="headerClick(c)"
+    >{{ c.label }}@if (c.sortable) {<span
+        class="ap-data-table-sort"
+        [attr.data-active]="isSorted(c) ? '' : null"
+      >{{ sortGlyph(c) }}</span>}</span>
+  }
+</div>
+
+@for (r of rows(); track r.id; let i = $index) {
+  <div
+    class="ap-rise ap-data-table-row"
+    role="row"
+    [style.--ap-delay]="delay(i)"
+    [style.grid-template-columns]="grid()"
+    [attr.data-selected]="selectedId() === r.id ? '' : null"
+    [attr.data-cursor]="cursor() === i ? '' : null"
+    (click)="emitSelect(r)"
+  >
+    @if (selectable()) {
+      <span class="ap-data-table-check" (click)="$event.stopPropagation()">
+        <ap-checkbox [checked]="checked().includes(r.id)" (checkedChange)="check.emit(r.id)" />
+      </span>
+    }
+
+    @for (c of columns(); track c.key) {
+      <span
+        class="ap-data-table-cell"
+        [class.ap-data-table-cell-data]="!!c.data"
+        [attr.data-align]="c.align ?? null"
+        [attr.data-tone]="c.tone ?? null"
+        [apDataTableSharedCell]="c.shared ? r.id : null"
+        (cellRef)="handleCellRef($event)"
+      >
+        @if (c.cellTemplate; as tpl) {
+          <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: r }" />
+        } @else {
+          {{ cellText(r, c) }}
+        }
+      </span>
+    }
+  </div>
+}

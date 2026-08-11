@@ -10,6 +10,12 @@
   workspace Angular 22 con ng-packagr y Vitest, Node 24 fijado en `.nvmrc`.
   El paquete React conserva su API pública intacta.
 - **Fase 1 completa** — los **70 componentes mecánicos** convertidos, revisados y en verde.
+- **Fase 2** — los **8 componentes difíciles** convertidos (opus). La verificación adversarial se
+  cortó a media ejecución por coste: los 8 pasaron la conversión y parte de la revisión, no toda.
+  Comprobado a mano que se respetan las decisiones de más consecuencia: la firma estática de
+  `SharedValue.capture`, los `show<Acción>` de `Composer` y `FileDrop`, el estampado de una sola
+  vez de `Stagger`, el `ControlValueAccessor` de `OtpInput` y el listener de host de
+  `CommandPalette`.
 - **`scripts/parity-check.mjs`** — cuarta puerta de CI, calibrada en los dos sentidos.
 - **Storybook de Angular** levantado y compilando (`npm run storybook -w @jviserass/aplomo-angular`,
   puerto 6007). Hay una story de ejemplo: `ap-button.stories.ts`.
@@ -19,16 +25,14 @@ React sigue en 78/78 tests.
 
 ## Pendiente
 
-### Fase 2 — los 8 componentes difíciles
+### Revisión pendiente de los 8 difíciles
 
-Script listo para lanzar, con guía de traducción escrita por componente:
-`<scratchpad>/fase2-dificiles.js`. Estructura: un agente opus por componente → dos escépticos
-con lentes distintas (comportamiento / ciclo de vida) → una etapa que solo aplica lo confirmado.
+La fase 2 se cortó tras la conversión. El script está en `scripts/workflows/fase2-dificiles.js` y
+se puede relanzar sobre lo ya escrito, o —más barato— reducirlo a un solo escéptico por
+componente en vez de dos.
 
-`DataTable`, `CommandPalette`, `SharedValue`, `Stagger`, `Composer`, `LogStream`, `OtpInput`,
-`FileDrop`.
-
-Cuando entren, `Composer` necesita `showAttach` y `FileDrop` `showRemove` (CONVENTIONS 10.1).
+Los que más se beneficiarían de ese repaso son `DataTable` (navegación de teclado y refs por
+celda) y `SharedValue` (el FLIP), que son los de comportamiento menos cubierto por los tests.
 
 ### Fase 3 — 78 stories y 9 suites de test
 
@@ -42,8 +46,8 @@ Van como stories a pantalla completa en `packages/angular/kits/` (ver su README)
 
 ### Fase 5 — cierre
 
-Meter `npm run parity` en el CI ya está hecho. Falta añadir la nota de las dos desviaciones de
-API al README público.
+Hecho: `npm run parity` en CI y el README del monorepo con las cuatro diferencias de la API
+Angular documentadas.
 
 ## Decisiones que conviene no re-litigar
 

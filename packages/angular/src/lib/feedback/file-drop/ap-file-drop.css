@@ -1,0 +1,85 @@
+/* La raiz React era un <div> en grid: el host hace ese trabajo y absorbe el `style`
+   (ancho, margen) que ponga el consumidor. */
+:host {
+  display: grid;
+  gap: var(--ap-space-2);
+}
+
+.ap-file-drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-6);
+  border: 1px dashed var(--ap-border-strong);
+  border-radius: var(--ap-radius-panel);
+  background: var(--ap-surface-sunken);
+  cursor: pointer;
+  transition:
+    background-color var(--ap-dur-micro) var(--ap-ease),
+    border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* Esto NO es :hover. Es el estado real del arrastre (el signal `over`), que solo se enciende
+   con un dragover encima de la zona; el raton pasando por encima no lo toca. */
+.ap-file-drop-zone[data-over] {
+  border-color: var(--ap-accent);
+  background: var(--ap-accent-tint);
+}
+
+.ap-file-drop-zone-icon,
+.ap-file-drop-file-icon {
+  color: var(--ap-text-muted);
+}
+
+.ap-file-drop-label {
+  font: var(--ap-text-small);
+  color: var(--ap-text-secondary);
+}
+
+/* El control nativo no se ve nunca: el dialogo lo abre el click de la zona. */
+.ap-file-drop-picker {
+  display: none;
+}
+
+.ap-file-drop-hint {
+  font: var(--ap-text-small);
+  color: var(--ap-text-muted);
+}
+
+.ap-file-drop-list {
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-control);
+}
+
+.ap-file-drop-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ap-space-2);
+  height: var(--ap-row-h);
+  padding: 0 var(--ap-space-3);
+  border-top: 0;
+}
+
+/* React: `borderTop: i ? "1px solid var(--ap-border)" : 0` — separador entre filas, nunca
+   encima de la primera, que ya tiene el borde del contenedor. */
+.ap-file-drop-row + .ap-file-drop-row {
+  border-top: 1px solid var(--ap-border);
+}
+
+.ap-file-drop-name {
+  flex: 1;
+  font: var(--ap-text-small);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ap-file-drop-remove {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--ap-text-muted);
+  padding: 0;
+  display: inline-flex;
+}

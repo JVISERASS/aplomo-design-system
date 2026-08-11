@@ -1,0 +1,7 @@
+@for (line of lines(); track $index) {
+  <div class="ap-log-stream-line">
+    <span class="ap-log-stream-at">{{ line.at }}</span>
+    <span class="ap-log-stream-level" [attr.data-level]="line.level ?? null">{{ line.level }}</span>
+    <span class="ap-log-stream-text">{{ line.text }}</span>
+  </div>
+}

@@ -1,0 +1,132 @@
+/* La raiz React era un <div role="table"> que ocupaba todo el ancho y renunciaba al anillo de
+   foco: con `keyboard`, la tabla es enfocable pero quien marca la posicion es la barra de 2px
+   del cursor, no el outline. */
+:host {
+  display: block;
+  width: 100%;
+  outline: none;
+}
+
+/* La cabecera se queda pegada arriba dentro del contenedor con scroll (Panel, DetailPanel). */
+.ap-data-table-head {
+  display: grid;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border-strong);
+  background: var(--ap-surface-sunken);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Envoltorio de la casilla, en la cabecera y en cada fila. Su (click) para la propagacion para
+   que marcar no cuente como abrir la fila. */
+.ap-data-table-check {
+  display: inline-flex;
+}
+
+.ap-data-table-header-cell {
+  font: var(--ap-text-micro);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  text-align: left;
+  padding-right: var(--ap-space-3);
+  cursor: default;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ap-data-table-header-cell[data-align="right"] {
+  text-align: right;
+}
+
+.ap-data-table-header-cell[data-align="center"] {
+  text-align: center;
+}
+
+.ap-data-table-header-cell[data-sortable] {
+  cursor: pointer;
+}
+
+/* La columna por la que se esta ordenando sube de --ap-text-muted a --ap-text. */
+.ap-data-table-header-cell[data-active] {
+  color: var(--ap-text);
+}
+
+.ap-data-table-sort {
+  margin-left: 4px;
+  opacity: 0.35;
+  font-variation-settings: var(--ap-vf-data);
+}
+
+.ap-data-table-sort[data-active] {
+  opacity: 1;
+}
+
+.ap-data-table-row {
+  display: grid;
+  align-items: center;
+  height: var(--ap-row-h);
+  padding: 0 var(--ap-space-4);
+  border-bottom: 1px solid var(--ap-border);
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* El useState de hover de la version React se resuelve aqui (CONVENTIONS 6). */
+.ap-data-table-row:hover {
+  background: var(--ap-surface-hover);
+}
+
+/* El cursor de teclado pinta el fondo del hover y ademas su barra grafito. */
+.ap-data-table-row[data-cursor] {
+  background: var(--ap-surface-hover);
+  box-shadow: inset 2px 0 0 var(--ap-gray-400);
+}
+
+/* Seleccionada gana a cursor y a hover, igual que en la version React: por eso va la ultima
+   (misma especificidad que [data-cursor], decide el orden) y repite el :hover. */
+.ap-data-table-row[data-selected],
+.ap-data-table-row[data-selected]:hover {
+  background: var(--ap-accent-tint);
+  box-shadow: inset 2px 0 0 var(--ap-accent);
+}
+
+.ap-data-table-cell {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  padding-right: var(--ap-space-3);
+  /* `font` es un atajo que reinicia font-variation-settings y font-variant-numeric: tiene que
+     ir antes que ellos, aqui y en la regla de abajo (mismo cuidado que en ap-input.css). */
+  font: var(--ap-text-ui);
+  color: var(--ap-text);
+  font-variation-settings: var(--ap-vf-prose);
+  font-variant-numeric: normal;
+}
+
+.ap-data-table-cell[data-align="right"] {
+  text-align: right;
+}
+
+.ap-data-table-cell[data-align="center"] {
+  text-align: center;
+}
+
+.ap-data-table-cell[data-tone="muted"] {
+  color: var(--ap-text-secondary);
+}
+
+/* `data: true` en la columna: eje MONO a 1 y cifras tabulares. */
+.ap-data-table-cell-data {
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}

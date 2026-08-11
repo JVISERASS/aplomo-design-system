@@ -1,0 +1,50 @@
+<!-- El host es el velo y cierra al clic; el panel corta ahi la propagacion. El `@if` reproduce
+     el `if(!open) return null` del original: cerrada, la paleta no tiene DOM (ni el <input>, ni
+     los ap-icon de las filas). Que el velo tampoco tape la pantalla lo resuelve el CSS del host. -->
+@if (open()) {
+  <div class="ap-command-palette-panel" (click)="$event.stopPropagation()">
+    <div class="ap-command-palette-search">
+      <ap-icon class="ap-command-palette-search-icon" name="search" [size]="16" />
+      <input
+        #field
+        class="ap-command-palette-query"
+        [value]="query()"
+        [attr.placeholder]="placeholder()"
+        (input)="onQuery($event)"
+      />
+      <span class="ap-command-palette-esc">ESC</span>
+    </div>
+
+    <div class="ap-command-palette-list">
+      @for (hit of hits(); track $index) {
+        <button
+          type="button"
+          class="ap-command-palette-item"
+          [attr.data-active]="$index === index() ? '' : null"
+          (mouseenter)="index.set($index)"
+          (click)="pick(hit)"
+        >
+          @if (hit.icon; as iconName) {
+            <ap-icon class="ap-command-palette-item-icon" [name]="iconName" [size]="15" />
+          }
+          <span
+            class="ap-command-palette-item-label"
+            [class.ap-command-palette-item-data]="!!hit.data"
+            >{{ hit.label }}</span
+          >
+          @if (hit.hint; as hint) {
+            <span class="ap-command-palette-item-hint">{{ hint }}</span>
+          }
+        </button>
+      } @empty {
+        <div class="ap-command-palette-empty">Sin coincidencias</div>
+      }
+    </div>
+
+    <div class="ap-command-palette-footer">
+      <span class="ap-command-palette-key">↑↓ mover</span>
+      <span class="ap-command-palette-key">↵ abrir</span>
+      <span class="ap-command-palette-key">⌘K cerrar</span>
+    </div>
+  </div>
+}

@@ -1,0 +1,55 @@
+/* La raiz React era el <div> con scroll, que ademas absorbia el `style` del consumidor: aqui
+   ese papel lo hace el host, para que el elemento que hace scroll y el que recibe el alto
+   sean el mismo. El `height` sigue en [style.height.px] porque depende de un input numerico. */
+:host {
+  display: block;
+  overflow: auto;
+  background: var(--ap-surface-sunken);
+  border: 1px solid var(--ap-border);
+  border-radius: var(--ap-radius-control);
+  padding: var(--ap-space-2);
+  font-family: var(--ap-font-ascii);
+  font-size: var(--ap-size-12);
+  line-height: 1.5;
+}
+
+/* La rejilla manda: hora, nivel y texto en tres columnas fijas para que los niveles queden
+   alineados en vertical por mucho que varie el texto. */
+.ap-log-stream-line {
+  display: grid;
+  grid-template-columns: 64px 52px 1fr;
+  gap: var(--ap-space-2);
+  padding: 1px 0;
+}
+
+.ap-log-stream-at {
+  color: var(--ap-text-muted);
+}
+
+/* toneOf(level) del original. El color por nivel es estatico, asi que vive aqui y no en un
+   [style.color]; el nivel viaja como data-attribute. Sin `data-level`, o con uno que no sea
+   OK/WARN/ERROR (INFO), cae en la regla base: es la rama final del ternario. */
+.ap-log-stream-level {
+  color: var(--ap-text-secondary);
+}
+
+.ap-log-stream-level[data-level="OK"] {
+  color: var(--ap-ok);
+}
+
+.ap-log-stream-level[data-level="WARN"] {
+  color: var(--ap-warn);
+}
+
+.ap-log-stream-level[data-level="ERROR"] {
+  color: var(--ap-error);
+}
+
+/* pre-wrap + break-word: el log conserva su sangria y sus espacios, y una traza larga sin
+   espacios (un stack, un hash) parte en vez de reventar la tercera columna. El texto entra
+   por interpolacion, asi que preserveWhitespaces no lo toca. */
+.ap-log-stream-text {
+  color: var(--ap-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}

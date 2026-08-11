@@ -72,7 +72,7 @@ function reactProps(src) {
   return found;
 }
 
-/** Propiedades CSS de un componente Angular: hoja, plantilla y bindings de host. */
+/** Propiedades CSS de un componente Angular: hoja, plantilla, bindings de host y keyframes JS. */
 function angularProps(sources) {
   const found = new Set();
   for (const src of sources) {
@@ -83,6 +83,13 @@ function angularProps(sources) {
     // [style.font-size], [style.width.px], "[style.grid-template-columns]"
     for (const m of src.matchAll(/\[style\.([a-z-]+)(?:\.[a-z%]+)?\]/g)) {
       if (CSS_PROPS.has(m[1])) found.add(m[1]);
+    }
+    // Claves camelCase de objetos JS: los keyframes de element.animate() siguen usando la forma
+    // de React (transformOrigin: "left center"). Se exige que el valor vaya entrecomillado para
+    // no confundir una anotacion de tipo de TypeScript (`width: number`) con una declaracion.
+    for (const m of src.matchAll(/([a-z][a-zA-Z0-9]*)\s*:\s*["'`]/g)) {
+      const prop = kebab(m[1]);
+      if (CSS_PROPS.has(prop)) found.add(prop);
     }
   }
   return found;

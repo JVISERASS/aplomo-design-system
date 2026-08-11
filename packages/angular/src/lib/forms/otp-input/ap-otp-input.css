@@ -1,0 +1,45 @@
+/* La raiz React era un <div> en grid sin nada semantico dentro: el host asume su display,
+   su gap y el `style` que ponga el consumidor. */
+:host {
+  display: grid;
+  gap: var(--ap-space-1);
+}
+
+.ap-otp-input-label {
+  font: var(--ap-text-label);
+  color: var(--ap-text-secondary);
+}
+
+.ap-otp-input-row {
+  display: flex;
+  gap: var(--ap-space-2);
+}
+
+.ap-otp-input-cell {
+  width: 40px;
+  height: var(--ap-control-h-lg);
+  text-align: center;
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-control);
+  outline: none;
+  /* El shorthand `font` reinicia font-variation-settings y font-variant-numeric, asi que va
+     antes que las dos longhands: es el mismo orden que tenian en el objeto de estilo React. */
+  font: var(--ap-weight-medium) var(--ap-size-19)/1 var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}
+
+/* En React el fondo y el color del borde salian de dos ternarios sobre `disabled` y `error`. */
+:host([data-disabled]) .ap-otp-input-cell {
+  background: var(--ap-surface-subtle);
+}
+
+:host([data-invalid]) .ap-otp-input-cell {
+  border-color: var(--ap-error);
+}
+
+.ap-otp-input-error {
+  font: var(--ap-text-small);
+  color: var(--ap-error);
+}

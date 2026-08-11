@@ -1,0 +1,12 @@
+/* El original no declaraba ni un estilo propio: el contenedor era el elemento `as` pelado
+   (`<div>` por defecto) y todo lo visual —display:grid, gap— lo pasaba el consumidor por
+   `style`. Aqui solo se fija el display del host para reproducir ese <div> en el flujo; el
+   `style` que ponga el consumidor sobre <ap-stagger> gana igualmente, porque el inline pesa
+   mas que :host.
+
+   La animacion no se define aqui: `.ap-rise`, el keyframe ap-rise y su corte por
+   prefers-reduced-motion vienen de tokens/base.css y son globales, como en React. */
+
+:host {
+  display: block;
+}

@@ -1,0 +1,8 @@
+/* Las tres declaraciones del objeto de estilo de React, en el mismo orden. El `...style`
+   del consumidor sigue ganando: en Angular llega como estilo inline sobre el host, que
+   tiene mas peso que esta hoja. */
+:host {
+  display: inline-block;
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+}

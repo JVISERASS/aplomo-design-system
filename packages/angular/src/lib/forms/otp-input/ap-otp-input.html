@@ -1,0 +1,25 @@
+@if (label(); as text) {
+  <span class="ap-otp-input-label">{{ text }}</span>
+}
+
+<div class="ap-otp-input-row">
+  @for (cell of cells(); track $index) {
+    <input
+      #box
+      class="ap-otp-input-cell"
+      inputmode="numeric"
+      maxlength="1"
+      [value]="cell"
+      [disabled]="isDisabled()"
+      [attr.aria-label]="'Digito ' + ($index + 1)"
+      (input)="handleInput($index, $event)"
+      (keydown)="handleKeydown($index, $event)"
+      (paste)="handlePaste($event)"
+      (blur)="onTouched()"
+    />
+  }
+</div>
+
+@if (error(); as text) {
+  <span class="ap-otp-input-error">{{ text }}</span>
+}

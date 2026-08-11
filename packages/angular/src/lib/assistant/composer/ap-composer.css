@@ -1,0 +1,61 @@
+/* El host es la rejilla raiz de la version React: absorbe el `style` del consumidor. */
+:host {
+  display: grid;
+  gap: var(--ap-space-2);
+}
+
+.ap-composer-field {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--ap-space-2);
+  padding: var(--ap-space-2);
+  background: var(--ap-surface);
+  border: 1px solid var(--ap-border-input);
+  border-radius: var(--ap-radius-panel);
+  transition: border-color var(--ap-dur-micro) var(--ap-ease);
+}
+
+/* El foco sustituye al useState de la version React: el borde cobalto lo enciende
+   cualquier hijo enfocado, no solo el textarea. */
+.ap-composer-field:focus-within {
+  border-color: var(--ap-accent);
+}
+
+.ap-composer-attach {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--ap-radius-control);
+  background: transparent;
+  color: var(--ap-text-muted);
+  cursor: pointer;
+}
+
+/* `max-height` repite el 160 que el effect usa para acotar scrollHeight: si el effect no
+   corre (servidor, JS caido), el textarea sigue sin desbordar el panel. */
+.ap-composer-control {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  border: 0;
+  outline: none;
+  background: transparent;
+  padding: 6px 0;
+  font: var(--ap-weight-body) var(--ap-size-14)/var(--ap-leading-ui) var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-prose);
+  max-height: 160px;
+}
+
+.ap-composer-keys {
+  display: flex;
+  gap: var(--ap-space-4);
+  font: var(--ap-text-micro);
+  color: var(--ap-text-muted);
+}
+
+.ap-composer-key {
+  font-variation-settings: var(--ap-vf-data);
+}

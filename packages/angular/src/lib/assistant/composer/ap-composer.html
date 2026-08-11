@@ -1,0 +1,27 @@
+<div class="ap-composer-field">
+  @if (showAttach()) {
+    <button type="button" class="ap-composer-attach" aria-label="Adjuntar" (click)="attach.emit()">
+      <ap-icon name="paperclip" [size]="15" />
+    </button>
+  }
+  <textarea
+    #control
+    class="ap-composer-control"
+    rows="1"
+    [value]="value()"
+    [disabled]="disabled()"
+    [attr.placeholder]="placeholder()"
+    (input)="handleInput($event)"
+    (keydown)="handleKeydown($event)"
+  ></textarea>
+  <button apButton variant="primary" [disabled]="!canSend()" (click)="submit()">
+    {{ busy() ? "Trabajando" : "Enviar" }}
+  </button>
+</div>
+<div class="ap-composer-keys">
+  <span class="ap-composer-key">↵ enviar</span>
+  <span class="ap-composer-key">⇧↵ salto de linea</span>
+  @if (hint(); as hintText) {
+    <span>{{ hintText }}</span>
+  }
+</div>
