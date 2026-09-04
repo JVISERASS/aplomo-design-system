@@ -99,7 +99,7 @@ if (comprometidos.length) {
 const { readdirSync, statSync } = await import("node:fs");
 const { join, relative } = await import("node:path");
 
-const IGNORAR = new Set(["node_modules", ".git", "dist", "storybook-static", "out-tsc", ".angular"]);
+const IGNORAR = new Set(["node_modules", ".git", "storybook-static", "out-tsc", ".angular"]);
 const CDNS = /https?:\/\/(unpkg\.com|cdn\.jsdelivr\.net|cdnjs\.cloudflare\.com|esm\.sh|skypack\.dev)/;
 
 function* ficheros(dir) {
@@ -107,7 +107,7 @@ function* ficheros(dir) {
     if (IGNORAR.has(e.name)) continue;
     const full = join(dir, e.name);
     if (e.isDirectory()) yield* ficheros(full);
-    else if (/\.(html|ts|tsx|js|jsx|mjs|md)$/.test(e.name)) yield full;
+    else if (/\.(html|ts|tsx|js|jsx|mjs|md|css|scss)$/.test(e.name)) yield full;
   }
 }
 
@@ -115,8 +115,10 @@ const conCdn = [];
 for (const f of ficheros(root)) {
   const texto = readFileSync(f, "utf8");
   for (const linea of texto.split("\n")) {
-    // Solo carga real de recursos, no una URL citada en documentacion.
-    if (CDNS.test(linea) && /<script|<link|import\(|fetch\(/.test(linea)) {
+    // Solo carga real de recursos, no una URL citada en documentacion. `@import` y `url()`
+    // cubren las hojas de estilo: un tema de resaltado o un @font-face que tiran de un CDN
+    // eran invisibles mientras el barrido no miraba .css ni .scss.
+    if (CDNS.test(linea) && /<script|<link|import\(|fetch\(|@import|url\(/.test(linea)) {
       conCdn.push(`${relative(root, f)}: ${linea.trim().slice(0, 100)}`);
     }
   }

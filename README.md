@@ -98,7 +98,59 @@ La API es la misma que en React salvo en cuatro puntos, todos deliberados:
    nombre: `title` (nueve componentes) pintaría el tooltip nativo del navegador sobre todo el
    componente, y `role` en `Message` declararía un rol ARIA inválido.
 
+5. **Hay un componente que solo existe en Angular**: `ap-markdown`, en un entry point aparte.
+   Ver «Markdown» más abajo.
+
 Los iconos funcionan igual que en React y tampoco necesitan red: ver «Iconos» más abajo.
+
+## Markdown
+
+Para pintar Markdown —típicamente la respuesta de un asistente dentro de `ap-message`— hay un
+entry point aparte: **`@jviserass/aplomo-angular/markdown`**. Va separado del barril principal a
+propósito, porque impone dos dependencias que el resto del paquete no necesita:
+
+```bash
+npm install ngx-markdown marked
+```
+
+`ngx-markdown` y `marked` son `peerDependencies` **opcionales**: quien no importe el subpath no
+las instala ni las paga. Elige el major de `ngx-markdown` que corresponda a tu Angular (20→`20.x`,
+21→`21.x`, 22→`22.x`).
+
+```ts
+// main.ts — una sola vez, en la raíz
+import { provideApMarkdown } from "@jviserass/aplomo-angular/markdown";
+
+bootstrapApplication(App, {
+  providers: [...appConfig.providers, ...provideApMarkdown()],
+});
+```
+
+```html
+<ap-message at="09:14">
+  <ap-markdown [data]="respuesta()" [streaming]="cargando()" />
+</ap-message>
+```
+
+**El contenido no tiene por qué ser de fiar**, y el componente parte de esa base. El saneado va en
+dos capas: `provideApMarkdown()` registra un renderer que **descarta el HTML crudo** y degrada a
+texto los enlaces e imágenes con esquema ejecutable (solo pasan `http:`, `https:`, `mailto:` y
+`data:image/` de mapa de bits), y detrás sigue activo el saneador de Angular en
+`SecurityContext.HTML`. Hay trece tests que lo verifican, cinco de ellos vectores de XSS.
+
+Dos cosas que conviene saber:
+
+- **`provideApMarkdown()` registra el renderer en la instancia global de `marked`.** Si tu
+  aplicación usa `marked` por su cuenta, también verá el HTML crudo descartado.
+- **`[streaming]="true"` acota el reparseo a 80 ms.** Sin él, cada fragmento que llega del modelo
+  reparsea y reescribe el documento entero, y se pierde la selección de texto del usuario.
+
+Los bloques de código van **sin resaltar**, a propósito: Recursive es variable y tiene eje `MONO`,
+así que el código es la misma familia tipográfica con `MONO 1` en vez de una monoespaciada ajena.
+No hay plugins de Prism, KaTeX, Mermaid ni emoji; el porqué de cada uno está en
+`docs/superpowers/specs/2026-09-04-ap-markdown-design.md`.
+
+Coste medido en un bundle de producción: **+25,0 kB comprimidos** sobre la app de humo.
 
 ## Iconos
 

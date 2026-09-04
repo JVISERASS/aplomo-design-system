@@ -1,7 +1,7 @@
 {
   "name": "@jviserass/aplomo",
-  "version": "0.1.0",
-  "description": "Aplomo design system \u2014 componentes React sobrios, guiados por tipograf\u00eda.",
+  "version": "0.2.0",
+  "description": "Aplomo design system — componentes React sobrios, guiados por tipografía.",
   "type": "module",
   "license": "MIT",
   "author": "JVISERASS",

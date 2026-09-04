@@ -1,0 +1,219 @@
+/* Esta hoja va sin encapsular (`ViewEncapsulation.None` en ap-markdown.ts): el HTML lo inyecta
+   ngx-markdown por innerHTML y no lleva los atributos `_ngcontent-*` que la encapsulacion
+   emulada necesita. Por eso TODOS los selectores van prefijados por `.ap-markdown`. */
+
+.ap-markdown {
+  display: block;
+  font: var(--ap-weight-body) var(--ap-size-15)/var(--ap-leading-prose) var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-prose);
+  max-width: var(--ap-measure-prose);
+  text-wrap: pretty;
+  color: var(--ap-text);
+}
+
+/* `<markdown>` es el elemento de ngx-markdown: no maqueta, solo contiene. */
+.ap-markdown markdown {
+  display: block;
+}
+
+/* El espacio de fuera lo decide quien coloca el componente, no el contenido. */
+.ap-markdown markdown > :first-child {
+  margin-top: 0;
+}
+
+.ap-markdown markdown > :last-child {
+  margin-bottom: 0;
+}
+
+/* --- Titulares ------------------------------------------------------------------------ */
+
+.ap-markdown h1,
+.ap-markdown h2 {
+  font: var(--ap-text-title);
+  letter-spacing: var(--ap-tracking-display);
+  margin: var(--ap-space-6) 0 var(--ap-space-3);
+}
+
+.ap-markdown h3 {
+  font: var(--ap-text-subtitle);
+  margin: var(--ap-space-5) 0 var(--ap-space-2);
+}
+
+.ap-markdown h4,
+.ap-markdown h5,
+.ap-markdown h6 {
+  font: var(--ap-text-ui-medium);
+  margin: var(--ap-space-4) 0 var(--ap-space-2);
+}
+
+/* --- Prosa ---------------------------------------------------------------------------- */
+
+.ap-markdown p {
+  margin: 0 0 var(--ap-space-4);
+}
+
+.ap-markdown strong {
+  font-weight: var(--ap-weight-medium);
+}
+
+.ap-markdown em {
+  font-style: normal;
+  font-variation-settings: "MONO" 0, "CASL" 0, "slnt" -12;
+}
+
+.ap-markdown a {
+  color: var(--ap-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--ap-border-strong);
+}
+
+.ap-markdown a:hover {
+  color: var(--ap-text-link-hover);
+  text-decoration-color: currentcolor;
+}
+
+.ap-markdown ul,
+.ap-markdown ol {
+  margin: 0 0 var(--ap-space-4);
+  padding-left: var(--ap-space-5);
+}
+
+.ap-markdown li {
+  margin-bottom: var(--ap-space-1);
+}
+
+.ap-markdown li > ul,
+.ap-markdown li > ol {
+  margin-top: var(--ap-space-1);
+  margin-bottom: 0;
+}
+
+.ap-markdown blockquote {
+  margin: 0 0 var(--ap-space-4);
+  padding-left: var(--ap-space-3);
+  border-left: 2px solid var(--ap-border-strong);
+  color: var(--ap-text-secondary);
+}
+
+.ap-markdown hr {
+  border: 0;
+  border-top: var(--ap-border-width) solid var(--ap-border);
+  margin: var(--ap-space-6) 0;
+}
+
+.ap-markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--ap-radius-control);
+}
+
+/* --- Codigo --------------------------------------------------------------------------- */
+
+/* Recursive es variable y tiene eje MONO: el codigo es LA MISMA familia con MONO 1, no una
+   monoespaciada ajena. Es la razon por la que estos bloques no necesitan color para leerse
+   como codigo. */
+
+.ap-markdown code {
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.94em;
+}
+
+.ap-markdown pre {
+  margin: 0 0 var(--ap-space-4);
+  padding: var(--ap-space-3);
+  background: var(--ap-surface-subtle);
+  border: var(--ap-border-width) solid var(--ap-border);
+  border-radius: var(--ap-radius-panel);
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.ap-markdown pre code {
+  font: var(--ap-weight-body) var(--ap-size-13)/1.6 var(--ap-font-core);
+  font-variation-settings: var(--ap-vf-data);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--ap-size-13);
+  color: var(--ap-text);
+  white-space: pre;
+  background: transparent;
+  padding: 0;
+}
+
+/* --- Tablas --------------------------------------------------------------------------- */
+
+/* `display: block` mas `width: max-content` es lo que permite que una tabla ancha haga scroll
+   dentro de si misma en vez de desbordar la columna de lectura. */
+.ap-markdown table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 0 0 var(--ap-space-4);
+  font: var(--ap-text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-markdown th {
+  font: var(--ap-text-label);
+  letter-spacing: var(--ap-tracking-label);
+  text-transform: uppercase;
+  color: var(--ap-text-secondary);
+  text-align: left;
+  padding: var(--ap-space-2) var(--ap-space-4) var(--ap-space-2) 0;
+  border-bottom: var(--ap-border-width) solid var(--ap-border-strong);
+  white-space: nowrap;
+}
+
+.ap-markdown td {
+  padding: var(--ap-space-2) var(--ap-space-4) var(--ap-space-2) 0;
+  border-bottom: var(--ap-border-width) solid var(--ap-border);
+  vertical-align: top;
+}
+
+.ap-markdown th:last-child,
+.ap-markdown td:last-child {
+  padding-right: 0;
+}
+
+/* --- Listas de tareas ------------------------------------------------------------------ */
+
+.ap-markdown li:has(> input[type="checkbox"]) {
+  list-style: none;
+  margin-left: calc(var(--ap-space-5) * -1);
+  padding-left: var(--ap-space-5);
+}
+
+.ap-markdown input[type="checkbox"] {
+  margin-right: var(--ap-space-2);
+  accent-color: var(--ap-accent);
+}
+
+/* --- Streaming ------------------------------------------------------------------------- */
+
+/* Cursor al final del ultimo bloque mientras la respuesta llega. Es la unica senal de que
+   todavia queda texto por venir. */
+.ap-markdown[data-streaming] markdown > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 0.45em;
+  height: 1em;
+  margin-left: 2px;
+  background: var(--ap-text-muted);
+  vertical-align: text-bottom;
+  animation: ap-markdown-caret 1s steps(2, jump-none) infinite;
+}
+
+@keyframes ap-markdown-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-markdown[data-streaming] markdown > :last-child::after {
+    animation: none;
+  }
+}
