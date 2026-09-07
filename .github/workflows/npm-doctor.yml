@@ -85,8 +85,8 @@ jobs:
           if npm dist-tag add "$PKG@$VER" ci-write-probe 2>&1; then
             npm dist-tag rm "$PKG" ci-write-probe 2>&1 || true
             echo
-            echo "VEREDICTO: el token PUEDE escribir. Si `npm publish` sigue fallando,"
-            echo "           el problema no es el token."
+            echo "VEREDICTO: el token PUEDE escribir."
+            echo "           Si la publicacion sigue fallando, el problema no es el token."
           else
             echo
             echo "::error::VEREDICTO: el token autentica pero NO puede escribir."
