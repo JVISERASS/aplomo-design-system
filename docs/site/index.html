@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Dónde están los bordes de Aplomo: qué componentes proyectan contenido, cuáles obligan a reconstruir, y cómo hacerlo sin perder fidelidad.">
+<title>Extender Aplomo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Recursive:CASL,MONO,slnt,wght@0,0..1,-15..0,400..700&family=Stack+Sans+Notch:wght@500;700&display=swap">
+
+<style>
+  /* ------------------------------------------------------------------
+     Tokens de Aplomo, copiados de @jviserass/aplomo-tokens. El sistema
+     es grafito y de una sola luz: no define paleta oscura, asi que la
+     pagina se compromete con la suya y la pinta explicita.
+     ------------------------------------------------------------------ */
+  :root {
+    color-scheme: light;
+
+    --ap-gray-0:#FFFFFF;  --ap-gray-25:#FAF9F8; --ap-gray-50:#F3F1EF;
+    --ap-gray-100:#E8E5E1;--ap-gray-200:#D4D0CA;--ap-gray-300:#B2ADA5;
+    --ap-gray-400:#8B857C;--ap-gray-500:#67625A;--ap-gray-600:#4A453E;
+    --ap-gray-700:#33302B;--ap-gray-800:#211F1C;--ap-gray-900:#141311;
+
+    --ap-accent:#1F3CE8; --ap-accent-tint:#ECEEFD;
+    --ap-ok:#1B6B4C;     --ap-ok-tint:#E9F2ED;
+    --ap-warn:#8A6314;   --ap-warn-tint:#F6F0E2;
+    --ap-error:#A32E22;  --ap-error-tint:#F7EAE7;
+
+    --ap-surface:var(--ap-gray-0);
+    --ap-surface-sunken:var(--ap-gray-25);
+    --ap-surface-subtle:var(--ap-gray-50);
+    --ap-border:var(--ap-gray-100);
+    --ap-border-strong:var(--ap-gray-200);
+    --ap-text:var(--ap-gray-900);
+    --ap-text-secondary:var(--ap-gray-500);
+    --ap-text-muted:var(--ap-gray-400);
+
+    --ap-font-core:"Recursive","Recursive Variable",ui-monospace,system-ui,sans-serif;
+    --ap-font-display:"Stack Sans Notch","Recursive",system-ui,sans-serif;
+
+    --ap-vf-prose:"MONO" 0,"CASL" 0,"slnt" 0;
+    --ap-vf-data:"MONO" 1,"CASL" 0,"slnt" 0;
+
+    --ap-size-11:11px; --ap-size-12:12px; --ap-size-13:13px; --ap-size-14:14px;
+    --ap-size-15:15px; --ap-size-16:16px; --ap-size-19:19px; --ap-size-23:23px;
+    --ap-size-29:29px; --ap-size-37:37px;
+
+    --ap-space-1:4px;  --ap-space-2:8px;  --ap-space-3:12px; --ap-space-4:16px;
+    --ap-space-5:20px; --ap-space-6:24px; --ap-space-8:32px; --ap-space-10:40px;
+    --ap-space-12:48px;--ap-space-16:64px;
+
+    --ap-tracking-label:0.04em;
+    --ap-radius-chip:3px; --ap-radius-panel:8px;
+    --ap-ease:cubic-bezier(0.2,0,0,1);
+    --ap-dur-state:250ms;
+    --ap-shadow-1:0 1px 2px rgb(20 19 17 / 0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ap-surface-sunken);
+    color: var(--ap-text);
+    font: 400 var(--ap-size-15)/1.65 var(--ap-font-core);
+    font-variation-settings: var(--ap-vf-prose);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: var(--ap-space-12) var(--ap-space-5) var(--ap-space-16);
+  }
+
+  /* --- El dato "cuaja": MONO 0 -> MONO 1 en 250ms. Firma 1 de Aplomo. --- */
+  .d {
+    font-variation-settings: var(--ap-vf-data);
+    animation: congeal var(--ap-dur-state) var(--ap-ease) both;
+    animation-delay: var(--dly, 0ms);
+  }
+  @keyframes congeal {
+    from { font-variation-settings: var(--ap-vf-prose); }
+    to   { font-variation-settings: var(--ap-vf-data); }
+  }
+  @media (prefers-reduced-motion: reduce) { .d { animation: none; } }
+
+  /* ---------------- cabecera ---------------- */
+  header { border-bottom: 1px solid var(--ap-border-strong); padding-bottom: var(--ap-space-6); }
+
+  .eyebrow {
+    font: 500 var(--ap-size-11)/1.3 var(--ap-font-core);
+    letter-spacing: var(--ap-tracking-label);
+    text-transform: uppercase;
+    color: var(--ap-text-muted);
+    margin: 0 0 var(--ap-space-4);
+  }
+
+  h1 {
+    font: 700 var(--ap-size-37)/1.1 var(--ap-font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    margin: 0 0 var(--ap-space-4);
+  }
+
+  .standfirst { margin: 0; max-width: 64ch; color: var(--ap-text-secondary); }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ap-space-2) var(--ap-space-5);
+    margin-top: var(--ap-space-6);
+    font-size: var(--ap-size-12);
+    color: var(--ap-text-secondary);
+  }
+  .meta b {
+    font-weight: 500;
+    color: var(--ap-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--ap-tracking-label);
+    font-size: var(--ap-size-11);
+    margin-right: var(--ap-space-2);
+  }
+
+  /* ---------------- secciones ---------------- */
+  section { margin-top: var(--ap-space-12); }
+
+  h2 {
+    font: 700 var(--ap-size-23)/1.25 var(--ap-font-display);
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--ap-space-3);
+    text-wrap: balance;
+  }
+  .lede { margin: 0 0 var(--ap-space-6); max-width: 64ch; color: var(--ap-text-secondary); font-size: var(--ap-size-14); }
+
+  /* ---------------- proporción por familia ----------------
+     No es un gráfico categórico: es una parte sobre una pista,
+     el patrón de ap-quota. Cada fila lleva su cifra escrita, así
+     que la identidad nunca depende del color.                    */
+  .figure {
+    background: var(--ap-surface);
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius-panel);
+    padding: var(--ap-space-6);
+    box-shadow: var(--ap-shadow-1);
+  }
+
+  .legend {
+    display: flex;
+    gap: var(--ap-space-5);
+    margin-bottom: var(--ap-space-5);
+    font-size: var(--ap-size-12);
+    color: var(--ap-text-secondary);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: var(--ap-space-2); }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+  .swatch.fill { background: var(--ap-accent); }
+  .swatch.track { background: var(--ap-gray-200); }
+
+  .bars { display: grid; gap: var(--ap-space-3); }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 92px 1fr 58px;
+    align-items: center;
+    gap: var(--ap-space-4);
+  }
+  .bar-fam { font-size: var(--ap-size-13); }
+  .bar-track {
+    height: 8px;
+    background: var(--ap-gray-200);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--ap-accent);
+    border-radius: 2px;
+    /* 2px de separación entre relleno y pista, como pide la anatomía de marcas */
+    box-shadow: 2px 0 0 var(--ap-surface);
+    transform-origin: left;
+    animation: grow 400ms var(--ap-ease) both;
+    animation-delay: var(--dly, 0ms);
+  }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) { .bar-fill { animation: none; } }
+
+  .bar-val {
+    font-size: var(--ap-size-12);
+    color: var(--ap-text-secondary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .figure-note {
+    margin: var(--ap-space-5) 0 0;
+    padding-top: var(--ap-space-4);
+    border-top: 1px solid var(--ap-border);
+    font-size: var(--ap-size-13);
+    color: var(--ap-text-secondary);
+    max-width: 66ch;
+  }
+
+  /* ---------------- el registro de bordes ----------------
+     Anatomía calcada de ap-list: franja de estado de 2px a la
+     izquierda. La página va justo de eso.                     */
+  .ledger { display: grid; gap: var(--ap-space-3); }
+
+  .item {
+    display: grid;
+    grid-template-columns: 2px 1fr;
+    gap: var(--ap-space-5);
+    background: var(--ap-surface);
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius-panel);
+    box-shadow: var(--ap-shadow-1);
+    overflow: hidden;
+  }
+  .item > .stripe { background: var(--ap-gray-200); }
+  .item[data-tone="error"]  > .stripe { background: var(--ap-error); }
+  .item[data-tone="warn"]   > .stripe { background: var(--ap-warn); }
+  .item[data-tone="accent"] > .stripe { background: var(--ap-accent); }
+
+  .item-body { padding: var(--ap-space-5) var(--ap-space-5) var(--ap-space-5) 0; min-width: 0; }
+
+  .item-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--ap-space-3);
+    margin-bottom: var(--ap-space-3);
+  }
+  .item-head h3 { margin: 0; font: 500 var(--ap-size-16)/1.35 var(--ap-font-core); min-width: 0; }
+
+  .tag {
+    flex: none;
+    font-size: var(--ap-size-11);
+    font-weight: 500;
+    letter-spacing: var(--ap-tracking-label);
+    text-transform: uppercase;
+    padding: 2px var(--ap-space-2);
+    border-radius: var(--ap-radius-chip);
+    white-space: nowrap;
+  }
+  .tag[data-tone="error"]  { background: var(--ap-error-tint);  color: var(--ap-error); }
+  .tag[data-tone="warn"]   { background: var(--ap-warn-tint);   color: var(--ap-warn); }
+  .tag[data-tone="accent"] { background: var(--ap-accent-tint); color: var(--ap-accent); }
+
+  .item p { margin: 0; font-size: var(--ap-size-14); max-width: 68ch; }
+  .item p + p { margin-top: var(--ap-space-3); }
+
+  .why {
+    color: var(--ap-text-secondary);
+    padding-left: var(--ap-space-4);
+    border-left: 2px solid var(--ap-border-strong);
+  }
+  .why::before {
+    content: "Salida";
+    display: block;
+    font-size: var(--ap-size-11);
+    font-weight: 500;
+    letter-spacing: var(--ap-tracking-label);
+    text-transform: uppercase;
+    color: var(--ap-text-muted);
+    margin-bottom: 2px;
+  }
+
+  code {
+    font-family: var(--ap-font-core);
+    font-variation-settings: var(--ap-vf-data);
+    font-size: 0.92em;
+    background: var(--ap-surface-subtle);
+    border: 1px solid var(--ap-border);
+    border-radius: var(--ap-radius-chip);
+    padding: 0 4px;
+    white-space: nowrap;
+  }
+
+  /* ---------------- tabla de inputs data ---------------- */
+  .table-scroll { overflow-x: auto; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: var(--ap-size-13);
+    background: var(--ap-surface);
+  }
+  th, td {
+    text-align: left;
+    padding: var(--ap-space-2) var(--ap-space-4);
+    border-bottom: 1px solid var(--ap-border);
+    white-space: nowrap;
+  }
+  thead th {
+    font-size: var(--ap-size-11);
+    font-weight: 500;
+    letter-spacing: var(--ap-tracking-label);
+    text-transform: uppercase;
+    color: var(--ap-text-muted);
+    border-bottom: 1px solid var(--ap-border-strong);
+  }
+  td.yes { color: var(--ap-ok); }
+  td.no  { color: var(--ap-text-muted); }
+
+  /* ---------------- código ---------------- */
+  pre {
+    margin: 0;
+    background: var(--ap-gray-900);
+    color: var(--ap-gray-50);
+    border-radius: var(--ap-radius-panel);
+    padding: var(--ap-space-5);
+    overflow-x: auto;
+    font-family: var(--ap-font-core);
+    font-variation-settings: var(--ap-vf-data);
+    font-size: var(--ap-size-13);
+    line-height: 1.7;
+  }
+  pre .c { color: var(--ap-gray-400); }
+
+  .step { margin-bottom: var(--ap-space-6); }
+  .step:last-child { margin-bottom: 0; }
+  .step h3 { margin: 0 0 var(--ap-space-2); font: 500 var(--ap-size-14)/1.4 var(--ap-font-core); }
+  .step p { margin: 0 0 var(--ap-space-3); font-size: var(--ap-size-13); color: var(--ap-text-secondary); max-width: 66ch; }
+
+  footer {
+    margin-top: var(--ap-space-12);
+    border-top: 1px solid var(--ap-border-strong);
+    padding-top: var(--ap-space-5);
+    font-size: var(--ap-size-12);
+    color: var(--ap-text-muted);
+    max-width: 68ch;
+  }
+
+  @media (max-width: 620px) {
+    h1 { font-size: var(--ap-size-29); }
+    .bar-row { grid-template-columns: 78px 1fr 52px; gap: var(--ap-space-3); }
+    .item-body { padding-right: var(--ap-space-4); }
+  }
+</style>
+
+<style>
+  img { max-width: 100%; }
+
+  /* Barra superior: 48px y borde inferior, como ap-top-bar. */
+  .site-bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--ap-space-5);
+    height: var(--ap-header-h, 48px);
+    padding: 0 var(--ap-space-5);
+    background: var(--ap-surface);
+    border-bottom: 1px solid var(--ap-border);
+  }
+  .site-mark {
+    font: 700 var(--ap-size-16)/1 var(--ap-font-display);
+    letter-spacing: -0.02em;
+    color: var(--ap-text);
+    text-decoration: none;
+  }
+  .site-links { display: flex; gap: var(--ap-space-5); flex-wrap: wrap; }
+  .site-links a {
+    font-size: var(--ap-size-13);
+    color: var(--ap-text-secondary);
+    text-decoration: none;
+  }
+  .site-links a:hover { color: var(--ap-accent); }
+  .site-bar a:focus-visible,
+  .site-links a:focus-visible {
+    outline: 2px solid var(--ap-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  @media (max-width: 520px) {
+    .site-bar { height: auto; padding: var(--ap-space-3) var(--ap-space-4); flex-direction: column; align-items: flex-start; gap: var(--ap-space-2); }
+  }
+</style>
+
+</head>
+<body>
+
+<nav class="site-bar">
+  <a class="site-mark" href="./">Aplomo</a>
+  <div class="site-links">
+    <a href="./react/">Storybook React</a>
+    <a href="./angular/">Storybook Angular</a>
+    <a href="https://github.com/JVISERASS/aplomo-design-system">GitHub</a>
+  </div>
+</nav>
+
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Verificado contra el fuente</p>
+    <h1>Extender Aplomo</h1>
+    <p class="standfirst">
+      Dónde están los bordes del sistema: qué componente te deja entrar, cuál no, y qué
+      obliga a reconstruir la pieza en tu aplicación en vez de extenderla.
+    </p>
+    <div class="meta">
+      <span><b>Paquete</b><span class="d" style="--dly:0ms">@jviserass/aplomo-angular 0.2.2</span></span>
+      <span><b>Commit</b><span class="d" style="--dly:60ms">736f287</span></span>
+      <span><b>Angular</b><span class="d" style="--dly:120ms">22.1</span></span>
+      <span><b>Componentes</b><span class="d" style="--dly:180ms">78</span></span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Qué está abierto y qué está cerrado</h2>
+    <p class="lede">
+      29 de los 78 componentes proyectan contenido. El reparto no es arbitrario: ordenadas por
+      cuántos abren, las familias dibujan una línea muy clara.
+    </p>
+
+    <div class="figure">
+      <div class="legend">
+        <span><i class="swatch fill"></i>Proyecta contenido</span>
+        <span><i class="swatch track"></i>Cerrado</span>
+      </div>
+
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-fam">layout</span>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;--dly:200ms"></div></div>
+          <span class="bar-val d" style="--dly:200ms">12 / 12</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">motion</span>
+          <div class="bar-track"><div class="bar-fill" style="width:100%;--dly:240ms"></div></div>
+          <span class="bar-val d" style="--dly:240ms">2 / 2</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">feedback</span>
+          <div class="bar-track"><div class="bar-fill" style="width:42.9%;--dly:280ms"></div></div>
+          <span class="bar-val d" style="--dly:280ms">6 / 14</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">core</span>
+          <div class="bar-track"><div class="bar-fill" style="width:33.3%;--dly:320ms"></div></div>
+          <span class="bar-val d" style="--dly:320ms">3 / 9</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">assistant</span>
+          <div class="bar-track"><div class="bar-fill" style="width:25%;--dly:360ms"></div></div>
+          <span class="bar-val d" style="--dly:360ms">1 / 4</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">navigation</span>
+          <div class="bar-track"><div class="bar-fill" style="width:25%;--dly:400ms"></div></div>
+          <span class="bar-val d" style="--dly:400ms">1 / 4</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">data</span>
+          <div class="bar-track"><div class="bar-fill" style="width:18.8%;--dly:440ms"></div></div>
+          <span class="bar-val d" style="--dly:440ms">3 / 16</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">forms</span>
+          <div class="bar-track"><div class="bar-fill" style="width:7.1%;--dly:480ms"></div></div>
+          <span class="bar-val d" style="--dly:480ms">1 / 14</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-fam">charts</span>
+          <div class="bar-track"><div class="bar-fill" style="width:0%;--dly:520ms"></div></div>
+          <span class="bar-val d" style="--dly:520ms">0 / 3</span>
+        </div>
+      </div>
+
+      <p class="figure-note">
+        Los contenedores están abiertos de par en par y lo que renderiza datos está cerrado.
+        Es coherente, no un descuido: cuando un componente recibe una colección por input, su
+        API <em>es</em> ese array, y un slot competiría con él. La consecuencia práctica es la
+        que importa: puedes envolver, componer y rellenar cuanto quieras, pero en el momento en
+        que necesitas cambiar <em>cómo</em> se pinta una fila, no hay extensión posible.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Los bordes, uno a uno</h2>
+    <p class="lede">
+      Ninguno de estos falla con un error claro, que es lo que los hace caros. Se manifiestan
+      como algo que simplemente no ocurre.
+    </p>
+
+    <div class="ledger">
+
+      <article class="item" data-tone="error">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3>Añadir arrastre a <code>ap-list</code> desde fuera</h3>
+            <span class="tag d" data-tone="error" style="--dly:560ms">Imposible</span>
+          </div>
+          <p>
+            <code>ap-list</code> pinta su propio <code>&lt;ul&gt;/&lt;li&gt;</code> sin ningún
+            <code>&lt;ng-content&gt;</code>. Una directiva por elemento —
+            <code>cdkDrag</code> es el caso típico — tiene que ir sobre cada hijo arrastrable, y
+            desde la plantilla padre esos <code>&lt;li&gt;</code> no se alcanzan.
+          </p>
+          <p>
+            No da error de compilación ni de ejecución: el contenedor queda con cero hijos
+            arrastrables y no pasa nada al arrastrar.
+          </p>
+          <p class="why">
+            Reconstruir la fila en tu aplicación. Es barato si copias las métricas de su CSS,
+            que está hecho enteramente de tokens.
+          </p>
+        </div>
+      </article>
+
+      <article class="item" data-tone="error">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3>Sustituir la lista interna de <code>ap-file-drop</code></h3>
+            <span class="tag d" data-tone="error" style="--dly:600ms">Imposible</span>
+          </div>
+          <p>
+            Mismo caso, y tampoco tiene <code>&lt;ng-content&gt;</code>. Su lista se pinta sola
+            desde el input <code>files</code>, cuyo tipo es exactamente
+            <code>{ name, size? }</code>: no hay dónde colgar estado propio por fichero.
+          </p>
+          <p class="why">
+            Usarlo solo como zona de arrastre. Si no le pasas <code>files</code>, el bloque que
+            pinta la lista nunca entra, y tus filas van debajo. Sus <code>showRemove</code> y
+            <code>remove</code> quedan entonces sin uso: el botón de quitar es tuyo.
+          </p>
+        </div>
+      </article>
+
+      <article class="item" data-tone="warn">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3>Un icono que no está en el set</h3>
+            <span class="tag d" data-tone="warn" style="--dly:640ms">Silencioso</span>
+          </div>
+          <p>
+            El set son <strong>52</strong> iconos en una lista explícita dentro de
+            <code>scripts/gen-icons.mjs</code>. Aplomo incrusta solo lo que usa: como el nombre
+            es dinámico, ningún bundler puede hacer tree-shaking, y depender del paquete
+            completo costaría los 2.021 iconos de Lucide.
+          </p>
+          <p>
+            Un nombre no registrado deja un hueco vacío del tamaño pedido, sin avisar. Se
+            diagnostica como un fallo de maquetación, no como un icono que falta.
+          </p>
+          <p class="why">
+            <code>registerApIcons()</code> al arrancar la app — es la API pública para esto, y
+            así tu bundler solo carga los iconos que nombras. Ejemplo abajo.
+          </p>
+        </div>
+      </article>
+
+      <article class="item" data-tone="warn">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3>El input <code>data</code> no está donde parece</h3>
+            <span class="tag d" data-tone="warn" style="--dly:680ms">Solo 6 de 78</span>
+          </div>
+          <p>
+            <code>data</code> activa el eje MONO 1 en las etiquetas, y es fácil suponerlo
+            general. Lo tienen seis componentes, y <code>ap-badge</code> no es uno: su contenido
+            ya es MONO 1 siempre, porque un estado en clave es dato por definición.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Componente</th><th>Familia</th><th><code>data</code></th></tr>
+              </thead>
+              <tbody>
+                <tr><td>ap-segmented-control</td><td>forms</td><td class="yes">sí</td></tr>
+                <tr><td>ap-input</td><td>forms</td><td class="yes">sí</td></tr>
+                <tr><td>ap-key-value</td><td>data</td><td class="yes">sí</td></tr>
+                <tr><td>ap-chip</td><td>core</td><td class="yes">sí</td></tr>
+                <tr><td>ap-sparkline</td><td>charts</td><td class="yes">sí</td></tr>
+                <tr><td>ap-bar-series</td><td>charts</td><td class="yes">sí</td></tr>
+                <tr><td>ap-badge</td><td>core</td><td class="no">ya es MONO 1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="item" data-tone="accent">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3>Las clases del sistema no salen del componente</h3>
+            <span class="tag d" data-tone="accent" style="--dly:720ms">Usa tokens</span>
+          </div>
+          <p>
+            El paquete no usa <code>ViewEncapsulation.None</code> en ningún sitio, así que
+            <code>.ap-list-row</code> y compañía no existen fuera de su componente. En cuanto
+            reconstruyes una pieza, esto deja de ser trivia.
+          </p>
+          <p class="why">
+            Los <strong>108</strong> tokens <code>--ap-*</code> sí son globales, y el CSS del
+            sistema está hecho enteramente de ellos. Copias las métricas, no las clases — y la
+            pieza sigue moviéndose con el tema.
+          </p>
+        </div>
+      </article>
+
+      <article class="item" data-tone="warn">
+        <div class="stripe"></div>
+        <div class="item-body">
+          <div class="item-head">
+            <h3><code>AccordionItem.children</code> es un <code>TemplateRef</code></h3>
+            <span class="tag d" data-tone="warn" style="--dly:760ms">Matiz</span>
+          </div>
+          <p>
+            El acordeón sí acepta contenido por panel, pero no como contenido libre: es el
+            equivalente Angular del <code>ReactNode</code> que llevaba el array en la versión
+            React. Le pasas referencias a <code>&lt;ng-template&gt;</code>, no marcado suelto.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Reconstruir una fila sin que se note</h2>
+    <p class="lede">
+      Cuando toca reconstruir, la fidelidad no sale de imitar a ojo: sale de leer el CSS del
+      componente original y quedarte con sus tokens. Esta es la anatomía de una fila de
+      <code>ap-list</code>, que es la que más se acaba rehaciendo.
+    </p>
+    <pre><code><span class="c">/* franja de estado de 2px + contenido + meta a la derecha */</span>
+display: grid;
+grid-template-columns: 2px 1fr auto;
+gap: var(--ap-space-3);
+padding: var(--ap-space-2) var(--ap-space-3) var(--ap-space-2) 0;
+border-bottom: 1px solid var(--ap-border);
+transition: background-color var(--ap-dur-micro) var(--ap-ease);
+
+<span class="c">/* el título es UI; el subtítulo, secundario */</span>
+font: var(--ap-text-ui-medium);
+font: var(--ap-text-small); color: var(--ap-text-secondary);
+
+<span class="c">/* la franja toma el tono del estado */</span>
+background: var(--ap-gray-200);  <span class="c">/* neutral */</span>
+background: var(--ap-ok); <span class="c">/ </span>var(--ap-warn); <span class="c">/ </span>var(--ap-error);</code></pre>
+  </section>
+
+  <section>
+    <h2>Registrar un icono que falta</h2>
+    <div class="step">
+      <p>
+        Necesitas <code>lucide</code> como dependencia de tu aplicación. Al importar por nombre,
+        tu bundler se lleva solo esos trazos.
+      </p>
+      <pre><code><span class="c">// main.ts, antes de bootstrapApplication</span>
+import { GripVertical, Rocket } from "lucide";
+import { registerApIcons } from "@jviserass/aplomo-angular";
+
+registerApIcons({ "grip-vertical": GripVertical, rocket: Rocket });</code></pre>
+    </div>
+    <div class="step">
+      <p>
+        Y para diagnosticar un icono que no aparece, el paquete expone la lista viva de nombres
+        registrados en ese momento: <code>apIconNames()</code>.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    Comprobado leyendo el fuente del paquete Angular en el commit indicado. Los recuentos de
+    proyección, iconos y tokens están contados sobre el árbol, no estimados.
+  </footer>
+
+</div>
+
+</body>
+</html>
