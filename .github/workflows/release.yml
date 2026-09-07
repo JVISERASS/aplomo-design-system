@@ -73,4 +73,7 @@ jobs:
           # El paquete Angular se publica desde la salida de ng-packagr, no desde el fuente.
           npm publish packages/angular/dist --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Del `env` del job, NO de `secrets.NPM_TOKEN` otra vez: si no, el `if` de arriba
+          # comprueba un token y el `npm publish` usa otro distinto, que es como se publico
+          # con el secreto caducado mientras el paso parecia estar bien configurado.
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
