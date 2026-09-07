@@ -1,0 +1,71 @@
+# Diagnostico del token de npm. No publica nada.
+#
+# npm devuelve 404 --y no 403-- cuando falla la autenticacion sobre un paquete con scope, para no
+# filtrar si existe. Eso hace que "token invalido", "token sin permiso de escritura" y "paquete
+# inexistente" se vean exactamente igual desde el log de una publicacion fallida. Este workflow
+# separa los tres casos sin gastar una version.
+#
+# Uso:  gh workflow run npm-doctor.yml
+name: npm doctor
+
+on:
+  workflow_dispatch:
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM || secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Hay token, y que forma tiene
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::no hay ningun secreto NPM ni NPM_TOKEN en el repositorio"
+            exit 1
+          fi
+          echo "longitud: ${#NPM_TOKEN} caracteres"
+          echo "prefijo:  $(printf '%s' "$NPM_TOKEN" | cut -c1-4)..."
+          echo
+          echo "  npm_ + 36 chars  -> token clasico (Automation o Publish)"
+          echo "  npm_ + ~60 chars -> token granular"
+          echo "  cualquier otra cosa -> no es un token de npm"
+
+      - name: Quien soy segun npm
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        run: |
+          echo "--- npm whoami ---"
+          if npm whoami; then
+            echo "el token autentica"
+          else
+            echo "::error::el token NO autentica: caducado, revocado, o copiado con espacios/saltos"
+            exit 1
+          fi
+
+      - name: A que da acceso de escritura
+        continue-on-error: true
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        run: |
+          echo "--- npm access list packages ---"
+          npm access list packages 2>&1 | head -40 || true
+          echo
+          echo "--- version publicada hoy de cada paquete ---"
+          for p in @jviserass/aplomo-tokens @jviserass/aplomo @jviserass/aplomo-angular; do
+            printf '%-32s ' "$p"
+            npm view "$p" version 2>&1 | head -1
+          done
+
+      - name: Simulacro de publicacion, sin publicar
+        continue-on-error: true
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        run: |
+          echo "--- npm publish --dry-run sobre el paquete de tokens ---"
+          npm publish ./packages/tokens --access public --dry-run 2>&1 | tail -20 || true
