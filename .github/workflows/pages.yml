@@ -1,9 +1,9 @@
 # Publica el sitio de Aplomo en GitHub Pages.
 #
 # El sitio son tres cosas en un mismo arbol:
-#   /          docs/site  — el documento de extension del sistema
-#   /react/    el catalogo de Storybook de la libreria React
-#   /angular/  el catalogo de Storybook de la libreria Angular
+#   /           el catalogo de Storybook de la libreria React
+#   /angular/   el catalogo de Storybook de la libreria Angular
+#   /extender/  docs/site — el documento sobre los limites de extension
 #
 # Los dos Storybooks se construyen aqui y no se versionan: `storybook-static/`
 # esta en .gitignore a proposito, para que el catalogo no pueda quedar desfasado
@@ -55,10 +55,13 @@ jobs:
 
       - name: Componer el sitio
         run: |
-          mkdir -p _site/react _site/angular
-          cp -R docs/site/. _site/
-          cp -R packages/react/storybook-static/. _site/react/
+          # La raiz es el catalogo de React: es lo que la gente viene a ver, y es el
+          # paquete principal (@jviserass/aplomo). Angular cuelga de /angular/ y el
+          # documento de extension, de /extender/.
+          mkdir -p _site/angular _site/extender
+          cp -R packages/react/storybook-static/. _site/
           cp -R packages/angular/storybook-static/. _site/angular/
+          cp -R docs/site/. _site/extender/
           # Sin esto Pages pasa el arbol por Jekyll, que ignora todo lo que
           # empieza por guion bajo — y Storybook genera `sb-manager/` y demas.
           touch _site/.nojekyll
