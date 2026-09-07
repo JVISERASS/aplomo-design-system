@@ -1,0 +1,80 @@
+# Publica el sitio de Aplomo en GitHub Pages.
+#
+# El sitio son tres cosas en un mismo arbol:
+#   /          docs/site  — el documento de extension del sistema
+#   /react/    el catalogo de Storybook de la libreria React
+#   /angular/  el catalogo de Storybook de la libreria Angular
+#
+# Los dos Storybooks se construyen aqui y no se versionan: `storybook-static/`
+# esta en .gitignore a proposito, para que el catalogo no pueda quedar desfasado
+# respecto al fuente que lo genera.
+#
+# REQUISITO MANUAL, una sola vez: Settings > Pages > Build and deployment >
+# Source = "GitHub Actions". Sin eso, el paso de deploy falla con un 404 del
+# despliegue, que es lo que devuelve la API cuando el sitio no existe todavia.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Los tres permisos que pide deploy-pages: leer el repo, escribir el sitio y
+# firmar el despliegue con OIDC.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un despliegue a la vez. Sin cancelar el que este en curso: abortar a mitad
+# deja el sitio servido a medias.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+      - run: npm ci
+
+      # Los Storybooks importan de los paquetes construidos, no del fuente:
+      # sin este paso, ambos fallan al resolver @jviserass/aplomo-tokens.
+      - run: npm run build
+
+      - name: Construir el Storybook de React
+        run: npm run build-storybook -w @jviserass/aplomo
+
+      - name: Construir el Storybook de Angular
+        run: npm run build-storybook -w @jviserass/aplomo-angular
+
+      - name: Componer el sitio
+        run: |
+          mkdir -p _site/react _site/angular
+          cp -R docs/site/. _site/
+          cp -R packages/react/storybook-static/. _site/react/
+          cp -R packages/angular/storybook-static/. _site/angular/
+          # Sin esto Pages pasa el arbol por Jekyll, que ignora todo lo que
+          # empieza por guion bajo — y Storybook genera `sb-manager/` y demas.
+          touch _site/.nojekyll
+          echo "--- arbol publicado ---"
+          ls -la _site
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
