@@ -1,6 +1,6 @@
 {
   "name": "@jviserass/aplomo-tokens",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Aplomo — tokens de diseño: variables CSS --ap-*, fuentes y resets base.",
   "type": "module",
   "license": "MIT",

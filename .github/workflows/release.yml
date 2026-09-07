@@ -12,7 +12,11 @@ jobs:
     env:
       # El contexto `secrets` no existe en un `if` de paso: hay que exponerlo como variable
       # de entorno del job para poder condicionar la publicacion en npm a que haya token.
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Se aceptan los dos nombres: `NPM` es el secreto vigente y `NPM_TOKEN` el historico.
+      # Sin esto, un secreto con el otro nombre da un 404 de npm en el PUT --que es lo que npm
+      # devuelve, en vez de un 403, cuando falla la autenticacion sobre un paquete con scope--
+      # y se diagnostica como un problema de permisos que no existe.
+      NPM_TOKEN: ${{ secrets.NPM || secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,7 +46,14 @@ jobs:
           ls -la release-artifacts
 
       - name: Crear la GitHub Release con los tarballs adjuntos
-        run: gh release create "$GITHUB_REF_NAME" release-artifacts/*.tgz --generate-notes --verify-tag
+        # Idempotente: si la Release ya existe --porque una ejecucion anterior llego hasta aqui
+        # y fallo despues-- se le suben los tarballs en vez de abortar el reintento.
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" release-artifacts/*.tgz --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" release-artifacts/*.tgz --generate-notes --verify-tag
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
