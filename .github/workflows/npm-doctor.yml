@@ -68,4 +68,31 @@ jobs:
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
         run: |
           echo "--- npm publish --dry-run sobre el paquete de tokens ---"
-          npm publish ./packages/tokens --access public --dry-run 2>&1 | tail -20 || true
+          echo "    (--dry-run NO prueba la autenticacion: empaqueta y para)"
+          npm publish ./packages/tokens --access public --dry-run 2>&1 | tail -6 || true
+
+      # La prueba que de verdad decide. `whoami` pasa con un token de solo lectura, y
+      # `--dry-run` ni siquiera llega al registro, asi que ninguno de los dos distingue
+      # "puede publicar" de "no puede". Anadir y quitar un dist-tag SI es una escritura
+      # real contra el registro, es reversible, y no publica ninguna version nueva.
+      - name: Veredicto - puede escribir este token?
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        run: |
+          PKG=@jviserass/aplomo-tokens
+          VER=$(npm view "$PKG" version)
+          echo "escribiendo un dist-tag de prueba en $PKG@$VER ..."
+          if npm dist-tag add "$PKG@$VER" ci-write-probe 2>&1; then
+            npm dist-tag rm "$PKG" ci-write-probe 2>&1 || true
+            echo
+            echo "VEREDICTO: el token PUEDE escribir. Si `npm publish` sigue fallando,"
+            echo "           el problema no es el token."
+          else
+            echo
+            echo "::error::VEREDICTO: el token autentica pero NO puede escribir."
+            echo "::error::Es de solo lectura. Hace falta un token con permiso de escritura:"
+            echo "::error::  npmjs.com > Access Tokens > Generate New Token"
+            echo "::error::  - Granular: Packages and scopes = @jviserass, permiso Read and write"
+            echo "::error::  - o Classic: tipo Automation (no Read-only)"
+            exit 1
+          fi
