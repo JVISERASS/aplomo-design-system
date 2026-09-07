@@ -211,7 +211,15 @@ Se respeta `prefers-reduced-motion` en los tres casos.
 | `feedback` | Dialog, Menu, Toast, EmptyState, ErrorState, ProgressBar | 14 |
 | `motion` | Stagger, SharedValue | 2 |
 
-Catálogo navegable completo en Storybook (`npm run storybook`), con las 78 stories.
+Catálogo navegable con las 78 stories en
+**[jviserass.github.io/aplomo-design-system](https://jviserass.github.io/aplomo-design-system/)** —
+la raíz es el de [React](https://jviserass.github.io/aplomo-design-system/) y el de Angular está
+en [`/angular/`](https://jviserass.github.io/aplomo-design-system/angular/). En local,
+`npm run storybook`.
+
+Ahí mismo, [Extender Aplomo](https://jviserass.github.io/aplomo-design-system/extender/): dónde
+están los bordes del sistema — qué componentes proyectan contenido, cuáles obligan a reconstruir
+la pieza en tu aplicación, y cómo hacerlo con tokens sin perder fidelidad.
 
 ## Kits de interfaz
 
