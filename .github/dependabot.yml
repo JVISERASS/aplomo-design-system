@@ -2,6 +2,9 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
+    # Versiones nuevas esperan 7 días (regla 13); no afecta a los parches de seguridad.
+    cooldown:
+      default-days: 7
     directories:
       - "/"
     schedule:
@@ -16,6 +19,9 @@ updates:
           - "minor"
           - "patch"
   - package-ecosystem: "github-actions"
+    # Versiones nuevas esperan 7 días (regla 13); no afecta a los parches de seguridad.
+    cooldown:
+      default-days: 7
     directories:
       - "/"
     schedule:
