@@ -32,6 +32,6 @@
     "stories": "node scripts/stories-check.mjs"
   },
   "devDependencies": {
-    "lucide": "^1.31.0"
+    "lucide": "^1.73.0"
   }
 }
